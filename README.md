@@ -41,7 +41,7 @@ Professor: Troy Kohwalter
 ## 🔄 Status do Projeto
 
 > Em desenvolvimento 🚧  
-Acompanhe o progresso na aba [Projects](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/projects) ou nas [Issues](https://github.com/SEU_USUARIO/SEU_REPOSITORIO/issues).
+Acompanhe o progresso na aba [Projects](https://github.com/estudios-uff/Ticket-to-Ride) ou nas [Issues](https://github.com/estudios-uff/Ticket-to-Ride/issues) ou no [Miro](https://miro.com/welcomeonboard/Q3FKdFNNZk5SWlcxV0lvN2VFRUdrbVpCUlNKdjVXTGNrWlBrZXNUd0xGTC9JRnVybnQwN0U1Vk9wTGo0TlRmVG92Y1ZEY0VBRDk5dDV5T1NSMzA5WHplTmxnWGhrMXV5dW50S2JlVFA4dnlFZTZ4QTlPbmw4SVBvZjBzbDYwWVBnbHpza3F6REdEcmNpNEFOMmJXWXBBPT0hdjE=?share_link_id=978318591283)
 
 ## 🚀 Como Executar
 
@@ -56,13 +56,11 @@ https://github.com/estudios-uff/Ticket-to-Ride
 
 ## 👥 Equipe
 
-Amanda S. Zirpolo e Barbara — Gerente de Projeto / Dev Godot
+- Amanda Zirpolo — Gerente de Projeto
+- Amanda Zirpolo e Barbara Felizardo — QA / Documentação
+- João Vitor Moraes — UI/UX
+- Gabriel Breder, Gabriel Panza, Hendel Fonseca, João Vitor Moraes, João Vitor Santana — Dev
 
-Hendel e Grabiel Breder  — Dev UI/UX
-
-Gabriel P., João Vitor M., João Vitor S. — Dev Lógica do Jogo
-
-Amanda S. Zirpolo e Barbara — QA / Documentação
 
 <hr><br>
 🎓 Este projeto é de caráter educacional e não tem fins comerciais. É uma homenagem ao jogo original Ticket to Ride, de Alan R. Moon.
