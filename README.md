@@ -9,10 +9,9 @@ Aplicar os conceitos de **gerência de projetos de software** no desenvolvimento
 ## 📚 Contexto Acadêmico
 
 Disciplina: Engenharia de Software 2  
-Curso: [Nome do curso aqui]  
-Instituição: [Nome da universidade]  
-Período: [Ano/Semestre]  
-Professor: [Nome do professor, se desejar]
+Curso: Ciência da Computação
+Instituição: Universidade Federal Fluminense - UFF 
+Professor: Troy Kohwalter
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -48,7 +47,7 @@ Acompanhe o progresso na aba [Projects](https://github.com/SEU_USUARIO/SEU_REPOS
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+https://github.com/estudios-uff/Ticket-to-Ride
 ```
 
 2. Abra a pasta do projeto no Godot Engine.
@@ -57,13 +56,13 @@ git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
 
 ## 👥 Equipe
 
-[Seu Nome] — Gerente de Projeto / Dev Godot
+Amanda S. Zirpolo e Barbara — Gerente de Projeto / Dev Godot
 
-[Nome do colega 1] — Dev Front-end / UI/UX
+Hendel e Grabiel Breder  — Dev UI/UX
 
-[Nome do colega 2] — Dev Lógica do Jogo
+Gabriel P., João Vitor M., João Vitor S. — Dev Lógica do Jogo
 
-[Nome do colega 3] — QA / Documentação
+Amanda S. Zirpolo e Barbara — QA / Documentação
 
-<hr>
+<hr><br>
 🎓 Este projeto é de caráter educacional e não tem fins comerciais. É uma homenagem ao jogo original Ticket to Ride, de Alan R. Moon.
