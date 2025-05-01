@@ -1,0 +1,80 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyj74bec12625"]
+
+[ext_resource type="Script" path="res://src/Scripts/main_menu.gd" id="1_0deus"]
+[ext_resource type="VideoStream" path="res://EFX/video/backMenu2.ogv" id="2_peh4e"]
+[ext_resource type="AudioStream" uid="uid://co3bvb7f7oqti" path="res://EFX/sounds/backgorundSound.mp3" id="3_rjfxd"]
+[ext_resource type="Texture2D" uid="uid://cs7rq8vj6iakg" path="res://images/logos/Ticket_to_Rio.png" id="4_0bosk"]
+[ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="5_pl1fv"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_0deus")
+metadata/_edit_vertical_guides_ = [264.0]
+
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+offset_left = -650.0
+offset_top = -489.0
+offset_right = 790.0
+offset_bottom = 599.0
+scale = Vector2(0.9, 0.9)
+stream = ExtResource("2_peh4e")
+autoplay = true
+loop = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_rjfxd")
+autoplay = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(290, -167)
+scale = Vector2(0.308594, 0.308594)
+texture = ExtResource("4_0bosk")
+
+[node name="Button manager" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Iniciar" type="Button" parent="Button manager"]
+layout_mode = 0
+offset_left = 199.0
+offset_right = 327.0
+offset_bottom = 64.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("5_pl1fv")
+theme_override_font_sizes/font_size = 29
+text = "Iniciar"
+flat = true
+
+[node name="Opcoes" type="Button" parent="Button manager"]
+layout_mode = 0
+offset_left = 194.0
+offset_top = 67.0
+offset_right = 335.0
+offset_bottom = 131.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("5_pl1fv")
+theme_override_font_sizes/font_size = 29
+text = "opções"
+flat = true
+
+[node name="Sair" type="Button" parent="Button manager"]
+layout_mode = 0
+offset_left = 199.0
+offset_top = 133.0
+offset_right = 327.0
+offset_bottom = 197.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("5_pl1fv")
+theme_override_font_sizes/font_size = 29
+text = "Sair"
+flat = true
+
+[connection signal="pressed" from="Button manager/Iniciar" to="." method="_on_iniciar_pressed"]
+[connection signal="pressed" from="Button manager/Opcoes" to="." method="_on_opcoes_pressed"]
+[connection signal="pressed" from="Button manager/Sair" to="." method="_on_sair_pressed"]
