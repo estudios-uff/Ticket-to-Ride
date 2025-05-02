@@ -10,10 +10,7 @@
 position = Vector2(1, 2)
 
 [node name="CardSlot" parent="." instance=ExtResource("2_57um0")]
-position = Vector2(161, 595)
+position = Vector2(109, 485)
 
 [node name="PlayerHand" type="Node2D" parent="."]
 script = ExtResource("3_ewiqe")
-
-[node name="CardSlot2" parent="." instance=ExtResource("2_57um0")]
-position = Vector2(161, 392)

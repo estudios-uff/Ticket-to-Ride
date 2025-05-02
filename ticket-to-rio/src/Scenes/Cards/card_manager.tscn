@@ -7,7 +7,9 @@
 script = ExtResource("1_730cv")
 
 [node name="Card" parent="." instance=ExtResource("2_a8rkv")]
+visible = false
 position = Vector2(645, 330)
 
 [node name="Card2" parent="." instance=ExtResource("2_a8rkv")]
+visible = false
 position = Vector2(741, 423)
