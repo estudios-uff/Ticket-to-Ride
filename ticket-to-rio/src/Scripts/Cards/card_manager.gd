@@ -19,17 +19,18 @@ func _process(delta: float) -> void:
 func _ready() -> void:
 	screen_size =get_viewport_rect().size
 	player_hand_reference = $"../PlayerHand"
+	$"../InputManager".connect("left_mouse_released", on_left_click_release)
 	
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			var card = raycast_check_for_card()
-			if card:
-				start_drag(card)
-		else:
-			if card_being_dragged:
-				finish_drag()
+#func _input(event: InputEvent) -> void:
+	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		#if event.pressed:
+			#var card = raycast_check_for_card()
+			#if card:
+				#start_drag(card)
+		#else:
+			#if card_being_dragged:
+				#finish_drag()
 
 func start_drag(card):
 	card_being_dragged = card
@@ -52,20 +53,6 @@ func connect_card_signals(card):
 	card.connect("hovered", on_hovered_over_card)
 	card.connect("hovered_off", on_hovered_off_card)
 	
-func on_hovered_over_card(card):
-	if !is_hovering_on_card:
-		is_hovering_on_card = true
-		highlight_card(card, true)
-
-	
-func on_hovered_off_card(card):
-	if !card_being_dragged:
-		highlight_card(card, false)
-		var new_card_hovered = raycast_check_for_card()
-		if new_card_hovered:
-			highlight_card(new_card_hovered, true)
-		else:
-			is_hovering_on_card = false
 	
 func highlight_card(card, hovered):
 	if hovered:
@@ -95,7 +82,7 @@ func raycast_check_for_card_slot():
 	param.collide_with_areas = true
 	param.collision_mask = COLLISION_MASK_CARD_SLOT
 	var result = space_state.intersect_point(param)
-	print('-',result)
+	#print('Card is drag: ',result[0].rid)
 	if result.size() > 0:
 		return result[0].collider.get_parent()
 	return null
@@ -111,4 +98,23 @@ func get_card_hightest_z_index(cards):
 			hightest_z_index = current_card.z_index
 			
 	return hightest_z_card
+
+
+func on_hovered_over_card(card):   
+	if !is_hovering_on_card:
+		is_hovering_on_card = true
+		highlight_card(card, true)
+
 	
+func on_hovered_off_card(card):
+	if !card_being_dragged:
+		highlight_card(card, false)
+		var new_card_hovered = raycast_check_for_card()
+		if new_card_hovered:
+			highlight_card(new_card_hovered, true)
+		else:
+			is_hovering_on_card = false
+
+func on_left_click_release():
+	if card_being_dragged:
+		finish_drag()
