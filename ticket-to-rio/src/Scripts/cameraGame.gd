@@ -12,7 +12,7 @@ var dragging := false
 var move_speed := 400
 
 func _process(delta):
-	print("Zoom atual:", zoom)
+	#print("Zoom atual:", zoom)
 
 	var input_vector := Vector2.ZERO
 

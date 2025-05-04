@@ -37,7 +37,8 @@ func update_hand_position():
 		
 func calculate_card_position(idx):
 	var total_width = player_hand.size() - 1 * CARD_WIDTH
-	var x_offset = center_screen_x + idx * CARD_WIDTH - total_width / 2
+	@warning_ignore("integer_division")
+	var x_offset = int(center_screen_x + idx * CARD_WIDTH - total_width / 2)
 	return x_offset
 
 
@@ -49,8 +50,3 @@ func remove_card_from_hand(card):
 	if card in player_hand:
 		player_hand.erase(card)
 		update_hand_position()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

@@ -44,7 +44,7 @@ func finish_drag():
 		player_hand_reference.remove_card_from_hand(card_being_dragged)
 		card_being_dragged.position = card_slot_found.position
 		card_being_dragged.get_node("Area2D/CollisionShape2D").disabled = true
-		card_slot_found.card_in_slot = true
+		#card_slot_found.card_in_slot = true # DESCONMENTAR CASO QUERIA MULTIPLAS CARTAS NO SLOT DE DESCARTE
 	else:
 		player_hand_reference.add_card_to_hand(card_being_dragged)
 	card_being_dragged = null
