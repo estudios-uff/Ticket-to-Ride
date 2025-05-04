@@ -1,80 +1,104 @@
-[gd_scene load_steps=6 format=3 uid="uid://cyj74bec12625"]
+[gd_scene load_steps=7 format=3 uid="uid://cyj74bec12625"]
 
-[ext_resource type="Script" path="res://src/Scripts/main_menu.gd" id="1_0deus"]
-[ext_resource type="VideoStream" path="res://EFX/video/backMenu2.ogv" id="2_peh4e"]
-[ext_resource type="AudioStream" uid="uid://co3bvb7f7oqti" path="res://EFX/sounds/backgorundSound.mp3" id="3_rjfxd"]
+[ext_resource type="Script" path="res://src/Scripts/main_menu.gd" id="1_c0p8e"]
+[ext_resource type="Texture2D" uid="uid://dc36m1jr3bxig" path="res://images/scenes/startScreen.png" id="1_x8mxv"]
+[ext_resource type="VideoStream" path="res://EFX/video/Start-screen.ogv" id="2_omx3g"]
 [ext_resource type="Texture2D" uid="uid://cs7rq8vj6iakg" path="res://images/logos/Ticket_to_Rio.png" id="4_0bosk"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="5_pl1fv"]
+[ext_resource type="FontFile" uid="uid://bafsfyvcttkmd" path="res://Fonts/wishcar_moundy/Wishcar Moundy Italic.otf" id="5_wrvlg"]
 
-[node name="MainMenu" type="Node2D"]
-script = ExtResource("1_0deus")
-metadata/_edit_vertical_guides_ = [264.0]
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c0p8e")
+metadata/_edit_use_anchors_ = true
+metadata/_edit_vertical_guides_ = [1055.0]
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
-offset_left = -650.0
-offset_top = -489.0
-offset_right = 790.0
-offset_bottom = 599.0
-scale = Vector2(0.9, 0.9)
-stream = ExtResource("2_peh4e")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stream = ExtResource("2_omx3g")
 autoplay = true
 loop = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_x8mxv")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_rjfxd")
-autoplay = true
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(290, -167)
-scale = Vector2(0.308594, 0.308594)
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(1056, 179)
+scale = Vector2(0.347656, 0.347656)
 texture = ExtResource("4_0bosk")
 
-[node name="Button manager" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 829.0
+offset_top = 294.0
+offset_right = -1.0
+offset_bottom = -58.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Iniciar" type="Button" parent="Button manager"]
-layout_mode = 0
-offset_left = 199.0
-offset_right = 327.0
-offset_bottom = 64.0
-size_flags_horizontal = 4
-size_flags_vertical = 0
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Iniciar" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("5_pl1fv")
-theme_override_font_sizes/font_size = 29
+theme_override_font_sizes/font_size = 30
 text = "Iniciar"
 flat = true
 
-[node name="Opcoes" type="Button" parent="Button manager"]
-layout_mode = 0
-offset_left = 194.0
-offset_top = 67.0
-offset_right = 335.0
-offset_bottom = 131.0
-size_flags_horizontal = 4
-size_flags_vertical = 0
+[node name="Opcoes" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("5_pl1fv")
-theme_override_font_sizes/font_size = 29
-text = "opções"
+theme_override_font_sizes/font_size = 30
+text = "Opções"
 flat = true
 
-[node name="Sair" type="Button" parent="Button manager"]
-layout_mode = 0
-offset_left = 199.0
-offset_top = 133.0
-offset_right = 327.0
-offset_bottom = 197.0
-size_flags_horizontal = 4
-size_flags_vertical = 0
+[node name="Regras" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("5_pl1fv")
-theme_override_font_sizes/font_size = 29
+theme_override_font_sizes/font_size = 30
+text = "Regras"
+flat = true
+
+[node name="Sair" type="Button" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_pl1fv")
+theme_override_font_sizes/font_size = 30
 text = "Sair"
 flat = true
 
-[connection signal="pressed" from="Button manager/Iniciar" to="." method="_on_iniciar_pressed"]
-[connection signal="pressed" from="Button manager/Opcoes" to="." method="_on_opcoes_pressed"]
-[connection signal="pressed" from="Button manager/Sair" to="." method="_on_sair_pressed"]
+[node name="creditos" type="Button" parent="."]
+layout_mode = 2
+offset_left = 1.0
+offset_top = 672.0
+offset_right = 117.0
+offset_bottom = 719.0
+theme_override_fonts/font = ExtResource("5_wrvlg")
+theme_override_font_sizes/font_size = 15
+text = "Créditos"
+flat = true
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Iniciar" to="." method="_on_iniciar_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Opcoes" to="." method="_on_opcoes_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Regras" to="." method="_on_regras_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Sair" to="." method="_on_sair_pressed"]
