@@ -1,0 +1,93 @@
+[gd_scene load_steps=4 format=3 uid="uid://bnycc2g8obd6"]
+
+[ext_resource type="PackedScene" uid="uid://cs5japostnigk" path="res://src/Scenes/cardCredits.tscn" id="1_gp1uh"]
+[ext_resource type="Script" path="res://src/Scripts/credits.gd" id="1_phkbd"]
+[ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="2_ennkn"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_phkbd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.899638, 0.895945, 0.771803, 1)
+
+[node name="CardCredits" parent="." instance=ExtResource("1_gp1uh")]
+layout_mode = 2
+offset_left = 304.0
+offset_top = 412.0
+offset_right = 304.0
+offset_bottom = 412.0
+
+[node name="CardCredits2" parent="." instance=ExtResource("1_gp1uh")]
+layout_mode = 2
+offset_left = 524.0
+offset_top = 412.0
+offset_right = 524.0
+offset_bottom = 412.0
+
+[node name="CardCredits3" parent="." instance=ExtResource("1_gp1uh")]
+offset_left = 746.0
+offset_top = 412.0
+offset_right = 746.0
+offset_bottom = 412.0
+
+[node name="CardCredits4" parent="." instance=ExtResource("1_gp1uh")]
+offset_left = 971.0
+offset_top = 412.0
+offset_right = 971.0
+offset_bottom = 412.0
+
+[node name="CardCredits5" parent="." instance=ExtResource("1_gp1uh")]
+offset_left = 416.0
+offset_top = 565.0
+offset_right = 416.0
+offset_bottom = 565.0
+
+[node name="CardCredits6" parent="." instance=ExtResource("1_gp1uh")]
+offset_left = 635.0
+offset_top = 566.0
+offset_right = 635.0
+offset_bottom = 566.0
+
+[node name="Control" parent="." instance=ExtResource("1_gp1uh")]
+offset_left = 866.0
+offset_top = 565.0
+offset_right = 866.0
+offset_bottom = 565.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 467.0
+offset_top = 272.0
+offset_right = 795.0
+offset_bottom = 320.0
+theme_override_colors/font_color = Color(0.259294, 0.259294, 0.259294, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 40
+text = "Desenvolvedores"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1189.0
+offset_top = 665.0
+offset_right = 1253.0
+offset_bottom = 698.0
+theme_override_colors/font_hover_color = Color(0.151276, 0.151276, 0.151276, 1)
+theme_override_colors/font_color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 20
+text = "Voltar"
+flat = true
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

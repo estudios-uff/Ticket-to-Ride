@@ -16,3 +16,7 @@ func _on_sair_pressed() -> void:
 
 func _on_regras_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/Scenes/regras.tscn")
+
+
+func _on_creditos_pressed() -> void:
+	get_tree().change_scene_to_file("res://src/Scenes/Credits.tscn")

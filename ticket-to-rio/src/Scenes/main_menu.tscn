@@ -102,3 +102,4 @@ flat = true
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Opcoes" to="." method="_on_opcoes_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Regras" to="." method="_on_regras_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Sair" to="." method="_on_sair_pressed"]
+[connection signal="pressed" from="creditos" to="." method="_on_creditos_pressed"]
