@@ -26,8 +26,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stream = ExtResource("2_omx3g")
-autoplay = true
 loop = true
+buffering_msec = 100
 
 [node name="TextureRect" type="TextureRect" parent="."]
 visible = false

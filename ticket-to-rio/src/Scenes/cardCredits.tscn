@@ -1,69 +1,21 @@
-[gd_scene load_steps=10 format=3 uid="uid://cs5japostnigk"]
+[gd_scene load_steps=3 format=3 uid="uid://ciel1dm86op8c"]
 
 [ext_resource type="Texture2D" uid="uid://cacy22xt1h605" path="res://images/utils/cardCredits.png" id="1_5nke4"]
-[ext_resource type="Script" path="res://src/Scripts/card_credits.gd" id="1_dtigv"]
-[ext_resource type="Texture2D" uid="uid://qy3ptu2vqeai" path="res://images/utils/cardCreditsBtn.png" id="2_dcc0w"]
-[ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="2_rpm1p"]
-[ext_resource type="Texture2D" uid="uid://e2u64spb45fp" path="res://images/utils/cardCreditsBtnActv.png" id="3_vlmmg"]
-[ext_resource type="FontFile" uid="uid://c64w62cla8crr" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskRegular.ttf" id="5_x02d6"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ygq7h"]
-texture = ExtResource("3_vlmmg")
+[sub_resource type="GDScript" id="GDScript_veu32"]
+script/source = "extends Control
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3tu3s"]
-texture = ExtResource("3_vlmmg")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_owxf3"]
-content_margin_left = 1.0
-content_margin_top = 1.0
-content_margin_right = 1.0
-content_margin_bottom = 1.0
-texture = ExtResource("2_dcc0w")
+func _on_button_pressed() -> void:
+	OS.shell_open(\"https://johkempo.itch.io/\")
+"
 
 [node name="CardCredits" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-script = ExtResource("1_dtigv")
+script = SubResource("GDScript_veu32")
 metadata/_edit_vertical_guides_ = [-81.0]
 
 [node name="card" type="Sprite2D" parent="."]
 position = Vector2(2, 0.25)
 scale = Vector2(1, 0.67561)
 texture = ExtResource("1_5nke4")
-
-[node name="Button" type="Button" parent="."]
-offset_left = -85.0
-offset_top = 25.0
-offset_right = 89.0
-offset_bottom = 55.0
-theme_override_fonts/font = ExtResource("2_rpm1p")
-theme_override_font_sizes/font_size = 15
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_ygq7h")
-theme_override_styles/hover = SubResource("StyleBoxTexture_3tu3s")
-theme_override_styles/normal = SubResource("StyleBoxTexture_owxf3")
-text = "Perfil Itch.io"
-expand_icon = true
-
-[node name="Label" type="Label" parent="."]
-offset_left = -80.0
-offset_top = -58.0
-offset_right = 53.0
-offset_bottom = -27.0
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
-theme_override_fonts/font = ExtResource("2_rpm1p")
-theme_override_font_sizes/font_size = 25
-text = "JohKemPo"
-
-[node name="Label2" type="Label" parent="."]
-offset_left = -79.0
-offset_top = -27.0
-offset_right = 30.0
-offset_bottom = -4.0
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
-theme_override_fonts/font = ExtResource("5_x02d6")
-theme_override_font_sizes/font_size = 15
-text = "Product Owner"
-
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
