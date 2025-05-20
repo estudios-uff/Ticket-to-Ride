@@ -27,7 +27,7 @@ func _process(delta):
 		input_vector.y -= 1
 
 	if input_vector != Vector2.ZERO:
-		position += input_vector.normalized() * move_speed * delta
+		position += input_vector.normalized() * move_speed * delta / zoom
 
 func _unhandled_input(event):
 	# Zoom com scroll
