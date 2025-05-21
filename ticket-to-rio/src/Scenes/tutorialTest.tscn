@@ -28,9 +28,15 @@ volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-position = Vector2(9.50004, -19)
 scale = Vector2(0.591146, 0.544922)
 texture = ExtResource("1_isasm")
+
+[node name="TextEdit" type="TextEdit" parent="TrainBoardGenerator-RioDeJaneiro"]
+offset_left = -16.0705
+offset_top = 34.8674
+offset_right = -8.07055
+offset_bottom = 42.8674
+text = "TREM"
 
 [node name="voltar" type="Button" parent="."]
 offset_left = 465.0

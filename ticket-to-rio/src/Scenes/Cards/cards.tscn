@@ -60,3 +60,46 @@ text = "0"
 
 [node name="InputManager" type="Node2D" parent="."]
 script = ExtResource("7_jmgmt")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Orange" type="Node2D" parent="Node2D"]
+
+[node name="OrangeTrainValue" type="RichTextLabel" parent="Node2D/Orange"]
+offset_left = 281.0
+offset_top = 525.0
+offset_right = 371.0
+offset_bottom = 563.0
+theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
+theme_override_fonts/normal_font = ExtResource("7_lrq8a")
+text = "0"
+
+[node name="OrangeTrain" type="RichTextLabel" parent="Node2D/Orange"]
+offset_left = 174.0
+offset_top = 525.0
+offset_right = 306.0
+offset_bottom = 566.0
+theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
+theme_override_fonts/normal_font = ExtResource("7_lrq8a")
+text = "Laranja -"
+
+[node name="Node2D" type="Node2D" parent="Node2D"]
+
+[node name="RedTrainValue" type="RichTextLabel" parent="Node2D/Node2D"]
+offset_left = 295.0
+offset_top = 557.0
+offset_right = 385.0
+offset_bottom = 595.0
+theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
+theme_override_fonts/normal_font = ExtResource("7_lrq8a")
+text = "0"
+
+[node name="RedTrain" type="RichTextLabel" parent="Node2D/Node2D"]
+offset_left = 172.0
+offset_top = 557.0
+offset_right = 322.0
+offset_bottom = 598.0
+theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
+theme_override_fonts/normal_font = ExtResource("7_lrq8a")
+text = "Vermelho - 
+"

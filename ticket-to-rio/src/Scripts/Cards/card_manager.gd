@@ -8,6 +8,9 @@ var card_being_dragged
 var is_hovering_on_card
 var player_hand_reference
 
+@onready
+var text = $"../Node2D/Orange/OrangeTrainValue"
+
 func _process(delta: float) -> void:
 	if card_being_dragged:
 		var mouse_pos = get_global_mouse_position()
@@ -32,9 +35,18 @@ func _ready() -> void:
 			#if card_being_dragged:
 				#finish_drag()
 
-func start_drag(card):
-	card_being_dragged = card
-	card.scale = Vector2(1,1)
+#func start_drag(card):
+	#card_being_dragged = card
+	#card.scale = Vector2(1,1)
+
+func select_card(card):
+	card.is_selected = !card.is_selected
+	if card.is_selected:
+		card.position = Vector2(card.position.x,card.position.y-50)
+	else:
+		card.position = Vector2(card.position.x,card.position.y+50)
+	text.clear()
+	text.add_text(str(randi() % 9 + 1))
 	
 func finish_drag():
 	card_being_dragged.scale = Vector2(1.05,1.05)
