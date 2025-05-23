@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://de5ddnpnrvop5"
+path="res://.godot/imported/Rio Nights.mp3-8a59cce04c0c33912fcf384d6d0ddc56.mp3str"
+
+[deps]
+
+source_file="res://EFX/sounds/Rio Nights.mp3"
+dest_files=["res://.godot/imported/Rio Nights.mp3-8a59cce04c0c33912fcf384d6d0ddc56.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
