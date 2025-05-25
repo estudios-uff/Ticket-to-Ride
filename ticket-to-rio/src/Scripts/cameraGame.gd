@@ -27,7 +27,7 @@ func _process(delta):
 		input_vector.y -= 1
 
 	if input_vector != Vector2.ZERO:
-		position += input_vector.normalized() * move_speed * delta / zoom
+		position += input_vector.normalized() * move_speed * delta #/ zoom
 		
 	# Se passar das bordas do fundo, impedir a movimentação
 	_limit_camera_to_bounds($"../fundo")
@@ -56,9 +56,9 @@ func _unhandled_input(event):
 	# Zoom com scroll
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			zoom -= Vector2(zoom_step, zoom_step)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			zoom += Vector2(zoom_step, zoom_step)
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			zoom -= Vector2(zoom_step, zoom_step)
 
 		zoom.x = clamp(zoom.x, min_zoom.x, max_zoom.x)
 		zoom.y = clamp(zoom.y, min_zoom.y, max_zoom.y)
@@ -70,4 +70,4 @@ func _unhandled_input(event):
 
 	# Arrastando com movimento do mouse
 	if event is InputEventMouseMotion and dragging:
-		position += -event.relative * zoom 
+		position += -event.relative / zoom 

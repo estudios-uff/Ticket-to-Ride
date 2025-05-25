@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=13 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/tutorial_test.gd" id="1_bxyx5"]
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
@@ -6,6 +6,14 @@
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
+[ext_resource type="Script" path="res://src/Scripts/deck.gd" id="7_bfpic"]
+[ext_resource type="Texture2D" uid="uid://coalvn2a488x5" path="res://images/cards/deck.png" id="8_op56o"]
+[ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
+[ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
+[ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bq0jt"]
+size = Vector2(242.5, 160)
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("1_bxyx5")
@@ -16,23 +24,18 @@ script = ExtResource("1_cwwrh")
 [node name="fundo" type="Sprite2D" parent="."]
 texture = ExtResource("2_vta80")
 
-[node name="bckgound" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(-3.79086e-05, -0.500012)
-scale = Vector2(0.496456, 0.497222)
-texture = ExtResource("1_isasm")
-
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_f4j3v")
 volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-position = Vector2(9.50004, -19)
-scale = Vector2(0.591146, 0.544922)
+position = Vector2(-129, -94)
+scale = Vector2(0.5, 0.461)
 texture = ExtResource("1_isasm")
 
 [node name="voltar" type="Button" parent="."]
+visible = false
 offset_left = 465.0
 offset_top = 274.0
 offset_right = 627.0
@@ -43,6 +46,7 @@ text = "Voltar"
 flat = true
 
 [node name="testCards" type="Button" parent="."]
+visible = false
 offset_left = 9.0
 offset_top = 274.0
 offset_right = 297.0
@@ -51,6 +55,40 @@ theme_override_fonts/font = ExtResource("7_0yhtn")
 theme_override_font_sizes/font_size = 35
 text = "Teste Cards"
 flat = true
+
+[node name="Deck" type="Node2D" parent="."]
+position = Vector2(516, -268)
+script = ExtResource("7_bfpic")
+
+[node name="Sprite2D" type="Sprite2D" parent="Deck"]
+position = Vector2(-1, -3.00002)
+scale = Vector2(0.23301, 0.23301)
+texture = ExtResource("8_op56o")
+
+[node name="Area2D" type="Area2D" parent="Deck"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Deck/Area2D"]
+position = Vector2(1, -4)
+shape = SubResource("RectangleShape2D_bq0jt")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Deck"]
+offset_left = 61.0
+offset_top = 36.0
+offset_right = 116.0
+offset_bottom = 77.0
+theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
+theme_override_fonts/normal_font = ExtResource("7_0yhtn")
+text = "0"
+
+[node name="InputManager" type="Node2D" parent="."]
+script = ExtResource("9_wck36")
+
+[node name="CardManager" parent="." instance=ExtResource("10_hr4so")]
+
+[node name="PlayerHand" type="Node2D" parent="."]
+script = ExtResource("11_lv38c")
 
 [connection signal="pressed" from="voltar" to="." method="_on_voltar_pressed"]
 [connection signal="pressed" from="testCards" to="." method="_on_test_cards_pressed"]

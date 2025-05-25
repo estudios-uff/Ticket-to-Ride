@@ -3,14 +3,14 @@ extends Node2D
 #const HAND_COUNT = 4
 #const CARD_SCENE_PATH = "res://src/Scenes/Cards/card.tscn"
 const CARD_WIDTH = 100
-const HAND_Y_POSITION = 600
+const HAND_Y_POSITION = 260
 
 var player_hand = []
 var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	center_screen_x = get_viewport().size.x / 3
+	center_screen_x = -get_viewport().size.x / 4
 	
 	#var card_scene = preload(CARD_SCENE_PATH)
 	#for i in range(HAND_COUNT):
