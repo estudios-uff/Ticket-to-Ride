@@ -1,0 +1,99 @@
+[gd_scene load_steps=7 format=3 uid="uid://bmkpw21outhvn"]
+
+[ext_resource type="Texture2D" uid="uid://cacy22xt1h605" path="res://images/utils/cardCredits.png" id="1_u4527"]
+[ext_resource type="Texture2D" uid="uid://boin5nxmo26t1" path="res://images/utils/players/train.png" id="2_5he4c"]
+[ext_resource type="Texture2D" uid="uid://cwvhep5ri003n" path="res://images/utils/players/urso.png" id="3_ekchp"]
+[ext_resource type="Texture2D" uid="uid://bju5a6315u018" path="res://images/logos/simbolo_ticket_to_rio.png" id="3_r7tll"]
+[ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="4_aasd4"]
+[ext_resource type="Texture2D" uid="uid://c3lnvb44ptstd" path="res://images/cards/backCard.png" id="5_xe28r"]
+
+[node name="PlayerUi" type="NinePatchRect"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.0
+offset_right = -1041.0
+offset_bottom = -468.0
+grow_horizontal = 2
+grow_vertical = 2
+region_rect = Rect2(0, 0, 204, 206)
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 26.0
+offset_right = 382.0
+offset_bottom = 238.0
+texture = ExtResource("1_u4527")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 241.0
+offset_bottom = 251.0
+texture = ExtResource("1_u4527")
+
+[node name="icon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 140.0
+offset_right = 1096.0
+offset_bottom = 835.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_5he4c")
+flip_h = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 324.0
+offset_top = 26.0
+offset_right = 1348.0
+offset_bottom = 1050.0
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("3_r7tll")
+
+[node name="player" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 47.0
+offset_top = -109.0
+offset_right = 198.0
+offset_bottom = 49.0
+texture = ExtResource("3_ekchp")
+expand_mode = 4
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 35.0
+offset_right = 236.0
+offset_bottom = 245.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = -2
+
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/VBoxContainer/Control"]
+position = Vector2(66, -40)
+scale = Vector2(0.0887656, 0.0887656)
+texture = ExtResource("5_xe28r")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 23
+alignment = 1
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_aasd4")
+theme_override_font_sizes/font_size = 30
+text = "150"
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_aasd4")
+theme_override_font_sizes/font_size = 30
+text = "200"

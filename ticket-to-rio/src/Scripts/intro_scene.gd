@@ -5,7 +5,7 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	animation_intro.play("fade_in")
-	get_tree().create_timer(3).timeout.connect(black_out)
+	get_tree().create_timer(5).timeout.connect(black_out)
 
 
 func black_out():
