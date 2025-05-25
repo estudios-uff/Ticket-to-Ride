@@ -2,8 +2,11 @@ extends Control
 
 var game = load("res://src/Scenes/tutorialTest.tscn")
 
+func _ready() -> void:
+	$VideoStreamPlayer.play()
+
 func _on_iniciar_pressed() -> void:
-	get_tree().change_scene_to_packed(load("res://src/Scenes/loading_screen.tscn"))
+	get_tree().change_scene_to_file("res://src/Scenes/selecionar_jogadores.tscn")
 
 
 func _on_opcoes_pressed() -> void:

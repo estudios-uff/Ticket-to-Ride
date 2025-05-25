@@ -27,7 +27,30 @@ func _process(delta):
 		input_vector.y -= 1
 
 	if input_vector != Vector2.ZERO:
-		position += input_vector.normalized() * move_speed * delta
+		position += input_vector.normalized() * move_speed * delta / zoom
+		
+	# Se passar das bordas do fundo, impedir a movimentação
+	_limit_camera_to_bounds($"../fundo")
+
+func _limit_camera_to_bounds(fundo):
+	if fundo == null:
+		return
+
+	var fundo_size : Vector2
+	var fundo_position : Vector2
+
+	fundo_size = fundo.texture.get_size() * fundo.scale
+	fundo_position = fundo.global_position - fundo_size / 2.0
+
+	# Tamanho visível da câmera ajustado pelo zoom
+	var screen_size = get_viewport_rect().size / zoom
+	var half_screen = screen_size / 2.0
+
+	var min_bound = fundo_position + half_screen
+	var max_bound = fundo_position + fundo_size - half_screen
+
+	position.x = clamp(position.x, min_bound.x, max_bound.x)
+	position.y = clamp(position.y, min_bound.y, max_bound.y)
 
 func _unhandled_input(event):
 	# Zoom com scroll

@@ -1,8 +1,24 @@
-[gd_scene load_steps=4 format=3 uid="uid://bnycc2g8obd6"]
+[gd_scene load_steps=10 format=3 uid="uid://bnycc2g8obd6"]
 
-[ext_resource type="PackedScene" uid="uid://cs5japostnigk" path="res://src/Scenes/cardCredits.tscn" id="1_gp1uh"]
+[ext_resource type="PackedScene" uid="uid://ciel1dm86op8c" path="res://src/Scenes/cardCredits.tscn" id="1_gp1uh"]
 [ext_resource type="Script" path="res://src/Scripts/credits.gd" id="1_phkbd"]
 [ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="2_ennkn"]
+[ext_resource type="Texture2D" uid="uid://e2u64spb45fp" path="res://images/utils/cardCreditsBtnActv.png" id="4_0edwf"]
+[ext_resource type="Texture2D" uid="uid://qy3ptu2vqeai" path="res://images/utils/cardCreditsBtn.png" id="5_unpvr"]
+[ext_resource type="FontFile" uid="uid://c64w62cla8crr" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskRegular.ttf" id="6_jebxh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4g2w7"]
+texture = ExtResource("4_0edwf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t6yqy"]
+texture = ExtResource("4_0edwf")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lp5v8"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+texture = ExtResource("5_unpvr")
 
 [node name="Credits" type="Control"]
 layout_mode = 3
@@ -28,6 +44,45 @@ offset_left = 304.0
 offset_top = 412.0
 offset_right = 304.0
 offset_bottom = 412.0
+script = null
+
+[node name="Button" type="Button" parent="CardCredits"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredits"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 21
+text = "Amanda Zirpolo"
+
+[node name="Label2" type="Label" parent="CardCredits"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Scrum Master"
 
 [node name="CardCredits2" parent="." instance=ExtResource("1_gp1uh")]
 layout_mode = 2
@@ -35,36 +90,270 @@ offset_left = 524.0
 offset_top = 412.0
 offset_right = 524.0
 offset_bottom = 412.0
+script = null
+
+[node name="Button" type="Button" parent="CardCredits2"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredits2"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 25
+text = "JohKemPo"
+
+[node name="Label2" type="Label" parent="CardCredits2"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Product Owner"
 
 [node name="CardCredits3" parent="." instance=ExtResource("1_gp1uh")]
 offset_left = 746.0
 offset_top = 412.0
 offset_right = 746.0
 offset_bottom = 412.0
+script = null
+
+[node name="Button" type="Button" parent="CardCredits3"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredits3"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 25
+text = "Gabriel Panza"
+
+[node name="Label2" type="Label" parent="CardCredits3"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Developer"
 
 [node name="CardCredits4" parent="." instance=ExtResource("1_gp1uh")]
 offset_left = 971.0
 offset_top = 412.0
 offset_right = 971.0
 offset_bottom = 412.0
+script = null
+
+[node name="Button" type="Button" parent="CardCredits4"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredits4"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 25
+text = "Jvssaa"
+
+[node name="Label2" type="Label" parent="CardCredits4"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Developer"
 
 [node name="CardCredits5" parent="." instance=ExtResource("1_gp1uh")]
 offset_left = 416.0
 offset_top = 565.0
 offset_right = 416.0
 offset_bottom = 565.0
+script = null
+
+[node name="Button" type="Button" parent="CardCredits5"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredits5"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 25
+text = "Ivalee"
+
+[node name="Label2" type="Label" parent="CardCredits5"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Analyst"
 
 [node name="CardCredits6" parent="." instance=ExtResource("1_gp1uh")]
 offset_left = 635.0
 offset_top = 566.0
 offset_right = 635.0
 offset_bottom = 566.0
+script = null
 
-[node name="Control" parent="." instance=ExtResource("1_gp1uh")]
+[node name="Button" type="Button" parent="CardCredits6"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredits6"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 21
+text = "Hendel Fonseca"
+
+[node name="Label2" type="Label" parent="CardCredits6"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Developer"
+
+[node name="CardCredit7" parent="." instance=ExtResource("1_gp1uh")]
 offset_left = 866.0
 offset_top = 565.0
 offset_right = 866.0
 offset_bottom = 565.0
+script = null
+
+[node name="Button" type="Button" parent="CardCredit7"]
+layout_mode = 0
+offset_left = -85.0
+offset_top = 25.0
+offset_right = 89.0
+offset_bottom = 55.0
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 15
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4g2w7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_t6yqy")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lp5v8")
+text = "Perfil Itch.io"
+expand_icon = true
+
+[node name="Label" type="Label" parent="CardCredit7"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -58.0
+offset_right = 53.0
+offset_bottom = -27.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.262932, 0.262932, 0.262932, 1)
+theme_override_fonts/font = ExtResource("2_ennkn")
+theme_override_font_sizes/font_size = 25
+text = "Gabriel Breder"
+
+[node name="Label2" type="Label" parent="CardCredit7"]
+layout_mode = 0
+offset_left = -79.0
+offset_top = -27.0
+offset_right = 30.0
+offset_bottom = -4.0
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.336607, 0.336608, 0.336608, 1)
+theme_override_fonts/font = ExtResource("6_jebxh")
+theme_override_font_sizes/font_size = 15
+text = "Developer"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
@@ -90,4 +379,11 @@ theme_override_font_sizes/font_size = 20
 text = "Voltar"
 flat = true
 
+[connection signal="pressed" from="CardCredits/Button" to="." method="_on_card_button_pressed" binds= ["\"https://amandazirpolo.itch.io/\""]]
+[connection signal="pressed" from="CardCredits2/Button" to="." method="_on_card_button_pressed" binds= ["\"https://johkempo.itch.io/\""]]
+[connection signal="pressed" from="CardCredits3/Button" to="." method="_on_card_button_pressed" binds= ["\"https://gabriel-panza.itch.io/\""]]
+[connection signal="pressed" from="CardCredits4/Button" to="." method="_on_card_button_pressed" binds= ["\"https://jvssaa.itch.io/\""]]
+[connection signal="pressed" from="CardCredits5/Button" to="." method="_on_card_button_pressed" binds= ["\"https://ivalee.itch.io/\""]]
+[connection signal="pressed" from="CardCredits6/Button" to="." method="_on_card_button_pressed" binds= ["\"https://hendelfonseca.itch.io/\""]]
+[connection signal="pressed" from="CardCredit7/Button" to="." method="_on_card_button_pressed" binds= ["\"https://gabriel-breder.itch.io/\""]]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

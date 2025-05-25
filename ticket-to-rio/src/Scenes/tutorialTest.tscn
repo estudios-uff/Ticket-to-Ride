@@ -1,11 +1,12 @@
+
 [gd_scene load_steps=10 format=3 uid="uid://or4w2v47qbt4"]
+
 
 [ext_resource type="Script" path="res://src/Scripts/tutorial_test.gd" id="1_bxyx5"]
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="Texture2D" uid="uid://02dysrcn71q7" path="res://images/scenes/Train board generator - Rio de Janeiro[1980x1080].png" id="1_isasm"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
-[ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="5_u68ii"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
 [ext_resource type="PackedScene" uid="uid://bmkpw21outhvn" path="res://src/Scenes/GUI/playerUI.tscn" id="8_s1m1x"]
 [ext_resource type="PackedScene" uid="uid://dnvjl620peogf" path="res://src/Scenes/GUI/player_ui2.tscn" id="9_ch181"]
@@ -31,9 +32,9 @@ volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-position = Vector2(3, 0)
-scale = Vector2(0.0595442, 0.0595442)
-texture = ExtResource("5_u68ii")
+position = Vector2(9.50004, -19)
+scale = Vector2(0.591146, 0.544922)
+texture = ExtResource("1_isasm")
 
 [node name="voltar" type="Button" parent="."]
 offset_left = 465.0
