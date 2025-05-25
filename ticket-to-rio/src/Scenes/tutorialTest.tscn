@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=14 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/tutorial_test.gd" id="1_bxyx5"]
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
@@ -8,6 +8,7 @@
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
 [ext_resource type="Script" path="res://src/Scripts/deck.gd" id="7_bfpic"]
 [ext_resource type="Texture2D" uid="uid://coalvn2a488x5" path="res://images/cards/deck.png" id="8_op56o"]
+[ext_resource type="Script" path="res://src/Scripts/camera_behavior.gd" id="9_6kj5m"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
@@ -30,7 +31,7 @@ volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-position = Vector2(-129, -94)
+position = Vector2(-68, -87)
 scale = Vector2(0.5, 0.461)
 texture = ExtResource("1_isasm")
 
@@ -57,7 +58,8 @@ text = "Teste Cards"
 flat = true
 
 [node name="Deck" type="Node2D" parent="."]
-position = Vector2(516, -268)
+position = Vector2(528, -274)
+scale = Vector2(0.808, 0.75)
 script = ExtResource("7_bfpic")
 
 [node name="Sprite2D" type="Sprite2D" parent="Deck"]
@@ -81,6 +83,9 @@ offset_bottom = 77.0
 theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
 theme_override_fonts/normal_font = ExtResource("7_0yhtn")
 text = "0"
+
+[node name="CameraBehavior" type="Node" parent="Deck"]
+script = ExtResource("9_6kj5m")
 
 [node name="InputManager" type="Node2D" parent="."]
 script = ExtResource("9_wck36")

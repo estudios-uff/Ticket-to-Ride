@@ -4,6 +4,7 @@ extends Camera2D
 var zoom_step := 0.2
 var min_zoom := Vector2(1, 1)
 var max_zoom := Vector2(4, 4)
+signal ajustezoom
 
 # Movimento com mouse
 var dragging := false
@@ -57,11 +58,14 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			zoom += Vector2(zoom_step, zoom_step)
+			emit_signal("ajustezoom")
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			zoom -= Vector2(zoom_step, zoom_step)
+			emit_signal("ajustezoom")
 
 		zoom.x = clamp(zoom.x, min_zoom.x, max_zoom.x)
 		zoom.y = clamp(zoom.y, min_zoom.y, max_zoom.y)
+		emit_signal("ajustezoom")
 
 	# Início ou fim do arrasto com botão esquerdo do mouse
 	if event is InputEventMouseButton:
