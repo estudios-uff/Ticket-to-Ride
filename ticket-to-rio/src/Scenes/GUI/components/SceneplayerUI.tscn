@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bba6bcq0cxwn3"]
+
+[ext_resource type="PackedScene" uid="uid://wmjylpquqe00" path="res://src/Scenes/GUI/components/playerUI.tscn" id="1_kmu0f"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="PlayerUi" parent="." instance=ExtResource("1_kmu0f")]
+offset_top = 607.0
+offset_bottom = 607.0

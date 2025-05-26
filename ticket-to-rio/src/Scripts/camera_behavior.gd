@@ -1,7 +1,7 @@
 extends Node
 
 @onready var camera: Camera2D = $"../../Camera2D"
-@onready var objeto_pai: Node2D = $".."
+@onready var objeto_pai: Node = $".."
 
 var aparenciaConstante
 
