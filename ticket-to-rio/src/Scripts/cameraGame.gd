@@ -29,9 +29,10 @@ func _process(delta):
 
 	if input_vector != Vector2.ZERO:
 		position += input_vector.normalized() * move_speed * delta #/ zoom
-		
+	
 	# Se passar das bordas do fundo, impedir a movimentação
 	_limit_camera_to_bounds($"../fundo")
+	emit_signal("ajustezoom")
 
 func _limit_camera_to_bounds(fundo):
 	if fundo == null:

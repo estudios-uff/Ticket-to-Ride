@@ -2,8 +2,6 @@ extends Node2D
 
 const CARD_SCENE_PATH = "res://src/Scenes/Cards/card.tscn"
 
-
-
 var player_deck = []
 
 func _ready() -> void:
@@ -12,7 +10,6 @@ func _ready() -> void:
 	
 	for i in range(106):
 		player_deck.insert(i,"card (" + str(i) + ")")
-
 
 func draw_card():
 	#var card_drawn = player_deck[0]
@@ -45,11 +42,3 @@ func draw_card():
 		#$"../CardManager".add_child(new_card)
 		#new_card.name = "Card"
 		#$"../PlayerHand".add_card_to_hand(new_card)
-
-
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	
-	pass

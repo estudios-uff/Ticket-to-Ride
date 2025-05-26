@@ -8,7 +8,7 @@
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
 [ext_resource type="Script" path="res://src/Scripts/deck.gd" id="7_bfpic"]
 [ext_resource type="Texture2D" uid="uid://coalvn2a488x5" path="res://images/cards/deck.png" id="8_op56o"]
-[ext_resource type="Script" path="res://src/Scripts/camera_behavior.gd" id="9_6kj5m"]
+[ext_resource type="PackedScene" uid="uid://cs1v3425bn2ct" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
@@ -63,7 +63,6 @@ scale = Vector2(0.808, 0.75)
 script = ExtResource("7_bfpic")
 
 [node name="Sprite2D" type="Sprite2D" parent="Deck"]
-position = Vector2(-1, -3.00002)
 scale = Vector2(0.23301, 0.23301)
 texture = ExtResource("8_op56o")
 
@@ -84,13 +83,19 @@ theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
 theme_override_fonts/normal_font = ExtResource("7_0yhtn")
 text = "0"
 
-[node name="CameraBehavior" type="Node" parent="Deck"]
-script = ExtResource("9_6kj5m")
+[node name="UI_Behavior" parent="Deck" instance=ExtResource("9_74bsh")]
+objeto_pai_width = 246.747
+objeto_pai_height = 167.993
 
 [node name="InputManager" type="Node2D" parent="."]
 script = ExtResource("9_wck36")
 
 [node name="CardManager" parent="." instance=ExtResource("10_hr4so")]
+
+[node name="UI_Behavior" parent="CardManager" instance=ExtResource("9_74bsh")]
+objeto_pai_width = 246.747
+objeto_pai_height = -537.578
+anchoramento = 7
 
 [node name="PlayerHand" type="Node2D" parent="."]
 script = ExtResource("11_lv38c")
