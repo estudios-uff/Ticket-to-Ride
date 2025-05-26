@@ -1,17 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=9 format=3 uid="uid://or4w2v47qbt4"]
 
+[ext_resource type="Script" path="res://src/Scripts/tutorial_test.gd" id="1_bxyx5"]
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="Texture2D" uid="uid://02dysrcn71q7" path="res://images/scenes/Train board generator - Rio de Janeiro[1980x1080].png" id="1_isasm"]
-[ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="1_nrw43"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
 [ext_resource type="PackedScene" uid="uid://butn7tcai5fuf" path="res://src/Scenes/GUI/components/shopTicket.tscn" id="7_ibo3m"]
 [ext_resource type="PackedScene" uid="uid://dlfjjispeheax" path="res://src/Scenes/GUI/components/groupShopTicket.tscn" id="8_lu074"]
-[ext_resource type="PackedScene" uid="uid://wmjylpquqe00" path="res://src/Scenes/GUI/components/playerUI.tscn" id="9_883uo"]
 
 [node name="TutorialTest" type="Node2D"]
-script = ExtResource("1_nrw43")
+script = ExtResource("1_bxyx5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("1_cwwrh")
@@ -68,12 +67,6 @@ offset_left = -612.0
 offset_top = -319.0
 offset_right = -612.0
 offset_bottom = -319.0
-
-[node name="PlayerUi" parent="." instance=ExtResource("9_883uo")]
-offset_left = -660.0
-offset_top = 248.0
-offset_right = -660.0
-offset_bottom = 248.0
 
 [connection signal="pressed" from="voltar" to="." method="_on_voltar_pressed"]
 [connection signal="pressed" from="testCards" to="." method="_on_test_cards_pressed"]
