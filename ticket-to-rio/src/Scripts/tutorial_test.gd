@@ -5,7 +5,7 @@ func  _ready() -> void:
 	num_players = Global.num_players
 
 func _process(delta: float) -> void:
-	print(num_players)
+	print("Numero de players: ", num_players)
 
 func _on_voltar_pressed() -> void:
 	get_tree().change_scene_to_file("res://src/Scenes/main_menu.tscn")
