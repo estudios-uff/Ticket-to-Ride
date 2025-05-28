@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://btmolatceum81"]
+
+[ext_resource type="Texture2D" uid="uid://e2u64spb45fp" path="res://images/utils/cardCreditsBtnActv.png" id="1_das4v"]
+
+[node name="WagonSprite" type="Node2D"]
+
+[node name="vagao" type="Sprite2D" parent="."]
+scale = Vector2(0.224151, 0.285714)
+texture = ExtResource("1_das4v")

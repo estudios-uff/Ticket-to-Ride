@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=12 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
 [ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="5_r7p17"]
+[ext_resource type="PackedScene" uid="uid://qarho3gx552b" path="res://src/Scenes/TestMap/Map.tscn" id="6_3bipw"]
 [ext_resource type="PackedScene" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
@@ -28,9 +29,12 @@ volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
 texture = ExtResource("5_r7p17")
+
+[node name="Map" parent="." instance=ExtResource("6_3bipw")]
 
 [node name="NodeLoja" parent="." instance=ExtResource("12_jdx0c")]
 
