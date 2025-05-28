@@ -1,4 +1,5 @@
 extends Node2D
+class_name Route
 
 @export var from_city_name: String = ""
 @export var to_city_name: String = ""
@@ -19,6 +20,32 @@ func _ready():
 	if area_2d:
 		area_2d.input_event.connect(_on_area_2d_input_event)
 
+
+func update_route_visuals():
+	if from_city_node and to_city_node:
+		line_2d.clear_points()
+		line_2d.add_point(from_city_node.position)
+		line_2d.add_point(to_city_node.position)
+		line_2d.queue_redraw()
+
+		# Reconfigura o CollisionShape2D (copie o código de setup_route)
+		var start_pos = from_city_node.position
+		var end_pos = to_city_node.position
+
+		var direction = (end_pos - start_pos).normalized()
+		var length = start_pos.distance_to(end_pos)
+		var width = 20.0 # Ajuste conforme necessário
+
+		var rect_shape = RectangleShape2D.new()
+		rect_shape.size = Vector2(length, width)
+		collision_shape_2d.shape = rect_shape
+
+		var center_of_route_global = (start_pos + end_pos) / 2
+		collision_shape_2d.position = center_of_route_global - self.global_position
+		collision_shape_2d.rotation = direction.angle()
+
+		spawn_wagons() # Se quiser que os vagões também se repositionem
+		
 # Função para configurar a rota dinamicamente
 func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int):
 	from_city_node = p_from_city

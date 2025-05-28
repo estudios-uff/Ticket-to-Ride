@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=13 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
 [ext_resource type="PackedScene" uid="uid://bd70r7s6svycj" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
+[ext_resource type="PackedScene" uid="uid://bcpcr8dwfyos8" path="res://src/Scenes/TestMap/MapEditor.tscn" id="12_m3mj1"]
 [ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 
 [node name="TutorialTest" type="Node2D"]
@@ -29,12 +30,12 @@ volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
 texture = ExtResource("5_r7p17")
 
 [node name="Map" parent="." instance=ExtResource("6_3bipw")]
+visible = false
 
 [node name="NodeLoja" parent="." instance=ExtResource("12_jdx0c")]
 
@@ -53,3 +54,6 @@ script = ExtResource("9_wck36")
 [node name="CardManager" parent="." instance=ExtResource("10_hr4so")]
 
 [node name="UI_Behavior" parent="CardManager" instance=ExtResource("9_74bsh")]
+
+[node name="MapEditor" parent="." instance=ExtResource("12_m3mj1")]
+visible = false

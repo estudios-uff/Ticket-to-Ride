@@ -8,6 +8,7 @@
 radius = 619.034
 
 [node name="City" type="Node2D"]
+z_index = 2
 script = ExtResource("1_h2187")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

@@ -3,7 +3,7 @@ extends Node2D
 # Preload das cenas das subcenas
 var city_scene: PackedScene = preload("res://src/Scenes/TestMap/City.tscn")
 var route_scene: PackedScene = preload("res://src/Scenes/TestMap/Route.tscn")
-
+var info_popup_scene: PackedScene = preload("res://src/Scenes/TestMap/InfoPopup.tscn")
 var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_da_cidade)
 
 # Dados de exemplo do mapa (pode vir de um arquivo JSON/CSV em um jogo real)
@@ -90,9 +90,24 @@ func parse_color(color_string: String) -> Color:
 		"pink": return Color(1.0, 0.75, 0.8) # Rosa
 		_: return Color.WHITE # Padrão para branco se a cor não for reconhecida
 
+
+func show_info_popup(message: String, global_position: Vector2):
+	var popup_instance = info_popup_scene.instantiate()
+	add_child(popup_instance) # Adiciona o pop-up como filho do Map (ou de uma camada UI)
+
+	# Ajusta a posição do pop-up para que ele apareça próximo ao clique
+	# Pode ser necessário ajustar o offset para centralizar o pop-up
+	var popup_offset = Vector2(popup_instance.size.x / 2, popup_instance.size.y / 2) # Para centralizar o pop-up
+	popup_instance.show_message(message, global_position - popup_offset)
+	# Se o pop-up não tem um tamanho definido na cena, você pode precisar de um Frame ou de um Control
+	# que auto-expanda para que popup_instance.size.x e y sejam válidos.
+	# Caso contrário, apenas posicione sem offset inicialmente para testar.
+	# popup_instance.show_message(message, global_position)
+
 # Funções de callback para os sinais de clique
 func _on_city_clicked(city_node: Node2D):
 	print("Mapa recebeu clique na cidade: ", city_node.city_name)
+	show_info_popup("Cidade Clicada: " + city_node.city_name, city_node.position)
 	# Lógica do jogo aqui (ex: destacar cidade para construir rota)
 
 func _on_route_clicked(route_node: Node2D):
