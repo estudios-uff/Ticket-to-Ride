@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://2xusqfrbawhw"]
+
+[ext_resource type="Script" path="res://src/Scenes/GUI/components/world_scene.gd" id="1_n1f76"]
+[ext_resource type="PackedScene" uid="uid://21rg3tmchymu" path="res://src/Scenes/GUI/components/positionMap.tscn" id="1_obck6"]
+[ext_resource type="Texture2D" uid="uid://cwvhep5ri003n" path="res://images/utils/players/urso.png" id="2_ej3kc"]
+
+[node name="WorldScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n1f76")
+
+[node name="PositionSelect" parent="." instance=ExtResource("1_obck6")]
+layout_mode = 1
+
+[node name="PositionSelect2" parent="." instance=ExtResource("1_obck6")]
+layout_mode = 1
+offset_left = 256.0
+offset_right = 256.0
+
+[node name="PositionSelect3" parent="." instance=ExtResource("1_obck6")]
+layout_mode = 1
+offset_left = 64.0
+offset_top = 128.0
+offset_right = 64.0
+offset_bottom = 128.0
+
+[node name="PositionSelect4" parent="." instance=ExtResource("1_obck6")]
+layout_mode = 1
+offset_left = 128.0
+offset_right = 128.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.13, 0.13)
+texture = ExtResource("2_ej3kc")

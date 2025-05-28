@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://6u85xlyinku8"]
+
+[ext_resource type="PackedScene" uid="uid://bmkpw21outhvn" path="res://src/Scenes/GUI/playerUI.tscn" id="1_t8ivm"]
+
+[node name="PlayerUi" instance=ExtResource("1_t8ivm")]
+
+[node name="TextureRect3" parent="." index="0"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 204.0
+offset_bottom = 212.0

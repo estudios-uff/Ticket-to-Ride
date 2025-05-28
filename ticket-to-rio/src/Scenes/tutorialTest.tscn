@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://or4w2v47qbt4"]
+
+[gd_scene load_steps=10 format=3 uid="uid://or4w2v47qbt4"]
+
 
 [ext_resource type="Script" path="res://src/Scripts/tutorial_test.gd" id="1_bxyx5"]
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
@@ -6,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
+[ext_resource type="PackedScene" uid="uid://bmkpw21outhvn" path="res://src/Scenes/GUI/playerUI.tscn" id="8_s1m1x"]
+[ext_resource type="PackedScene" uid="uid://dnvjl620peogf" path="res://src/Scenes/GUI/player_ui2.tscn" id="9_ch181"]
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("1_bxyx5")
@@ -57,6 +61,18 @@ theme_override_fonts/font = ExtResource("7_0yhtn")
 theme_override_font_sizes/font_size = 35
 text = "Teste Cards"
 flat = true
+
+[node name="PlayerUi" parent="." instance=ExtResource("8_s1m1x")]
+offset_left = -661.0
+offset_top = 139.0
+offset_right = -661.0
+offset_bottom = 139.0
+
+[node name="PlayerUi3" parent="." instance=ExtResource("9_ch181")]
+offset_left = -686.0
+offset_top = -203.0
+offset_right = -686.0
+offset_bottom = -203.0
 
 [connection signal="pressed" from="voltar" to="." method="_on_voltar_pressed"]
 [connection signal="pressed" from="testCards" to="." method="_on_test_cards_pressed"]

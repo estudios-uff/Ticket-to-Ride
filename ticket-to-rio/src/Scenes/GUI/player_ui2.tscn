@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnvjl620peogf"]
+
+[ext_resource type="PackedScene" uid="uid://bmkpw21outhvn" path="res://src/Scenes/GUI/playerUI.tscn" id="1_mqpu6"]
+[ext_resource type="Texture2D" uid="uid://bid5r7s21hjh1" path="res://images/utils/players/tucano.png" id="2_il802"]
+
+[node name="PlayerUi" instance=ExtResource("1_mqpu6")]
+
+[node name="TextureRect3" parent="." index="0"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 204.0
+offset_bottom = 212.0
+
+[node name="player" parent="." index="4"]
+texture = ExtResource("2_il802")
