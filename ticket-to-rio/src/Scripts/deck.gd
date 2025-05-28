@@ -31,7 +31,7 @@ func draw_card():
 	var card_image_path = str("res://images/cards/" + card_drawn + ".png")
 	new_card.get_node("BackCardImage").texture = load(card_image_path)
 	
-	if $"../PlayerHand".player_hand.size() <= 7:
+	if $"../PlayerHand".player_hand.size() <= 4:
 		$"../CardManager".add_child(new_card)
 		new_card.name = "Card"
 		$"../PlayerHand".add_card_to_hand(new_card)

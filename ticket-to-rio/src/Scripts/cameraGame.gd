@@ -59,10 +59,10 @@ func _unhandled_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			zoom += Vector2(zoom_step, zoom_step)
-			emit_signal("ajustezoom")
+			#emit_signal("ajustezoom")
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			zoom -= Vector2(zoom_step, zoom_step)
-			emit_signal("ajustezoom")
+			#emit_signal("ajustezoom") 
 
 		zoom.x = clamp(zoom.x, min_zoom.x, max_zoom.x)
 		zoom.y = clamp(zoom.y, min_zoom.y, max_zoom.y)
@@ -75,4 +75,5 @@ func _unhandled_input(event):
 
 	# Arrastando com movimento do mouse
 	if event is InputEventMouseMotion and dragging:
-		position += -event.relative / zoom 
+		if (self.zoom > Vector2(1,1)):
+			position += -event.relative / zoom 
