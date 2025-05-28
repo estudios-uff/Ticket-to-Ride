@@ -1,0 +1,119 @@
+[gd_scene load_steps=10 format=3 uid="uid://wmjylpquqe00"]
+
+[ext_resource type="Texture2D" uid="uid://cacy22xt1h605" path="res://images/utils/cardCredits.png" id="1_uk857"]
+[ext_resource type="Texture2D" uid="uid://cwvhep5ri003n" path="res://images/utils/players/urso.png" id="2_v85ca"]
+[ext_resource type="Texture2D" uid="uid://c3lnvb44ptstd" path="res://images/cards/backCard.png" id="5_rs0vy"]
+[ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="5_tx7c2"]
+[ext_resource type="FontFile" uid="uid://bafsfyvcttkmd" path="res://Fonts/wishcar_moundy/Wishcar Moundy Italic.otf" id="6_eatd2"]
+[ext_resource type="Texture2D" uid="uid://ducb5qiyhn1ay" path="res://images/utils/informacoes.png" id="6_jgrrl"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_51k3y"]
+texture = ExtResource("1_uk857")
+
+[sub_resource type="LabelSettings" id="LabelSettings_lqifv"]
+font = ExtResource("5_tx7c2")
+font_size = 18
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bc203"]
+font = ExtResource("6_eatd2")
+font_size = 17
+font_color = Color(0, 0, 0, 1)
+
+[node name="PlayerUi" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(79, -22)
+scale = Vector2(0.232, 0.232)
+texture = ExtResource("2_v85ca")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 2.0
+offset_right = 144.0
+offset_bottom = 115.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_51k3y")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+clip_contents = true
+custom_minimum_size = Vector2(10, 10)
+layout_direction = 1
+layout_mode = 1
+anchors_preset = -1
+offset_left = 16.0
+offset_top = 1.0
+offset_right = 142.0
+offset_bottom = 71.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 1
+
+[node name="Objetivos" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Objetivos"
+label_settings = SubResource("LabelSettings_lqifv")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Text" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bc203")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Check" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "✔️"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CenterContainer/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Text" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
+layout_mode = 2
+text = "5"
+label_settings = SubResource("LabelSettings_bc203")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Check" type="Label" parent="CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "❌"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(78, 96)
+scale = Vector2(0.0832178, 0.0832178)
+texture = ExtResource("5_rs0vy")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(132, 101)
+scale = Vector2(0.03125, 0.0314832)
+texture = ExtResource("6_jgrrl")

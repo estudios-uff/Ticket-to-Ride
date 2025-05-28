@@ -3,6 +3,8 @@ extends Node2D
 const COLLISION_MASK_CARD = 1
 const COLLISION_MASK_CARD_SLOT = 2
 
+var tween: Tween
+
 var screen_size
 var card_being_dragged
 var is_hovering_on_card
@@ -56,9 +58,14 @@ func connect_card_signals(card):
 	
 func highlight_card(card, hovered):
 	if hovered:
-		card.scale = Vector2(1.05,1.05)
+		
+		tween = create_tween()
+		tween.tween_property(card,"scale",Vector2(1.1, 1.1),0.1)
+		
 		card.z_index = 2
 	else:
+		if tween:
+			tween.kill()
 		card.scale = Vector2(1,1)
 		card.z_index = 1
 		
