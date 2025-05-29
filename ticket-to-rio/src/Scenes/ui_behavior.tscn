@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cs1v3425bn2ct"]
+
+[ext_resource type="Script" path="res://src/Scripts/camera_behavior.gd" id="1_nmvqp"]
+
+[node name="UI_Behavior" type="Node"]
+script = ExtResource("1_nmvqp")

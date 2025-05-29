@@ -1,30 +1,26 @@
+[gd_scene load_steps=11 format=3 uid="uid://or4w2v47qbt4"]
 
-[gd_scene load_steps=10 format=3 uid="uid://or4w2v47qbt4"]
-
-
-[ext_resource type="Script" path="res://src/Scripts/tutorial_test.gd" id="1_bxyx5"]
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
-[ext_resource type="Texture2D" uid="uid://02dysrcn71q7" path="res://images/scenes/Train board generator - Rio de Janeiro[1980x1080].png" id="1_isasm"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
-[ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="7_0yhtn"]
-[ext_resource type="PackedScene" uid="uid://bmkpw21outhvn" path="res://src/Scenes/GUI/playerUI.tscn" id="8_s1m1x"]
-[ext_resource type="PackedScene" uid="uid://dnvjl620peogf" path="res://src/Scenes/GUI/player_ui2.tscn" id="9_ch181"]
+[ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="5_r7p17"]
+[ext_resource type="PackedScene" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
+[ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
+[ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
+[ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
+[ext_resource type="PackedScene" uid="uid://bd70r7s6svycj" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
+[ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 
 [node name="TutorialTest" type="Node2D"]
-script = ExtResource("1_bxyx5")
+script = ExtResource("11_lv38c")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(640, 361)
 script = ExtResource("1_cwwrh")
 
 [node name="fundo" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
 texture = ExtResource("2_vta80")
-
-[node name="bckgound" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(-3.79086e-05, -0.500012)
-scale = Vector2(0.496456, 0.497222)
-texture = ExtResource("1_isasm")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_f4j3v")
@@ -52,27 +48,12 @@ theme_override_font_sizes/font_size = 35
 text = "Voltar"
 flat = true
 
-[node name="testCards" type="Button" parent="."]
-offset_left = 9.0
-offset_top = 274.0
-offset_right = 297.0
-offset_bottom = 350.0
-theme_override_fonts/font = ExtResource("7_0yhtn")
-theme_override_font_sizes/font_size = 35
-text = "Teste Cards"
-flat = true
+[node name="UI_Behavior" parent="NodePlayerUI" instance=ExtResource("9_74bsh")]
+anchoramento = 0
 
-[node name="PlayerUi" parent="." instance=ExtResource("8_s1m1x")]
-offset_left = -661.0
-offset_top = 139.0
-offset_right = -661.0
-offset_bottom = 139.0
+[node name="InputManager" type="Node2D" parent="."]
+script = ExtResource("9_wck36")
 
-[node name="PlayerUi3" parent="." instance=ExtResource("9_ch181")]
-offset_left = -686.0
-offset_top = -203.0
-offset_right = -686.0
-offset_bottom = -203.0
+[node name="CardManager" parent="." instance=ExtResource("10_hr4so")]
 
-[connection signal="pressed" from="voltar" to="." method="_on_voltar_pressed"]
-[connection signal="pressed" from="testCards" to="." method="_on_test_cards_pressed"]
+[node name="UI_Behavior" parent="CardManager" instance=ExtResource("9_74bsh")]

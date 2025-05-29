@@ -23,6 +23,7 @@ texture = ExtResource("1_bktks")
 position = Vector2(1, 2)
 
 [node name="CardSlot" parent="." instance=ExtResource("2_57um0")]
+visible = false
 position = Vector2(1089, 192)
 
 [node name="PlayerHand" type="Node2D" parent="."]

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bd70r7s6svycj"]
+
+[ext_resource type="PackedScene" uid="uid://dlfjjispeheax" path="res://src/Scenes/GUI/components/groupShopTicket.tscn" id="1_jfcj5"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GroupShopTicket" parent="." instance=ExtResource("1_jfcj5")]
+offset_left = 1148.0
+offset_top = 125.0
+offset_right = 1148.0
+offset_bottom = 125.0

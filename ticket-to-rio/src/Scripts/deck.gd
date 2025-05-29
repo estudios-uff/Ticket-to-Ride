@@ -11,7 +11,6 @@ func _ready() -> void:
 	for i in range(106):
 		player_deck.insert(i,"card (" + str(i) + ")")
 
-
 func draw_card():
 	#var card_drawn = player_deck[0]
 	var card_drawn = player_deck.pick_random()
@@ -32,7 +31,7 @@ func draw_card():
 	var card_image_path = str("res://images/cards/" + card_drawn + ".png")
 	new_card.get_node("BackCardImage").texture = load(card_image_path)
 	
-	if $"../PlayerHand".player_hand.size() <= 7:
+	if $"../PlayerHand".player_hand.size() <= 4:
 		$"../CardManager".add_child(new_card)
 		new_card.name = "Card"
 		$"../PlayerHand".add_card_to_hand(new_card)
@@ -43,10 +42,3 @@ func draw_card():
 		#$"../CardManager".add_child(new_card)
 		#new_card.name = "Card"
 		#$"../PlayerHand".add_card_to_hand(new_card)
-
-
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

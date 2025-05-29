@@ -20,6 +20,9 @@ func _input(event: InputEvent) -> void:
 			raycast_at_cursor()
 		else:
 			emit_signal("left_mouse_released")
+	
+	if Input.is_action_pressed("ui_cancel"):
+		get_tree().change_scene_to_file("res://src/Scenes/main_menu.tscn")
 
 func raycast_at_cursor():
 	var space_state = get_world_2d().direct_space_state
@@ -34,7 +37,7 @@ func raycast_at_cursor():
 			var card_found = result[0].collider.get_parent()
 			if card_found:
 				#card_manager_reference.start_drag(card_found)
-				card_manager_reference.select_card(card_found)
+				pass
 		elif result_collision_mask == COLLISION_MASK_CARD_DECK:
 			# DECK FOI CLICADA
 			deck_reference.draw_card()
