@@ -1,6 +1,11 @@
 name: GdUnit4 Tests
 on: [push, pull_request]
 
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: ticket-to-rio
+  PROJECT_PATH: ticket-to-rio
+
 jobs:
   test:
     runs-on: ubuntu-latest
