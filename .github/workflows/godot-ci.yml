@@ -157,10 +157,10 @@ jobs:
         with:
           
           files: |
-            ./dist/windows/${{ EXPORT_NAME }}.exe
-            ./dist/linux/${{ EXPORT_NAME }}.x86_64
-          name: "Ticket to Rio - V${{ github.run_number }}" 
-          tag_name: "Ticket-to-Rio-V${{ github.run_number }}" 
+            ./dist/windows/${{ env.EXPORT_NAME }}.exe
+            ./dist/linux/${{ env.EXPORT_NAME }}.x86_64
+          name: "Ticket to Rio - V${ github.run_number }" 
+          tag_name: "Ticket-to-Rio-V${ github.run_number }" 
           body: |
             Automated build from branch ${ github.ref_name }. Includes Windows and Linux builds.
             Commit: ${ github.sha }
@@ -168,4 +168,4 @@ jobs:
           draft: false      
           prerelease: true  
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN } 
