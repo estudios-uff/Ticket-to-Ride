@@ -12,6 +12,7 @@ var center_screen_x
 func _ready() -> void:
 	center_screen_x = -get_viewport().size.x / 4
 	
+	
 	#var card_scene = preload(CARD_SCENE_PATH)
 	#for i in range(HAND_COUNT):
 		#var new_card = card_scene.instantiate()

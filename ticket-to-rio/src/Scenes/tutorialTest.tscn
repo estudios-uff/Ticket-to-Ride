@@ -1,14 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=12 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
 [ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="5_r7p17"]
-[ext_resource type="PackedScene" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
+[ext_resource type="PackedScene" uid="uid://bofb141rqpvkf" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
+[ext_resource type="PackedScene" uid="uid://dq1tbcfxp25y2" path="res://src/Scenes/Cards/deck.tscn" id="11_hcphn"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
-[ext_resource type="PackedScene" uid="uid://bd70r7s6svycj" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
+[ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
 [ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 
 [node name="TutorialTest" type="Node2D"]
@@ -49,3 +50,8 @@ script = ExtResource("9_wck36")
 [node name="CardManager" parent="." instance=ExtResource("10_hr4so")]
 
 [node name="UI_Behavior" parent="CardManager" instance=ExtResource("9_74bsh")]
+
+[node name="Deck" parent="." instance=ExtResource("11_hcphn")]
+position = Vector2(1228, 66)
+
+[connection signal="draw" from="Deck" to="." method="_on_deck_draw"]
