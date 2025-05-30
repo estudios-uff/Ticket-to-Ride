@@ -28,55 +28,41 @@ jobs:
       - name: Setup Godot Templates and User Config
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
-          mkdir -v -p ~/.config/godot/
-          
-          mv "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
-          
-          if [ -d "/root/.config/godot" ]; then
-            mv /root/.config/godot/* "$HOME/.config/godot/" 2>/dev/null || true
-          else
-            echo "Notice: /root/.config/godot not found, skipping move."
-          fi
+          mkdir -v -p ~/.config/
+          mv /root/.config/godot ~/.config/godot
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
       - name: Windows Build
         run: |
           echo "Creating build directory for Windows..."
-          mkdir -v -p "$GITHUB_WORKSPACE/build/windows"
-          
-          
-          EXPORT_DIR_ABS="$(readlink -f build)"
-          
-          echo "Changing directory to project path: $PROJECT_PATH"
-          cd "$PROJECT_PATH"
-          
-          echo "Current directory: $(pwd)"
-          echo "Attempting to export Windows Desktop to $EXPORT_DIR_ABS/windows/$EXPORT_NAME.exe"
-          
-          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR_ABS/windows/$EXPORT_NAME.exe"
+          mkdir -v -p build/windows
+          EXPORT_DIR="$(readlink -f build)"
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
           echo "Godot export command for Windows finished."
 
-      - name: Verify Windows Build Output
-        run: |
-          echo "Verifying Windows build output..."
-          echo "Listing contents of $GITHUB_WORKSPACE/build/windows/:"
-          ls -lah "$GITHUB_WORKSPACE/build/windows/"
+      # - name: Verify Windows Build Output
+      #   run: |
+      #     echo "Verifying Windows build output..."
+      #     echo "Listing contents of $GITHUB_WORKSPACE/build/windows/:"
+      #     ls -lah "$GITHUB_WORKSPACE/build/windows/"
           
-          WINDOWS_EXE_PATH="$GITHUB_WORKSPACE/build/windows/$EXPORT_NAME.exe"
-          echo "Expected Windows executable at: $WINDOWS_EXE_PATH"
-          if [ -f "$WINDOWS_EXE_PATH" ]; then
-            echo "SUCCESS: Windows executable found at $WINDOWS_EXE_PATH."
-          else
-            echo "ERROR: Windows executable NOT FOUND at $WINDOWS_EXE_PATH."
+      #     WINDOWS_EXE_PATH="$GITHUB_WORKSPACE/build/windows/$EXPORT_NAME.exe"
+      #     echo "Expected Windows executable at: $WINDOWS_EXE_PATH"
+      #     if [ -f "$WINDOWS_EXE_PATH" ]; then
+      #       echo "SUCCESS: Windows executable found at $WINDOWS_EXE_PATH."
+      #     else
+      #       echo "ERROR: Windows executable NOT FOUND at $WINDOWS_EXE_PATH."
             
             
-          fi
+      #     fi
 
       - name: Upload Windows Executable Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-executable
           
-          path: build/windows/${ EXPORT_NAME }.exe 
+          path: build/windows
           if-no-files-found: error 
           retention-days: 1
 
@@ -95,18 +81,12 @@ jobs:
       - name: Setup Godot Templates and User Config
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
-          mkdir -v -p ~/.config/godot/
-          mv "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
-          if [ -d "/root/.config/godot" ]; then
-            mv /root/.config/godot/* "$HOME/.config/godot/" 2>/dev/null || true
-          else
-            echo "Notice: /root/.config/godot not found, skipping move."
-          fi
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
       - name: Linux Build
         run: |
           echo "Creating build directory for Linux..."
-          mkdir -v -p "$GITHUB_WORKSPACE/build/linux"
+          mkdir -v -p build/linux
 
           EXPORT_DIR="$(readlink -f build)"
           
@@ -114,30 +94,30 @@ jobs:
           cd "$PROJECT_PATH"
           
           echo "Current directory: $(pwd)"
-          echo "Attempting to export Linux/X11 to $EXPORT_DIR_ABS/linux/$EXPORT_NAME.x86_64"
-          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR_ABS/linux/$EXPORT_NAME.x86_64"
+          echo "Attempting to export Linux/X11 to $EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
+          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
           echo "Godot export command for Linux finished."
 
-      - name: Verify Linux Build Output
-        run: |
-          echo "Verifying Linux build output..."
-          echo "Listing contents of $GITHUB_WORKSPACE/build/linux/:"
-          ls -lah "$GITHUB_WORKSPACE/build/linux/"
+      # - name: Verify Linux Build Output
+      #   run: |
+      #     echo "Verifying Linux build output..."
+      #     echo "Listing contents of $GITHUB_WORKSPACE/build/linux/:"
+      #     ls -lah "$GITHUB_WORKSPACE/build/linux/"
           
-          LINUX_EXE_PATH="$GITHUB_WORKSPACE/build/linux/$EXPORT_NAME.x86_64"
-          echo "Expected Linux executable at: $LINUX_EXE_PATH"
-          if [ -f "$LINUX_EXE_PATH" ]; then
-            echo "SUCCESS: Linux executable found at $LINUX_EXE_PATH."
-          else
-            echo "ERROR: Linux executable NOT FOUND at $LINUX_EXE_PATH."
+      #     LINUX_EXE_PATH="$GITHUB_WORKSPACE/build/linux/$EXPORT_NAME.x86_64"
+      #     echo "Expected Linux executable at: $LINUX_EXE_PATH"
+      #     if [ -f "$LINUX_EXE_PATH" ]; then
+      #       echo "SUCCESS: Linux executable found at $LINUX_EXE_PATH."
+      #     else
+      #       echo "ERROR: Linux executable NOT FOUND at $LINUX_EXE_PATH."
             
-          fi
+      #     fi
           
       - name: Upload Linux Executable Artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build/linux/${ EXPORT_NAME }.x86_64
+          path: build/linux
           if-no-files-found: error 
           retention-days: 1
 
