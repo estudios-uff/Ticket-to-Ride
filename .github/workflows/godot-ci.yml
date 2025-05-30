@@ -1,163 +1,190 @@
 name: "godot-ci export"
+
 on:
   push:
     branches:
-      - 49-add-artifact-in-release 
+      - 49-add-artifact-in-release
   pull_request:
     branches:
-      - 49-add-artifact-in-release 
+      - 49-add-artifact-in-release
 
 env:
   GODOT_VERSION: 4.3
   EXPORT_NAME: ticket-to-rio
-  PROJECT_PATH: ticket-to-rio
+  PROJECT_PATH: ticket-to-rio 
 
 jobs:
   build-windows:
     name: Build Windows Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:${{ env.GODOT_VERSION }} 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           lfs: true
-      - name: Setup Godot Templates and Config
+
+      - name: Setup Godot Templates and User Config
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/godot/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          
+          mv "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+          
           if [ -d "/root/.config/godot" ]; then
-            mv /root/.config/godot/* ~/.config/godot/ 2>/dev/null || true
+            mv /root/.config/godot/* "$HOME/.config/godot/" 2>/dev/null || true
           else
             echo "Notice: /root/.config/godot not found, skipping move."
           fi
+
       - name: Windows Build
         run: |
-          mkdir -v -p build/windows
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
+          echo "Creating build directory for Windows..."
+          mkdir -v -p "$GITHUB_WORKSPACE/build/windows"
+          
+          
+          EXPORT_DIR_ABS="$GITHUB_WORKSPACE/build"
+          
+          echo "Changing directory to project path: $PROJECT_PATH"
+          cd "$PROJECT_PATH"
+          
           echo "Current directory: $(pwd)"
-          echo "Attempting to export Windows Desktop to $EXPORT_DIR/windows/$EXPORT_NAME.exe"
-          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-          echo "Godot export command finished."
+          echo "Attempting to export Windows Desktop to $EXPORT_DIR_ABS/windows/$EXPORT_NAME.exe"
+          
+          godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR_ABS/windows/$EXPORT_NAME.exe"
+          echo "Godot export command for Windows finished."
 
       - name: Verify Windows Build Output
         run: |
-          echo "Listing contents of workspace root:"
-          ls -lah $GITHUB_WORKSPACE
-          echo "Listing contents of build directory ($GITHUB_WORKSPACE/build):"
-          ls -lah $GITHUB_WORKSPACE/build
-          echo "Listing contents of build/windows directory ($GITHUB_WORKSPACE/build/windows):"
-          ls -lah $GITHUB_WORKSPACE/build/windows/
-          echo "Expected file: $GITHUB_WORKSPACE/build/windows/${EXPORT_NAME}.exe"
-          if [ -f "$GITHUB_WORKSPACE/build/windows/${EXPORT_NAME}.exe" ]; then
-            echo "Windows executable FOUND."
+          echo "Verifying Windows build output..."
+          echo "Listing contents of $GITHUB_WORKSPACE/build/windows/:"
+          ls -lah "$GITHUB_WORKSPACE/build/windows/"
+          
+          WINDOWS_EXE_PATH="$GITHUB_WORKSPACE/build/windows/$EXPORT_NAME.exe"
+          echo "Expected Windows executable at: $WINDOWS_EXE_PATH"
+          if [ -f "$WINDOWS_EXE_PATH" ]; then
+            echo "SUCCESS: Windows executable found at $WINDOWS_EXE_PATH."
           else
-            echo "!!!!!!!!!! Windows executable NOT FOUND. !!!!!!!!!!"
+            echo "ERROR: Windows executable NOT FOUND at $WINDOWS_EXE_PATH."
+            
+            
           fi
 
       - name: Upload Windows Executable Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-executable
-          path: build/windows/${EXPORT_NAME}.exe 
+          
+          path: build/windows/${{ env.EXPORT_NAME }}.exe 
+          if-no-files-found: error 
           retention-days: 1
 
   build-linux:
     name: Build Linux Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:${{ env.GODOT_VERSION }}
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           lfs: true
-      - name: Setup Godot Templates and Config
+
+      - name: Setup Godot Templates and User Config
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/godot/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          mv "/root/.local/share/godot/export_templates/${GODOT_VERSION}.stable" "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
           if [ -d "/root/.config/godot" ]; then
-            mv /root/.config/godot/* ~/.config/godot/ 2>/dev/null || true
+            mv /root/.config/godot/* "$HOME/.config/godot/" 2>/dev/null || true
           else
             echo "Notice: /root/.config/godot not found, skipping move."
           fi
+
       - name: Linux Build
         run: |
-          mkdir -v -p build/linux
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
+          echo "Creating build directory for Linux..."
+          mkdir -v -p "$GITHUB_WORKSPACE/build/linux"
+
+          EXPORT_DIR_ABS="$GITHUB_WORKSPACE/build"
+          
+          echo "Changing directory to project path: $PROJECT_PATH"
+          cd "$PROJECT_PATH"
+          
           echo "Current directory: $(pwd)"
-          echo "Attempting to export Linux/X11 to $EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-          echo "Godot export command finished."
+          echo "Attempting to export Linux/X11 to $EXPORT_DIR_ABS/linux/$EXPORT_NAME.x86_64"
+          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR_ABS/linux/$EXPORT_NAME.x86_64"
+          echo "Godot export command for Linux finished."
 
-      - name: Verify Linux Build Output 
+      - name: Verify Linux Build Output
         run: |
-          echo "Listing contents of workspace root:"
-          ls -lah $GITHUB_WORKSPACE
-          echo "Listing contents of build directory ($GITHUB_WORKSPACE/build):"
-          ls -lah $GITHUB_WORKSPACE/build
-          echo "Listing contents of build/linux directory ($GITHUB_WORKSPACE/build/linux):"
-          ls -lah $GITHUB_WORKSPACE/build/linux/
-          echo "Expected file: $GITHUB_WORKSPACE/build/linux/${EXPORT_NAME}.x86_64"
-          if [ -f "$GITHUB_WORKSPACE/build/linux/${EXPORT_NAME}.x86_64" ]; then
-            echo "Linux executable FOUND."
+          echo "Verifying Linux build output..."
+          echo "Listing contents of $GITHUB_WORKSPACE/build/linux/:"
+          ls -lah "$GITHUB_WORKSPACE/build/linux/"
+          
+          LINUX_EXE_PATH="$GITHUB_WORKSPACE/build/linux/$EXPORT_NAME.x86_64"
+          echo "Expected Linux executable at: $LINUX_EXE_PATH"
+          if [ -f "$LINUX_EXE_PATH" ]; then
+            echo "SUCCESS: Linux executable found at $LINUX_EXE_PATH."
           else
-            echo "!!!!!!!!!! Linux executable NOT FOUND. !!!!!!!!!!"
+            echo "ERROR: Linux executable NOT FOUND at $LINUX_EXE_PATH."
+            
           fi
-
+          
       - name: Upload Linux Executable Artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build/linux/${EXPORT_NAME}.x86_64 # Ensure no leading dot here
+          path: build/linux/${{ env.EXPORT_NAME }}.x86_64
+          if-no-files-found: error 
           retention-days: 1
 
   create-release:
     name: Create GitHub Release
     runs-on: ubuntu-22.04
-    needs: [build-windows, build-linux]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release' 
+    needs: [build-windows, build-linux] 
+    
+    if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release'
     permissions:
-      contents: write
+      contents: write 
     steps:
       - name: Download Windows Executable Artifact
         uses: actions/download-artifact@v4
         with:
           name: windows-executable
-          path: ./dist/windows
+          path: ./dist/windows 
 
       - name: Download Linux Executable Artifact
         uses: actions/download-artifact@v4
         with:
           name: linux-executable
-          path: ./dist/linux
+          path: ./dist/linux 
 
-      - name: Verify Downloaded Artifacts (Optional)
+      - name: Verify Downloaded Artifacts
         run: |
-          echo "Files in dist directory:"
+          echo "Verifying downloaded artifacts..."
+          echo "Files in ./dist directory:"
           ls -R ./dist
-          echo "Expected Windows executable: ./dist/windows/${ env.EXPORT_NAME }.exe"
-          echo "Expected Linux executable: ./dist/linux/${ env.EXPORT_NAME }.x86_64"
+          echo "Expected Windows executable: ./dist/windows/${EXPORT_NAME}.exe" 
+          if [ ! -f "./dist/windows/${EXPORT_NAME}.exe" ]; then echo "ERROR: Downloaded Windows exe missing!"; fi
+          echo "Expected Linux executable: ./dist/linux/${EXPORT_NAME}.x86_64"   
+          if [ ! -f "./dist/linux/${EXPORT_NAME}.x86_64" ]; then echo "ERROR: Downloaded Linux exe missing!"; fi
 
       - name: Create GitHub Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            ./dist/windows/${ env.EXPORT_NAME }.exe
-            ./dist/linux/${ env.EXPORT_NAME }.x86_64
-          name: "Ticket to Rio - V${ github.run_number }" 
           
-          tag_name: "Ticket-to-Rio-V${ github.run_number }"
+          files: |
+            ./dist/windows/${{ env.EXPORT_NAME }}.exe
+            ./dist/linux/${{ env.EXPORT_NAME }}.x86_64
+          name: "Ticket to Rio - V${{ github.run_number }}" 
+          tag_name: "Ticket-to-Rio-V${{ github.run_number }}" 
           body: |
-            Automated build from branch ${ github.ref_name }. Includes Windows and Linux builds.
-            Commit: ${ github.sha }
-            Workflow Run: ${ github.server_url }/${ github.repository }/actions/runs/${ github.run_id }
-          draft: false
-          prerelease: true
+            Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
+            Commit: ${{ github.sha }}
+            Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          draft: false      
+          prerelease: true  
         env:
-          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
