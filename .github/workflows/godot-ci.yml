@@ -147,18 +147,18 @@ jobs:
           echo "Verifying downloaded artifacts..."
           echo "Files in ./dist directory:"
           ls -R ./dist
-          echo "Expected Windows executable: ./dist/windows/${EXPORT_NAME}.exe" 
-          if [ ! -f "./dist/windows/${EXPORT_NAME}.exe" ]; then echo "ERROR: Downloaded Windows exe missing!"; fi
-          echo "Expected Linux executable: ./dist/linux/${EXPORT_NAME}.x86_64"   
-          if [ ! -f "./dist/linux/${EXPORT_NAME}.x86_64" ]; then echo "ERROR: Downloaded Linux exe missing!"; fi
+          echo "Expected Windows executable: ./dist/windows" 
+          if [ ! -f "./dist/windows" ]; then echo "ERROR: Downloaded Windows exe missing!"; fi
+          echo "Expected Linux executable: ./dist/linux"   
+          if [ ! -f "./dist/linux" ]; then echo "ERROR: Downloaded Linux exe missing!"; fi
 
       - name: Create GitHub Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
           
           files: |
-            ./dist/windows/${ EXPORT_NAME }.exe
-            ./dist/linux/${ EXPORT_NAME }.x86_64
+            ./dist/windows
+            ./dist/linux
           name: "Ticket to Rio - V${ github.run_number }" 
           tag_name: "Ticket-to-Rio-V${ github.run_number }" 
           body: |
