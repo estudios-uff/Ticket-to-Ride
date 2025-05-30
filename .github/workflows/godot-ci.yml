@@ -3,10 +3,10 @@ name: "godot-ci export"
 on:
   push:
     branches:
-      - 52-fix-release
+      - main
   pull_request:
     branches:
-      - 52-fix-release
+      - main
 
 env:
   GODOT_VERSION: 4.3
@@ -126,7 +126,7 @@ jobs:
     name: Create GitHub Release
     runs-on: ubuntu-22.04
     needs: [build-windows, build-linux]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/52-fix-release'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
     steps:
@@ -162,7 +162,7 @@ jobs:
           cd ../.. # Back to GITHUB_WORKSPACE
 
       - name: Create GitHub Release and Upload Assets
-        if: github.event_name == 'push' && github.ref == 'refs/heads/52-fix-release'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           files: |
@@ -171,9 +171,9 @@ jobs:
           name: "Ticket to Rio - V${{ github.run_number }}"
           tag_name: "Ticket-to-Rio-V${{ github.run_number }}"
           body: |
-            Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
+            Build automático da branch ${{ github.ref_name }}. Incluso build para Windows e Linux.
             Commit: ${{ github.sha }}
-            Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Download disponível em: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           draft: false
           prerelease: true
         env:
