@@ -13,6 +13,11 @@ on: [push, pull_request]
 #           publish-report: false
 #           upload-report: false
 
+env:
+  GODOT_VERSION: 4.3
+  EXPORT_NAME: ticket-to-rio
+  PROJECT_PATH: ticket-to-rio
+
 jobs:
   export-linux:
     name: Linux Export
