@@ -8,5 +8,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: MikeSchulze/gdunit4-action@v1
         with:
-          godot-version: '4.3-stable'
+          godot-version: '4.3'
           paths: 'res://test'
