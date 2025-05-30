@@ -26,6 +26,4 @@ jobs:
           paths: 'res://test'
           publish-report: false
           upload-report: false
-
-steps:
       
