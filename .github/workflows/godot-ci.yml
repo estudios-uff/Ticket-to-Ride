@@ -4,8 +4,10 @@ on:
     branches:
       - main
       - Dev_base
-
-# NOTE: If your `project.godot` is at the repository root, set `PROJECT_PATH` below to ".".
+  pull_request:
+    branches:
+      - main
+      - Dev_base
 
 env:
   GODOT_VERSION: 4.3
