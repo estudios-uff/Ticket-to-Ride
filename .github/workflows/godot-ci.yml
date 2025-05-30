@@ -2,10 +2,10 @@ name: "godot-ci export"
 on:
   push:
     branches:
-      - 49-add-artifact-in-release # Your current testing branch
+      - 49-add-artifact-in-release 
   pull_request:
     branches:
-      - 49-add-artifact-in-release # Your current testing branch
+      - 49-add-artifact-in-release 
 
 env:
   GODOT_VERSION: 4.3
@@ -13,19 +13,16 @@ env:
   PROJECT_PATH: ticket-to-rio
 
 jobs:
-  export-windows:
-    name: Windows Export
-    runs-on: ubuntu-22.04 # Use 22.04 with godot 4
+  build-windows:
+    name: Build Windows Executable
+    runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:4.3
-    permissions: # <-- Add this permissions block
-      contents: write   # Required to create releases (create tags and upload assets)
+      image: barichello/godot-ci:${{ env.GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           lfs: true
-      
       - name: Setup Godot Templates and Config
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
@@ -36,33 +33,92 @@ jobs:
           else
             echo "Notice: /root/.config/godot not found, skipping move."
           fi
-
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
-          EXPORT_DIR="$(readlink -f build)" 
+          EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-      
-      - name: Upload Build Artifact (Workflow)
+      - name: Upload Windows Executable Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-build-${{ github.sha }}
+          name: windows-executable 
           path: build/windows/${{ env.EXPORT_NAME }}.exe
+          retention-days: 1
 
-      - name: Create GitHub Release and Upload Asset
-        # This condition will create a release on pushes to your '49-add-artifact-in-release' branch
-        if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release' 
+  build-linux: 
+    name: Build Linux Executable
+    runs-on: ubuntu-22.04
+    container:
+      image: barichello/godot-ci:${{ env.GODOT_VERSION }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+      - name: Setup Godot Templates and Config
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mkdir -v -p ~/.config/godot/
+          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          if [ -d "/root/.config/godot" ]; then
+            mv /root/.config/godot/* ~/.config/godot/ 2>/dev/null || true
+          else
+            echo "Notice: /root/.config/godot not found, skipping move."
+          fi
+      - name: Linux Build
+        run: |
+          mkdir -v -p build/linux
+          EXPORT_DIR="$(readlink -f build)"
+          cd $PROJECT_PATH
+          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
+      - name: Upload Linux Executable Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-executable 
+          path: build/linux/${{ env.EXPORT_NAME }}.x86_64
+          retention-days: 1
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-22.04
+    needs: [build-windows, build-linux] 
+    if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release' 
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows Executable Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-executable
+          path: ./dist/windows 
+
+      - name: Download Linux Executable Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-executable
+          path: ./dist/linux 
+
+      - name: Verify Downloaded Artifacts (Optional)
+        run: |
+          echo "Files in dist directory:"
+          ls -R ./dist
+          echo "Expected Windows executable: ./dist/windows/${{ env.EXPORT_NAME }}.exe"
+          echo "Expected Linux executable: ./dist/linux/${{ env.EXPORT_NAME }}.x86_64"
+
+      - name: Create GitHub Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: build/windows/${{ env.EXPORT_NAME }}.exe
-          name: "Build from ${{ github.ref_name }} - ${{ github.sha }}"
-          tag_name: "build-${{ github.ref_name }}-${{ github.sha }}"
+          files: | 
+            ./dist/windows/${{ env.EXPORT_NAME }}.exe
+            ./dist/linux/${{ env.EXPORT_NAME }}.x86_64
+          name: "Ticket to Rio - V${{ github.run_number }} (Commit: ${{ github.sha }})"
+          tag_name: "Ticket to Rio - V${{ github.run_number }}"
           body: |
-            Automated build from branch ${{ github.ref_name }}.
+            Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
             Commit: ${{ github.sha }}
             Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           draft: false
-          prerelease: true 
+          prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
