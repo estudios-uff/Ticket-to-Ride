@@ -37,6 +37,7 @@ jobs:
   
   test:
     runs-on: ubuntu-latest
+    needs: Linux Export
     steps:
       - uses: actions/checkout@v4
       - uses: MikeSchulze/gdunit4-action@v1
