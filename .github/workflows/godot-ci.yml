@@ -38,18 +38,32 @@ jobs:
           mkdir -v -p build/windows
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
+          echo "Current directory: $(pwd)"
+          echo "Attempting to export Windows Desktop to $EXPORT_DIR/windows/$EXPORT_NAME.exe"
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
+          echo "Godot export command finished."
+
+      - name: Verify Windows Build Output
+        run: |
+          echo "Listing contents of workspace root:"
+          ls -lah $GITHUB_WORKSPACE
+          echo "Listing contents of build directory ($GITHUB_WORKSPACE/build):"
+          ls -lah $GITHUB_WORKSPACE/build
+          echo "Listing contents of build/windows directory ($GITHUB_WORKSPACE/build/windows):"
+          ls -lah $GITHUB_WORKSPACE/build/windows/
+          echo "Expected file: $GITHUB_WORKSPACE/build/windows/${EXPORT_NAME}.exe"
+          if [ -f "$GITHUB_WORKSPACE/build/windows/${EXPORT_NAME}.exe" ]; then
+            echo "Windows executable FOUND."
+          else
+            echo "!!!!!!!!!! Windows executable NOT FOUND. !!!!!!!!!!"
+          fi
+
       - name: Upload Windows Executable Artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows-executable
-          path: build/windows/${EXPORT_NAME}.exe
+          path: build/windows/${EXPORT_NAME}.exe 
           retention-days: 1
-      - name: Verify Windows Build Output
-        run: |
-          echo "Listing contents of build/windows:"
-          ls -lh build/windows/
-          echo "Expected file: build/windows/${EXPORT_NAME}.exe"
 
   build-linux:
     name: Build Linux Executable
@@ -76,12 +90,31 @@ jobs:
           mkdir -v -p build/linux
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
+          echo "Current directory: $(pwd)"
+          echo "Attempting to export Linux/X11 to $EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
           godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
+          echo "Godot export command finished."
+
+      - name: Verify Linux Build Output 
+        run: |
+          echo "Listing contents of workspace root:"
+          ls -lah $GITHUB_WORKSPACE
+          echo "Listing contents of build directory ($GITHUB_WORKSPACE/build):"
+          ls -lah $GITHUB_WORKSPACE/build
+          echo "Listing contents of build/linux directory ($GITHUB_WORKSPACE/build/linux):"
+          ls -lah $GITHUB_WORKSPACE/build/linux/
+          echo "Expected file: $GITHUB_WORKSPACE/build/linux/${EXPORT_NAME}.x86_64"
+          if [ -f "$GITHUB_WORKSPACE/build/linux/${EXPORT_NAME}.x86_64" ]; then
+            echo "Linux executable FOUND."
+          else
+            echo "!!!!!!!!!! Linux executable NOT FOUND. !!!!!!!!!!"
+          fi
+
       - name: Upload Linux Executable Artifact
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build/linux/${EXPORT_NAME}.x86_64
+          path: build/linux/${EXPORT_NAME}.x86_64 # Ensure no leading dot here
           retention-days: 1
 
   create-release:
