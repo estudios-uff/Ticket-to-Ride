@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-executable
-          path: build/windows/${{ EXPORT_NAME }}.exe
+          path: build/windows/${EXPORT_NAME}.exe
           retention-days: 1
 
   build-linux:
@@ -76,7 +76,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build/linux/${{ env.EXPORT_NAME }}.x86_64
+          path: build/linux/${.EXPORT_NAME}.x86_64
           retention-days: 1
 
   create-release:
@@ -103,23 +103,23 @@ jobs:
         run: |
           echo "Files in dist directory:"
           ls -R ./dist
-          echo "Expected Windows executable: ./dist/windows/${{ env.EXPORT_NAME }}.exe"
-          echo "Expected Linux executable: ./dist/linux/${{ env.EXPORT_NAME }}.x86_64"
+          echo "Expected Windows executable: ./dist/windows/${ env.EXPORT_NAME }.exe"
+          echo "Expected Linux executable: ./dist/linux/${ env.EXPORT_NAME }.x86_64"
 
       - name: Create GitHub Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            ./dist/windows/${{ env.EXPORT_NAME }}.exe
-            ./dist/linux/${{ env.EXPORT_NAME }}.x86_64
-          name: "Ticket to Rio - V${{ github.run_number }}" 
+            ./dist/windows/${ env.EXPORT_NAME }.exe
+            ./dist/linux/${ env.EXPORT_NAME }.x86_64
+          name: "Ticket to Rio - V${ github.run_number }" 
           
-          tag_name: "Ticket-to-Rio-V${{ github.run_number }}"
+          tag_name: "Ticket-to-Rio-V${ github.run_number }"
           body: |
-            Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
-            Commit: ${{ github.sha }}
-            Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Automated build from branch ${ github.ref_name }. Includes Windows and Linux builds.
+            Commit: ${ github.sha }
+            Workflow Run: ${ github.server_url }/${ github.repository }/actions/runs/${ github.run_id }
           draft: false
           prerelease: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }
