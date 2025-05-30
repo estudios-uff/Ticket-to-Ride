@@ -1,14 +1,24 @@
 name: GdUnit4 Tests
 on: [push, pull_request]
 
-env:
-  GODOT_VERSION: 4.3
-  EXPORT_NAME: ticket-to-rio
-  PROJECT_PATH: ticket-to-rio
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - uses: MikeSchulze/gdunit4-action@v1
+#         with:
+#           godot-version: '4.3'
+#           paths: 'res://test'
+#           publish-report: false
+#           upload-report: false
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  export-linux:
+    name: Linux Export
+    runs-on: ubuntu-22.04
+    container:
+      image: barichello/godot-ci:4.3
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,11 +34,14 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-      - name: Run tests
-        uses: MikeSchulze/gdunit4-action@v1
+  
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: MikeSchulze/gdunit4-action@v1
         with:
           godot-version: '4.3'
           paths: 'res://test'
           publish-report: false
           upload-report: false
-      
