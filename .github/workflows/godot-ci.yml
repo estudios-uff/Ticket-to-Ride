@@ -18,7 +18,7 @@ jobs:
     name: Build Windows Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:${ GODOT_VERSION } 
+      image: barichello/godot-ci:4.2.1
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -84,7 +84,8 @@ jobs:
     name: Build Linux Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:${ GODOT_VERSION }
+      image: barichello/godot-ci:4.2.1
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
