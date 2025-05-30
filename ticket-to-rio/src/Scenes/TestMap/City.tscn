@@ -5,14 +5,14 @@
 [ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="3_1kid5"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7sc8"]
-radius = 619.034
+radius = 363.294
 
 [node name="City" type="Node2D"]
 z_index = 2
 script = ExtResource("1_h2187")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.046875, 0.046875)
+scale = Vector2(0.0234375, 0.0234375)
 texture = ExtResource("1_ebc3s")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
@@ -23,13 +23,15 @@ z_index = 2
 shape = SubResource("CircleShape2D_b7sc8")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -44.0
-offset_top = -38.0
-offset_right = 45.0
-offset_bottom = -15.0
+offset_left = -45.0
+offset_top = -25.0
+offset_right = 44.0
+offset_bottom = -2.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_1kid5")
+theme_override_font_sizes/font_size = 10
 text = "Cidade Alta"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="input_event" from="Sprite2D/Area2D" to="." method="_on_area_2d_input_event"]

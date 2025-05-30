@@ -58,7 +58,7 @@ func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost:
 	line_2d.add_point(from_city_node.position)
 	line_2d.add_point(to_city_node.position)
 	line_2d.default_color = route_color
-	line_2d.width = 5
+	line_2d.width = 10
 	line_2d.queue_redraw()
 
 	# Configura o CollisionShape2D para cobrir a rota

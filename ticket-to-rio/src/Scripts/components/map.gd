@@ -9,28 +9,110 @@ var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_
 # Dados de exemplo do mapa (pode vir de um arquivo JSON/CSV em um jogo real)
 var map_data = {
 	"cities": {
-		"New York": {"x": 20, "y": 200},
-		"Boston": {"x": 250, "y": 150},
-		"Washington": {"x": 200, "y": 300},
-		"Miami": {"x": 300, "y": 500},
-		"Chicago": {"x": 400, "y": 250},
-		"Denver": {"x": 600, "y": 300},
-		"Salt Lake City": {"x": 700, "y": 200},
-		"San Francisco": {"x": 900, "y": 250},
-		"Los Angeles": {"x": 950, "y": 400},
-		"Seattle": {"x": 850, "y": 100}
+		"Barra Mansa": {
+			"x": 58,
+			"y": 244
+		},
+		"Barra do Piraí": {
+			"x": 286,
+			"y": 195
+		},
+		"Duque de Caxias": {
+			"x": 630,
+			"y": 404
+		},
+		"Guapimirim": {
+			"x": 850,
+			"y": 238
+		},
+		"Itaboraí": {
+			"x": 932,
+			"y": 377
+		},
+		"Itaguaí": {
+			"x": 321,
+			"y": 452
+		},
+		"Japeri": {
+			"x": 401,
+			"y": 306
+		},
+		"Maricá": {
+			"x": 960,
+			"y": 493
+		},
+		"Miguel Pereira": {
+			"x": 525,
+			"y": 183
+		},
+		"Niterói": {
+			"x": 769,
+			"y": 467
+		},
+		"Nova Cidade 6": {
+			"x": 1181,
+			"y": 561
+		},
+		"Nova Iguaçu": {
+			"x": 536,
+			"y": 386
+		},
+		"Paracambi": {
+			"x": 364,
+			"y": 287
+		},
+		"Petrópolis": {
+			"x": 719,
+			"y": 217
+		},
+		"Pinheiral": {
+			"x": 169,
+			"y": 223
+		},
+		"Piraí": {
+			"x": 240,
+			"y": 300
+		},
+		"Queimados": {
+			"x": 467,
+			"y": 358
+		},
+		"Rio de Janeiro": {
+			"x": 717,
+			"y": 485
+		},
+		"Seropédica": {
+			"x": 364,
+			"y": 378
+		},
+		"Tanguá": {
+			"x": 1028,
+			"y": 369
+		},
+		"Teresópolis": {
+			"x": 853,
+			"y": 159
+		},
+		"Valença": {
+			"x": 369,
+			"y": 47
+		},
+		"Vassouras": {
+			"x": 394,
+			"y": 151
+		},
+		"Volta Redonda": {
+			"x": 103,
+			"y": 231
+		}
 	},
 	"routes": [
-		{"from": "New York", "to": "Boston", "color": "blue", "cost": 2},
-		{"from": "New York", "to": "Washington", "color": "white", "cost": 2},
-		{"from": "New York", "to": "Chicago", "color": "orange", "cost": 3},
-		{"from": "Washington", "to": "Miami", "color": "red", "cost": 4},
-		{"from": "Chicago", "to": "Denver", "color": "yellow", "cost": 4},
-		{"from": "Denver", "to": "Salt Lake City", "color": "green", "cost": 3},
-		{"from": "Salt Lake City", "to": "San Francisco", "color": "black", "cost": 5},
-		{"from": "San Francisco", "to": "Los Angeles", "color": "purple", "cost": 1},
-		{"from": "Los Angeles", "to": "Seattle", "color": "pink", "cost": 6}, 
-		{"from": "Denver", "to": "Los Angeles", "color": "gray", "cost": 5}
+		{"from": "Barra Mansa", "to": "Volta Redonda", "color": "yellow", "cost": 1},
+		{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
+		{"from": "Volta Redonda", "to": "Pinheral", "color": "pink", "cost": 2},
+		{"from": "Pinheral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
+		{"from": "Pinheral", "to": "Piraí", "color": "grey", "cost": 3},
+		
 	]
 }
 
@@ -77,18 +159,20 @@ func draw_map():
 
 # Função auxiliar para converter string de cor para objeto Color
 func parse_color(color_string: String) -> Color:
+	const ALPHA_VALUE: float = 0.2
+
 	match color_string.to_lower():
-		"red": return Color.RED
-		"blue": return Color.BLUE
-		"green": return Color.GREEN
-		"yellow": return Color.YELLOW
-		"orange": return Color(1.0, 0.5, 0.0) # Laranja
-		"purple": return Color(0.5, 0.0, 0.5) # Roxo
-		"black": return Color.BLACK
-		"white": return Color.WHITE
-		"gray": return Color.GRAY
-		"pink": return Color(1.0, 0.75, 0.8) # Rosa
-		_: return Color.WHITE # Padrão para branco se a cor não for reconhecida
+		"red": return Color(Color.RED.r, Color.RED.g, Color.RED.b, ALPHA_VALUE)
+		"blue": return Color(Color.BLUE.r, Color.BLUE.g, Color.BLUE.b, ALPHA_VALUE)
+		"green": return Color(Color.GREEN.r, Color.GREEN.g, Color.GREEN.b, ALPHA_VALUE)
+		"yellow": return Color(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, ALPHA_VALUE)
+		"orange": return Color(1.0, 0.5, 0.0, ALPHA_VALUE) # Laranja
+		"purple": return Color(0.5, 0.0, 0.5, ALPHA_VALUE) # Roxo
+		"black": return Color(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, ALPHA_VALUE)
+		"white": return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)
+		"gray": return Color(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, ALPHA_VALUE)
+		"pink": return Color(1.0, 0.75, 0.8, ALPHA_VALUE) # Rosa
+		_: return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)  # Padrão para branco se a cor não for reconhecida
 
 
 func show_info_popup(message: String, global_position: Vector2):

@@ -5,5 +5,5 @@
 [node name="WagonSprite" type="Node2D"]
 
 [node name="vagao" type="Sprite2D" parent="."]
-scale = Vector2(0.224151, 0.285714)
+scale = Vector2(0.0773481, 0.171429)
 texture = ExtResource("1_das4v")

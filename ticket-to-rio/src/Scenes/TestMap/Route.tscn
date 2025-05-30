@@ -16,7 +16,6 @@ z_index = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 z_index = 1
-position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_ivcgt")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

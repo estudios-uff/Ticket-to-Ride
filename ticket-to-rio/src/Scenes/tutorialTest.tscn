@@ -56,4 +56,3 @@ script = ExtResource("9_wck36")
 [node name="UI_Behavior" parent="CardManager" instance=ExtResource("9_74bsh")]
 
 [node name="MapEditor" parent="." instance=ExtResource("12_m3mj1")]
-visible = false

@@ -1,96 +1,100 @@
 {
 	"cities": {
-		"Nova Cidade 0": {
-			"x": 51,
-			"y": 240
+		"Barra Mansa": {
+			"x": 58,
+			"y": 244
 		},
-		"Nova Cidade 1": {
-			"x": 96,
-			"y": 226
+		"Barra do Piraí": {
+			"x": 286,
+			"y": 195
 		},
-		"Nova Cidade 10": {
-			"x": 398,
+		"Duque de Caxias": {
+			"x": 630,
+			"y": 404
+		},
+		"Guapimirim": {
+			"x": 850,
+			"y": 238
+		},
+		"Itaboraí": {
+			"x": 932,
+			"y": 377
+		},
+		"Itaguaí": {
+			"x": 321,
+			"y": 452
+		},
+		"Japeri": {
+			"x": 401,
 			"y": 306
 		},
-		"Nova Cidade 11": {
-			"x": 463,
-			"y": 355
+		"Maricá": {
+			"x": 960,
+			"y": 493
 		},
-		"Nova Cidade 12": {
-			"x": 533,
-			"y": 384
+		"Miguel Pereira": {
+			"x": 525,
+			"y": 183
 		},
-		"Nova Cidade 13": {
-			"x": 522,
-			"y": 184
-		},
-		"Nova Cidade 14": {
-			"x": 716,
-			"y": 217
-		},
-		"Nova Cidade 15": {
-			"x": 628,
-			"y": 401
-		},
-		"Nova Cidade 16": {
-			"x": 714,
-			"y": 482
-		},
-		"Nova Cidade 17": {
-			"x": 772,
-			"y": 469
-		},
-		"Nova Cidade 18": {
-			"x": 962,
-			"y": 492
-		},
-		"Nova Cidade 19": {
-			"x": 934,
-			"y": 374
-		},
-		"Nova Cidade 2": {
-			"x": 165,
-			"y": 221
-		},
-		"Nova Cidade 20": {
-			"x": 1033,
-			"y": 368
-		},
-		"Nova Cidade 21": {
-			"x": 848,
-			"y": 236
-		},
-		"Nova Cidade 22": {
-			"x": 852,
-			"y": 158
-		},
-		"Nova Cidade 3": {
-			"x": 285,
-			"y": 192
-		},
-		"Nova Cidade 4": {
-			"x": 368,
-			"y": 45
-		},
-		"Nova Cidade 5": {
-			"x": 390,
-			"y": 149
+		"Niterói": {
+			"x": 769,
+			"y": 467
 		},
 		"Nova Cidade 6": {
-			"x": 235,
-			"y": 299
+			"x": 1181,
+			"y": 561
 		},
-		"Nova Cidade 7": {
-			"x": 361,
-			"y": 284
+		"Nova Iguaçu": {
+			"x": 536,
+			"y": 386
 		},
-		"Nova Cidade 8": {
-			"x": 315,
-			"y": 447
+		"Paracambi": {
+			"x": 364,
+			"y": 287
 		},
-		"Nova Cidade 9": {
-			"x": 361,
-			"y": 372
+		"Petrópolis": {
+			"x": 719,
+			"y": 217
+		},
+		"Pinheiral": {
+			"x": 169,
+			"y": 223
+		},
+		"Piraí": {
+			"x": 240,
+			"y": 300
+		},
+		"Queimados": {
+			"x": 467,
+			"y": 358
+		},
+		"Rio de Janeiro": {
+			"x": 717,
+			"y": 485
+		},
+		"Seropédica": {
+			"x": 364,
+			"y": 378
+		},
+		"Tanguá": {
+			"x": 1028,
+			"y": 369
+		},
+		"Teresópolis": {
+			"x": 853,
+			"y": 159
+		},
+		"Valença": {
+			"x": 369,
+			"y": 47
+		},
+		"Vassouras": {
+			"x": 394,
+			"y": 151
+		},
+		"Volta Redonda": {
+			"x": 103,
+			"y": 231
 		}
 	},
 	"routes": []

@@ -16,7 +16,6 @@ offset_bottom = 720.0
 color = Color(0.886275, 1, 1, 1)
 
 [node name="TextureRect" type="TextureRect" parent="MapDisplay"]
-visible = false
 layout_mode = 0
 offset_right = 101773.0
 offset_bottom = 54000.0
