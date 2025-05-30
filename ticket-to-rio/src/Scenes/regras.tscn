@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://i3c7uniyv6nj"]
+
+[ext_resource type="Texture2D" uid="uid://ck6sigjn8xq57" path="res://images/scenes/ticket_to_ride_manual_table_games-2.png" id="1_b6vhj"]
+[ext_resource type="Script" path="res://src/Scripts/regras.gd" id="1_yl84i"]
+[ext_resource type="Texture2D" uid="uid://64f47o21nkl3" path="res://images/scenes/ticket_to_ride_manual_table_games-3.png" id="2_d72d3"]
+[ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="4_iayg2"]
+
+[node name="Regras" type="Node2D"]
+script = ExtResource("1_yl84i")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1280.0
+offset_bottom = 720.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.878431, 0.858824, 0.839216, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(398.4, 355)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_b6vhj")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(894, 355)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_d72d3")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 1104.0
+offset_top = 634.0
+offset_right = 1266.0
+offset_bottom = 710.0
+
+[node name="voltar" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_iayg2")
+theme_override_font_sizes/font_size = 35
+text = "Voltar"
+
+[connection signal="pressed" from="HBoxContainer/voltar" to="." method="_on_voltar_pressed"]

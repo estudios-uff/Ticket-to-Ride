@@ -1,0 +1,85 @@
+[gd_scene load_steps=4 format=3 uid="uid://yemr7mmlf5cy"]
+
+[ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="1_0daqp"]
+[ext_resource type="Script" path="res://src/Scripts/selecionar_jogadores.gd" id="1_ks6xe"]
+[ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="2_bvf6m"]
+
+[node name="SelecionarJogadores" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ks6xe")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+texture = ExtResource("1_0daqp")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 200.0
+offset_right = 1048.0
+offset_bottom = 270.0
+theme_override_fonts/font = ExtResource("2_bvf6m")
+theme_override_font_sizes/font_size = 36
+text = "Escolha o número de Jogadores:"
+
+[node name="Jogar" type="Button" parent="."]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 260.0
+offset_right = 758.0
+offset_bottom = 327.0
+theme_override_fonts/font = ExtResource("2_bvf6m")
+theme_override_font_sizes/font_size = 30
+text = "1 Jogador"
+flat = true
+
+[node name="Jogar2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 325.0
+offset_right = 791.0
+offset_bottom = 392.0
+theme_override_fonts/font = ExtResource("2_bvf6m")
+theme_override_font_sizes/font_size = 30
+text = "2 Jogadores"
+flat = true
+
+[node name="Jogar3" type="Button" parent="."]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 390.0
+offset_right = 738.0
+offset_bottom = 457.0
+theme_override_fonts/font = ExtResource("2_bvf6m")
+theme_override_font_sizes/font_size = 30
+text = "3 Jogadores"
+flat = true
+
+[node name="Jogar4" type="Button" parent="."]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 455.0
+offset_right = 738.0
+offset_bottom = 522.0
+theme_override_fonts/font = ExtResource("2_bvf6m")
+theme_override_font_sizes/font_size = 30
+text = "4 Jogadores"
+flat = true
+
+[node name="Jogar5" type="Button" parent="."]
+layout_mode = 0
+offset_left = 540.0
+offset_top = 520.0
+offset_right = 738.0
+offset_bottom = 587.0
+theme_override_fonts/font = ExtResource("2_bvf6m")
+theme_override_font_sizes/font_size = 30
+text = "5 Jogadores"
+flat = true
+
+[connection signal="pressed" from="Jogar" to="." method="_on_jogar_pressed" binds= [1]]
+[connection signal="pressed" from="Jogar2" to="." method="_on_jogar_pressed" binds= [2]]
+[connection signal="pressed" from="Jogar3" to="." method="_on_jogar_pressed" binds= [3]]
+[connection signal="pressed" from="Jogar4" to="." method="_on_jogar_pressed" binds= [4]]
+[connection signal="pressed" from="Jogar5" to="." method="_on_jogar_pressed" binds= [5]]

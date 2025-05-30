@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://blrjpwbptsrq3"]
+
+[ext_resource type="PackedScene" uid="uid://dbjrufewan4oc" path="res://src/Scenes/GUI/components/cardRote.tscn" id="1_xoepx"]
+
+[node name="CardRote" instance=ExtResource("1_xoepx")]

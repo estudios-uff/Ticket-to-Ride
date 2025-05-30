@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlfjjispeheax"]
+
+[ext_resource type="PackedScene" uid="uid://dabt3pgr83flg" path="res://src/Scenes/GUI/components/card_roteBlue.tscn" id="1_4rxed"]
+[ext_resource type="PackedScene" uid="uid://d2dl0712457sl" path="res://src/Scenes/GUI/components/card_roteGray.tscn" id="2_lksoi"]
+[ext_resource type="PackedScene" uid="uid://rg8emfumm1f8" path="res://src/Scenes/GUI/components/card_rotePink.tscn" id="3_c8yi7"]
+[ext_resource type="PackedScene" uid="uid://bqxc0q2nlghqq" path="res://src/Scenes/GUI/components/card_roteRed.tscn" id="4_ji5y4"]
+[ext_resource type="PackedScene" uid="uid://blrjpwbptsrq3" path="res://src/Scenes/GUI/components/card_roteGreen.tscn" id="5_8m70d"]
+[ext_resource type="PackedScene" uid="uid://djevdxdfv4lqn" path="res://src/Scenes/GUI/components/card_roteYellow.tscn" id="6_bxr3n"]
+
+[node name="GroupShopTicket" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_direction = 1
+layout_mode = 1
+offset_bottom = 485.0
+theme_override_constants/separation = 97
+
+[node name="CardRote" parent="VBoxContainer" instance=ExtResource("1_4rxed")]
+layout_mode = 2
+
+[node name="CardRote2" parent="VBoxContainer" instance=ExtResource("2_lksoi")]
+layout_mode = 2
+
+[node name="CardRote3" parent="VBoxContainer" instance=ExtResource("3_c8yi7")]
+layout_mode = 2
+
+[node name="CardRote4" parent="VBoxContainer" instance=ExtResource("4_ji5y4")]
+layout_mode = 2
+
+[node name="CardRote5" parent="VBoxContainer" instance=ExtResource("5_8m70d")]
+layout_mode = 2
+
+[node name="CardRote6" parent="VBoxContainer" instance=ExtResource("6_bxr3n")]
+layout_mode = 2

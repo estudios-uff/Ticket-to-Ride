@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://rg8emfumm1f8"]
+
+[ext_resource type="PackedScene" uid="uid://dbjrufewan4oc" path="res://src/Scenes/GUI/components/cardRote.tscn" id="1_4nwkv"]
+[ext_resource type="Texture2D" uid="uid://b541j16qqk0un" path="res://images/scenes/pinkTrain.png" id="2_3jwqi"]
+
+[node name="CardRote" instance=ExtResource("1_4nwkv")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_3jwqi")

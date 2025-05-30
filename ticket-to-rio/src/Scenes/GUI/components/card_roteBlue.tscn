@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dabt3pgr83flg"]
+
+[ext_resource type="PackedScene" uid="uid://dbjrufewan4oc" path="res://src/Scenes/GUI/components/cardRote.tscn" id="1_e1ui7"]
+[ext_resource type="Texture2D" uid="uid://xvypfo4hacfy" path="res://images/scenes/blueTrain.png" id="2_suqsk"]
+
+[node name="CardRote" instance=ExtResource("1_e1ui7")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_suqsk")
+
+[connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
