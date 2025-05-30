@@ -3,10 +3,10 @@ name: "godot-ci export"
 on:
   push:
     branches:
-      - 49-add-artifact-in-release
+      - main
   pull_request:
     branches:
-      - 49-add-artifact-in-release
+      - main
 
 env:
   GODOT_VERSION: 4.3
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-22.04
     needs: [build-windows, build-linux] 
     
-    if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: write 
     steps:
@@ -153,6 +153,7 @@ jobs:
           if [ ! -f "./dist/linux/${EXPORT_NAME}.x86_64" ]; then echo "ERROR: Downloaded Linux exe missing!"; fi
 
       - name: Create GitHub Release and Upload Assets
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
           
