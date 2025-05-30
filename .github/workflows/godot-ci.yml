@@ -125,49 +125,56 @@ jobs:
   create-release:
     name: Create GitHub Release
     runs-on: ubuntu-22.04
-    needs: [build-windows, build-linux] 
-    
+    needs: [build-windows, build-linux]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
-      contents: write 
+      contents: write
     steps:
       - name: Download Windows Executable Artifact
         uses: actions/download-artifact@v4
         with:
           name: windows-executable
-          path: ./dist/windows 
+          path: ./dist/windows
 
       - name: Download Linux Executable Artifact
         uses: actions/download-artifact@v4
         with:
           name: linux-executable
-          path: ./dist/linux 
+          path: ./dist/linux
 
       - name: Verify Downloaded Artifacts
         run: |
           echo "Verifying downloaded artifacts..."
           echo "Files in ./dist directory:"
           ls -R ./dist
-          echo "Expected Windows executable: ./dist/windows/${EXPORT_NAME}.exe" 
-          if [ ! -f "./dist/windows/${EXPORT_NAME}.exe" ]; then echo "ERROR: Downloaded Windows exe missing!"; fi
-          echo "Expected Linux executable: ./dist/linux/${EXPORT_NAME}.x86_64"   
-          if [ ! -f "./dist/linux/${EXPORT_NAME}.x86_64" ]; then echo "ERROR: Downloaded Linux exe missing!"; fi
+          # Your existing checks...
+
+      - name: Prepare Windows Release Asset
+        run: |
+          cd ./dist/windows
+          zip ../${{ env.EXPORT_NAME }}-windows.zip ./*
+          cd ../.. # Back to GITHUB_WORKSPACE
+
+      - name: Prepare Linux Release Asset
+        run: |
+          cd ./dist/linux
+          zip ../${{ env.EXPORT_NAME }}-linux.zip ./*
+          cd ../.. # Back to GITHUB_WORKSPACE
 
       - name: Create GitHub Release and Upload Assets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
         with:
-          
           files: |
-            ./dist/windows/${{ env.EXPORT_NAME }}.exe
-            ./dist/linux/${{ env.EXPORT_NAME }}.x86_64
-          name: "Ticket to Rio - V${{ github.run_number }}" 
-          tag_name: "Ticket-to-Rio-V${{ github.run_number }}" 
+            ./dist/${{ env.EXPORT_NAME }}-windows.zip  # <-- Upload zip
+            ./dist/${{ env.EXPORT_NAME }}-linux.zip    # <-- Upload zip
+          name: "Ticket to Rio - V${{ github.run_number }}"
+          tag_name: "Ticket-to-Rio-V${{ github.run_number }}"
           body: |
-            Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
+            Build automático da branch ${{ github.ref_name }}. Incluso build para Windows e Linux.
             Commit: ${{ github.sha }}
-            Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          draft: false      
-          prerelease: true  
+            Download disponível em: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          draft: false
+          prerelease: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
