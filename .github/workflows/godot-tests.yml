@@ -1,67 +1,41 @@
-name: beehave-ci
+name: ci-pr-example
+run-name: ${{ github.head_ref || github.ref_name }}-ci-pr-example
 
 on:
-  push:
-    paths-ignore:
-      - "**.jpg"
-      - "**.png"
-      - "**.svg"
-      - "**.md"
-      - "**plugin.cfg"
-  pull_request:
-    paths-ignore:
-      - "**.jpg"
-      - "**.png"
-      - "**.svg"
-      - "**.md"
-      - "**plugin.cfg"
-  workflow_dispatch:
+    pull_request:
+        paths-ignore:
+            - "**.yml"
+            - "**.md"
+    workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    group: ci-pr-example${{ github.event.number }}
+    cancel-in-progress: true
 
 jobs:
-  unit-tests:
-    runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      checks: write
-      contents: write
-      pull-requests: write
-      statuses: write
+    test:
+        name: "CI Unit Test"
+        runs-on: ubuntu-latest
+        timeout-minutes: 10 # The overall timeout
+        permissions:
+            actions: write
+            checks: write
+            contents: write
+            pull-requests: write
+            statuses: write
 
-    strategy:
-      fail-fast: false
-      max-parallel: 10
-      matrix:
-        godot-version: ["4.2.2", "4.3", "4.4"]
+        steps:
+            # checkout your repository
+            - uses: actions/checkout@v4
+              with:
+                  lfs: true
 
-    name: "🤖 CI on Godot ${{ matrix.godot-version }}"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Run GDUnit4 tests
-        uses: MikeSchulze/gdUnit4-action@v1.1.1
-        with:
-          godot-version: ${{ matrix.godot-version }}
-          godot-status: "stable"
-          timeout: 3
-          paths: "res://test"
-          version: "installed"
-          publish-report: false
-          report-name: report_Godot${{ matrix.godot-version }}_unit-tests
-
-  finalize:
-    if: ${{ !cancelled() }}
-    runs-on: ubuntu-latest
-    name: "Final Results"
-    needs: [unit-tests]
-    steps:
-      - run: exit 1
-        if: >-
-          ${{
-                 contains(needs.*.result, 'failure')
-              || contains(needs.*.result, 'cancelled')
-          }}
+            # run tests by using the gdUnit4-action with Godot version 4.2.1 and the latest GdUnit4 release
+            - uses: MikeSchulze/gdUnit4-action@v1.0.2
+              with:
+                  godot-version: "4.3"
+                  godot-net: false
+                  paths: |
+                      res://Tests/
+                  timeout: 5
+                  report-name: test_report.xml
