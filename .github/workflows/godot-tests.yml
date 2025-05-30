@@ -3,10 +3,6 @@ run-name: ${{ github.head_ref || github.ref_name }}-ci-pr-example
 
 on:
     push:
-        paths-ignore:
-            - "**.yml"
-            - "**.md"
-    workflow_dispatch:
 
 concurrency:
     group: ci-pr-example${{ github.event.number }}
