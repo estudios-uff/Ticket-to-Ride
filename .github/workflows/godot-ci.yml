@@ -2,12 +2,10 @@ name: "godot-ci export"
 on:
   push:
     branches:
-      - main
-      - Dev_base
+      - 49-add-artifact-in-release
   pull_request:
     branches:
-      - main
-      - Dev_base
+      - 49-add-artifact-in-release
 
 env:
   GODOT_VERSION: 4.3
@@ -17,7 +15,7 @@ env:
 jobs:
   export-windows:
     name: Windows Export
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-22.04 # Use 22.04 with godot 4
     container:
       image: barichello/godot-ci:4.3
     steps:
@@ -25,46 +23,54 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
-      - name: Setup
+      
+      - name: Setup Godot Templates and Config
         run: |
+          # Ensure the target directories exist for the current user (godot)
           mkdir -v -p ~/.local/share/godot/export_templates/
-          mkdir -v -p ~/.config/
-          mv /root/.config/godot ~/.config/godot
+          mkdir -v -p ~/.config/godot/
+          # Move pre-installed export templates to the expected location by Godot for the current user
+          # The source path /root/.local/... is specific to the barichello/godot-ci image structure
+          # It assumes these templates are for the specified GODOT_VERSION
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
+          # Similarly, move any global Godot editor configurations if necessary
+          # This line seems to attempt to move /root/.config/godot to ~/.config/godot
+          # Ensure ~/.config/godot actually exists or is created if this step is critical
+          # If /root/.config/godot doesn't exist or isn't needed, this mv might fail or do nothing.
+          # For a clean setup, it might be safer to ensure the target exists: mkdir -p ~/.config/godot and then mv contents
+          # However, if the image guarantees /root/.config/godot exists and has relevant data:
+          if [ -d "/root/.config/godot" ]; then
+            mv /root/.config/godot/* ~/.config/godot/ 2>/dev/null || true # Move contents, ignore if source is empty or only .
+          else
+            echo "Notice: /root/.config/godot not found, skipping move."
+          fi
+
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
-          EXPORT_DIR="$(readlink -f build)"
+          # EXPORT_DIR will be /github/workspace/build (assuming GHA workspace is /github/workspace)
+          EXPORT_DIR="$(readlink -f build)" 
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
-      - name: Upload Artifact
+      
+      - name: Upload Build Artifact (Workflow)
         uses: actions/upload-artifact@v4
         with:
-          name: windows
-          path: build/windows
+          name: windows-build-${{ github.sha }} # Artifact name, e.g., windows-build-commitsha
+          path: build/windows/${{ env.EXPORT_NAME }}.exe # Path to the file to upload
 
-  export-linux:
-    name: Linux Export
-    runs-on: ubuntu-22.04
-    container:
-      image: barichello/godot-ci:4.3
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Create GitHub Release and Upload Asset
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Only run on push to the main branch
+        uses: softprops/action-gh-release@v2
         with:
-          lfs: true
-      - name: Setup
-        run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
-          mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-      - name: Linux Build
-        run: |
-          mkdir -v -p build/linux
-          EXPORT_DIR="$(readlink -f build)"
-          cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Linux/X11" "$EXPORT_DIR/linux/$EXPORT_NAME.x86_64"
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux
-          path: build/linux
+          files: build/windows/${{ env.EXPORT_NAME }}.exe # File(s) to attach to the release
+          name: "Build from main - ${{ github.sha }}" # Name of the Release
+          tag_name: "build-main-${{ github.sha }}"    # Unique tag for the release, e.g., build-main-commitsha
+          body: | # Optional: Description for the release
+            Automated build from the main branch.
+            Commit: ${{ github.sha }}
+            Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          draft: false # Set to true if you want to create a draft release
+          prerelease: true # Set to false if pushes to main are considered full releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required to create a release
