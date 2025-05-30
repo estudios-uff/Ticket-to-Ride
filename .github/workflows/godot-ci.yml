@@ -2,10 +2,10 @@ name: "godot-ci export"
 on:
   push:
     branches:
-      - 49-add-artifact-in-release
+      - 49-add-artifact-in-release # Your current testing branch
   pull_request:
     branches:
-      - 49-add-artifact-in-release
+      - 49-add-artifact-in-release # Your current testing branch
 
 env:
   GODOT_VERSION: 4.3
@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-22.04 # Use 22.04 with godot 4
     container:
       image: barichello/godot-ci:4.3
+    permissions: # <-- Add this permissions block
+      contents: write   # Required to create releases (create tags and upload assets)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,21 +28,11 @@ jobs:
       
       - name: Setup Godot Templates and Config
         run: |
-          # Ensure the target directories exist for the current user (godot)
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/godot/
-          # Move pre-installed export templates to the expected location by Godot for the current user
-          # The source path /root/.local/... is specific to the barichello/godot-ci image structure
-          # It assumes these templates are for the specified GODOT_VERSION
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-          # Similarly, move any global Godot editor configurations if necessary
-          # This line seems to attempt to move /root/.config/godot to ~/.config/godot
-          # Ensure ~/.config/godot actually exists or is created if this step is critical
-          # If /root/.config/godot doesn't exist or isn't needed, this mv might fail or do nothing.
-          # For a clean setup, it might be safer to ensure the target exists: mkdir -p ~/.config/godot and then mv contents
-          # However, if the image guarantees /root/.config/godot exists and has relevant data:
           if [ -d "/root/.config/godot" ]; then
-            mv /root/.config/godot/* ~/.config/godot/ 2>/dev/null || true # Move contents, ignore if source is empty or only .
+            mv /root/.config/godot/* ~/.config/godot/ 2>/dev/null || true
           else
             echo "Notice: /root/.config/godot not found, skipping move."
           fi
@@ -48,7 +40,6 @@ jobs:
       - name: Windows Build
         run: |
           mkdir -v -p build/windows
-          # EXPORT_DIR will be /github/workspace/build (assuming GHA workspace is /github/workspace)
           EXPORT_DIR="$(readlink -f build)" 
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Windows Desktop" "$EXPORT_DIR/windows/$EXPORT_NAME.exe"
@@ -56,21 +47,22 @@ jobs:
       - name: Upload Build Artifact (Workflow)
         uses: actions/upload-artifact@v4
         with:
-          name: windows-build-${{ github.sha }} # Artifact name, e.g., windows-build-commitsha
-          path: build/windows/${{ env.EXPORT_NAME }}.exe # Path to the file to upload
+          name: windows-build-${{ github.sha }}
+          path: build/windows/${{ env.EXPORT_NAME }}.exe
 
       - name: Create GitHub Release and Upload Asset
-        if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release' # Only run on push to the main branch
+        # This condition will create a release on pushes to your '49-add-artifact-in-release' branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release' 
         uses: softprops/action-gh-release@v2
         with:
-          files: build/windows/${{ env.EXPORT_NAME }}.exe # File(s) to attach to the release
-          name: "Build from ${{ github.ref_name }} - ${{ github.sha }}" # Name of the Release
-          tag_name: "build-${{ github.ref_name }}-${{ github.sha }}"   # Unique tag for the release, e.g., build-main-commitsha
-          body: | # Optional: Description for the release
-            Automated build from the main branch.
+          files: build/windows/${{ env.EXPORT_NAME }}.exe
+          name: "Build from ${{ github.ref_name }} - ${{ github.sha }}"
+          tag_name: "build-${{ github.ref_name }}-${{ github.sha }}"
+          body: |
+            Automated build from branch ${{ github.ref_name }}.
             Commit: ${{ github.sha }}
             Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          draft: false # Set to true if you want to create a draft release
-          prerelease: true # Set to false if pushes to main are considered full releases
+          draft: false
+          prerelease: true 
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Required to create a release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
