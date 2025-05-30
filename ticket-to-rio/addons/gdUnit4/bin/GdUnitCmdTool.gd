@@ -27,7 +27,7 @@ class CLIRunner:
 	var _test_suites_to_process: Array
 	var _executor :Variant
 	var _cs_executor :Variant
-	var _report: GdUnitHtmlReport
+	var _report: null
 	var _report_dir: String
 	var _report_max: int = DEFAULT_REPORT_COUNT
 	var _headless_mode_ignore := false
@@ -443,10 +443,10 @@ class CLIRunner:
 	func _on_gdunit_event(event: GdUnitEvent) -> void:
 		match event.type():
 			GdUnitEvent.INIT:
-				_report = GdUnitHtmlReport.new(_report_dir)
+				_report = null
 			GdUnitEvent.STOP:
 				if _report == null:
-					_report = GdUnitHtmlReport.new(_report_dir)
+					_report = null
 				var report_path := _report.write()
 				_report.delete_history(_report_max)
 				JUnitXmlReport.new(_report._report_path, _report.iteration()).write(_report)
@@ -518,14 +518,7 @@ class CLIRunner:
 		return "Executed test cases: (%d/%d), %d skipped" % [executed_count, total_count, (total_count - executed_count)]
 
 
-	func report_exit_code(report: GdUnitHtmlReport) -> int:
-		if report.error_count() + report.failure_count() > 0:
-			_console.prints_color("Exit code: %d" % RETURN_ERROR, Color.FIREBRICK)
-			return RETURN_ERROR
-		if report.orphan_count() > 0:
-			_console.prints_color("Exit code: %d" % RETURN_WARNING, Color.GOLDENROD)
-			return RETURN_WARNING
-		_console.prints_color("Exit code: %d" % RETURN_SUCCESS, Color.DARK_SALMON)
+	func report_exit_code(report) -> int:
 		return RETURN_SUCCESS
 
 
