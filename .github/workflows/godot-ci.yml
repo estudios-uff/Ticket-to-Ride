@@ -17,7 +17,7 @@ jobs:
     name: Build Windows Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:${{ env.GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,15 +42,15 @@ jobs:
       - name: Upload Windows Executable Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows-executable 
+          name: windows-executable
           path: build/windows/${{ env.EXPORT_NAME }}.exe
           retention-days: 1
 
-  build-linux: 
+  build-linux:
     name: Build Linux Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:4.3
+      image: barichello/godot-ci:${{ env.GODOT_VERSION }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,14 +75,14 @@ jobs:
       - name: Upload Linux Executable Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: linux-executable 
+          name: linux-executable
           path: build/linux/${{ env.EXPORT_NAME }}.x86_64
           retention-days: 1
 
   create-release:
     name: Create GitHub Release
     runs-on: ubuntu-22.04
-    needs: [build-windows, build-linux] 
+    needs: [build-windows, build-linux]
     if: github.event_name == 'push' && github.ref == 'refs/heads/49-add-artifact-in-release' 
     permissions:
       contents: write
@@ -91,13 +91,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: windows-executable
-          path: ./dist/windows 
+          path: ./dist/windows
 
       - name: Download Linux Executable Artifact
         uses: actions/download-artifact@v4
         with:
           name: linux-executable
-          path: ./dist/linux 
+          path: ./dist/linux
 
       - name: Verify Downloaded Artifacts (Optional)
         run: |
@@ -109,11 +109,12 @@ jobs:
       - name: Create GitHub Release and Upload Assets
         uses: softprops/action-gh-release@v2
         with:
-          files: | 
+          files: |
             ./dist/windows/${{ env.EXPORT_NAME }}.exe
             ./dist/linux/${{ env.EXPORT_NAME }}.x86_64
-          name: "Ticket to Rio - V${{ github.run_number }} (Commit: ${{ github.sha }})"
-          tag_name: "Ticket to Rio - V${{ github.run_number }}"
+          name: "Ticket to Rio - V${{ github.run_number }}" 
+          
+          tag_name: "Ticket-to-Rio-V${{ github.run_number }}"
           body: |
             Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
             Commit: ${{ github.sha }}
