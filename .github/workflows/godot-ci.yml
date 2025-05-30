@@ -18,7 +18,7 @@ jobs:
     name: Build Windows Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:${{ GODOT_VERSION }} 
+      image: barichello/godot-ci:${ GODOT_VERSION } 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -76,7 +76,7 @@ jobs:
         with:
           name: windows-executable
           
-          path: build/windows/${{ EXPORT_NAME }}.exe 
+          path: build/windows/${ EXPORT_NAME }.exe 
           if-no-files-found: error 
           retention-days: 1
 
@@ -84,7 +84,7 @@ jobs:
     name: Build Linux Executable
     runs-on: ubuntu-22.04
     container:
-      image: barichello/godot-ci:${{ GODOT_VERSION }}
+      image: barichello/godot-ci:${ GODOT_VERSION }
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -136,7 +136,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build/linux/${{ EXPORT_NAME }}.x86_64
+          path: build/linux/${ EXPORT_NAME }.x86_64
           if-no-files-found: error 
           retention-days: 1
 
@@ -176,15 +176,15 @@ jobs:
         with:
           
           files: |
-            ./dist/windows/${{ EXPORT_NAME }}.exe
-            ./dist/linux/${{ EXPORT_NAME }}.x86_64
-          name: "Ticket to Rio - V${{ github.run_number }}" 
-          tag_name: "Ticket-to-Rio-V${{ github.run_number }}" 
+            ./dist/windows/${ EXPORT_NAME }.exe
+            ./dist/linux/${ EXPORT_NAME }.x86_64
+          name: "Ticket to Rio - V${ github.run_number }" 
+          tag_name: "Ticket-to-Rio-V${ github.run_number }" 
           body: |
-            Automated build from branch ${{ github.ref_name }}. Includes Windows and Linux builds.
-            Commit: ${{ github.sha }}
-            Workflow Run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            Automated build from branch ${ github.ref_name }. Includes Windows and Linux builds.
+            Commit: ${ github.sha }
+            Workflow Run: ${ github.server_url }/${ github.repository }/actions/runs/${ github.run_id }
           draft: false      
           prerelease: true  
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN } 
