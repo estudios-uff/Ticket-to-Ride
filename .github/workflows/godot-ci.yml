@@ -60,12 +60,12 @@ jobs:
           path: build/windows/${{ env.EXPORT_NAME }}.exe # Path to the file to upload
 
       - name: Create GitHub Release and Upload Asset
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Only run on push to the main branch
+        if: github.event_name == 'push' && github.ref == 'refs/heads/Dev_base' # Only run on push to the main branch
         uses: softprops/action-gh-release@v2
         with:
           files: build/windows/${{ env.EXPORT_NAME }}.exe # File(s) to attach to the release
-          name: "Build from main - ${{ github.sha }}" # Name of the Release
-          tag_name: "build-main-${{ github.sha }}"    # Unique tag for the release, e.g., build-main-commitsha
+          name: "Build from ${{ github.ref_name }} - ${{ github.sha }}" # Name of the Release
+          tag_name: "build-${{ github.ref_name }}-${{ github.sha }}"   # Unique tag for the release, e.g., build-main-commitsha
           body: | # Optional: Description for the release
             Automated build from the main branch.
             Commit: ${{ github.sha }}
