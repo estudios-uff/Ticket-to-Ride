@@ -45,6 +45,11 @@ jobs:
           name: windows-executable
           path: build/windows/${EXPORT_NAME}.exe
           retention-days: 1
+      - name: Verify Windows Build Output
+        run: |
+          echo "Listing contents of build/windows:"
+          ls -lh build/windows/
+          echo "Expected file: build/windows/${EXPORT_NAME}.exe"
 
   build-linux:
     name: Build Linux Executable
@@ -76,7 +81,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux-executable
-          path: build/linux/${.EXPORT_NAME}.x86_64
+          path: build/linux/${EXPORT_NAME}.x86_64
           retention-days: 1
 
   create-release:
