@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6sto6l5axflo"]
+
+[ext_resource type="Script" path="res://src/Scripts/components/route.gd" id="1_s62vy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivcgt"]
+size = Vector2(8, 8)
+
+[node name="Route" type="Node2D"]
+script = ExtResource("1_s62vy")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 5.0
+
+[node name="Area2D" type="Area2D" parent="."]
+z_index = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = 1
+shape = SubResource("RectangleShape2D_ivcgt")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
