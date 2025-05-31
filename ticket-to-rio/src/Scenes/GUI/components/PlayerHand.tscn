@@ -96,6 +96,44 @@ offset_bottom = 379.0
 scale = Vector2(1.5, 1.5)
 text = "0"
 
+[node name="Rainbow" type="Node2D" parent="."]
+visible = false
+
+[node name="RainbowTrain" type="Sprite2D" parent="Rainbow"]
+position = Vector2(144, 487)
+rotation = -1.91463
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_fm5hy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Rainbow"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 149.0
+offset_top = 372.0
+offset_right = 189.0
+offset_bottom = 412.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Green" type="Node2D" parent="."]
+visible = false
+
+[node name="GreenTrain" type="Sprite2D" parent="Green"]
+position = Vector2(144, 487)
+rotation = -1.91463
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_fm5hy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Green"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 149.0
+offset_top = 372.0
+offset_right = 189.0
+offset_bottom = 412.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+metadata/_edit_use_anchors_ = true
+
 [node name="Gray" type="Node2D" parent="."]
 
 [node name="GrayTrain" type="Sprite2D" parent="Gray"]

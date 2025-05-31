@@ -11,24 +11,29 @@ const HAND_Y_POSITION = 260
 @onready var red: RichTextLabel = $Red/RichTextLabel
 @onready var orange: RichTextLabel = $Orange/RichTextLabel
 @onready var gray: RichTextLabel = $Gray/RichTextLabel
+@onready var green: RichTextLabel = $Green/RichTextLabel
+@onready var rainbow: RichTextLabel = $Rainbow/RichTextLabel
 
 @onready var deck: Node2D = $Deck
 
-var player_hand = {
-	"blueTrain": 0,
-	"grayTrain": 0,
-	"greenTrain": 0,
-	"orangeTrain": 0,
-	"pinkTrain": 0,
-	"redTrain": 0,
-	"yellowTrain": 0,
-	"rainbowTrain": 0
-}
+var player_hand = {}
 
 var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
+	player_hand = {
+		"blueTrain": {"count": 0, "label": blue},
+		"grayTrain": {"count": 0, "label": gray},
+		"greenTrain": {"count": 0, "label": green},
+		"orangeTrain": {"count": 0, "label": orange},
+		"pinkTrain": {"count": 0, "label": pink},
+		"redTrain": {"count": 0, "label": red},
+		"yellowTrain": {"count": 0, "label": yellow},
+		"rainbowTrain": {"count": 0, "label": rainbow}
+	}
+	
 	await get_tree().process_frame
 
 	center_screen_x = -get_viewport().size.x / 4
@@ -42,12 +47,9 @@ func _ready() -> void:
 		print("Conectado ao Deck:", deck)
 	else:
 		print("Erro: Deck não encontrado!")
-
-	print(blue)
-
 	
 	
-	print(blue)
+	
 	
 	#var card_scene = preload(CARD_SCENE_PATH)
 	#for i in range(HAND_COUNT):
@@ -60,9 +62,15 @@ func _process(delta: float) -> void:
 	pass
 
 func add_card_to_hand(card):
-	player_hand[card] += 1
-	print(player_hand)
-	print(blue)
+	
+	player_hand[card]["count"] += 1
+
+	if card in player_hand:
+	
+		var new_count = player_hand[card]["count"]
+		player_hand[card]["label"].text = str(new_count)
+	else:
+		print("Carta inválida:", card)
 
 #func update_hand_position():
 	#for i in range(player_hand.size()):
