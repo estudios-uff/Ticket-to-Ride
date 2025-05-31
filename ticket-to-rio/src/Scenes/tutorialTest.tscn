@@ -47,6 +47,13 @@ position = Vector2(1228, 66)
 [node name="UI_Behavior" parent="Deck" instance=ExtResource("9_74bsh")]
 anchoramento = 0
 
+[node name="PlayerHand" parent="." instance=ExtResource("6_vclp7")]
+position = Vector2(-2, 0)
+
+[node name="UI_Behavior" parent="PlayerHand" instance=ExtResource("9_74bsh")]
+anchoramento = 0
+
+
 [node name="NodeLoja" parent="." instance=ExtResource("12_jdx0c")]
 
 [node name="UI_Behavior" parent="NodeLoja" instance=ExtResource("9_74bsh")]
