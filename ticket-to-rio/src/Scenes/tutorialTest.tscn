@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="10_hr4so"]
 [ext_resource type="PackedScene" uid="uid://dq1tbcfxp25y2" path="res://src/Scenes/Cards/deck.tscn" id="11_hcphn"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
-[ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
-[ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
+[ext_resource type="PackedScene" uid="uid://bd70r7s6svycj" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
+[ext_resource type="PackedScene" uid="uid://bba6bcq0cxwn3" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("11_lv38c")
@@ -34,6 +34,9 @@ position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
 texture = ExtResource("5_r7p17")
 
+[node name="Deck" parent="." instance=ExtResource("11_hcphn")]
+position = Vector2(1228, 66)
+
 [node name="PlayerHand" parent="." instance=ExtResource("6_vclp7")]
 position = Vector2(200, 203)
 
@@ -54,8 +57,5 @@ script = ExtResource("9_wck36")
 [node name="CardManager" parent="." instance=ExtResource("10_hr4so")]
 
 [node name="UI_Behavior" parent="CardManager" instance=ExtResource("9_74bsh")]
-
-[node name="Deck" parent="." instance=ExtResource("11_hcphn")]
-position = Vector2(1228, 66)
 
 [connection signal="draw" from="Deck" to="." method="_on_deck_draw"]

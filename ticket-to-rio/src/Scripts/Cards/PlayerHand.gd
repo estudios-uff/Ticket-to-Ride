@@ -29,11 +29,23 @@ var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	await get_tree().process_frame
+
 	center_screen_x = -get_viewport().size.x / 4
+
+	# Tenta encontrar o Deck no caminho correto.
+	var deck_node = get_node_or_null("../Deck")  # Ajuste conforme a hierarquia
+
+	if deck_node:
+		deck = deck_node
+		deck.update_player_hand.connect(add_card_to_hand)
+		print("Conectado ao Deck:", deck)
+	else:
+		print("Erro: Deck não encontrado!")
+
+	print(blue)
+
 	
-	print(deck)
-	
-	#deck.update_player_hand.connect(add_card_to_hand)
 	
 	print(blue)
 	
