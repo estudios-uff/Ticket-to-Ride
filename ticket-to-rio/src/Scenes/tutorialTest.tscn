@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dq1tbcfxp25y2" path="res://src/Scenes/Cards/deck.tscn" id="11_hcphn"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="11_lv38c"]
 [ext_resource type="PackedScene" uid="uid://bd70r7s6svycj" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
-[ext_resource type="PackedScene" uid="uid://bba6bcq0cxwn3" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
+[ext_resource type="PackedScene" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("11_lv38c")
@@ -41,7 +41,7 @@ position = Vector2(1228, 66)
 anchoramento = 0
 
 [node name="PlayerHand" parent="." instance=ExtResource("6_vclp7")]
-position = Vector2(196, 153)
+position = Vector2(-2, 0)
 
 [node name="UI_Behavior" parent="PlayerHand" instance=ExtResource("9_74bsh")]
 anchoramento = 0

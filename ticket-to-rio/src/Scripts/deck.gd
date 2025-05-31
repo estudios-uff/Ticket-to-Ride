@@ -21,11 +21,11 @@ var trains_deck = {
 
 func _ready() -> void:
 	player_deck.shuffle()
-	$RichTextLabel.text = str(player_deck.size())
 	
 	for key in trains_deck.keys():
 		for n in trains_deck[key]:
 			player_deck.append(key)
+	$RichTextLabel.text = str(player_deck.size())
 
 func draw_card():
 	#var card_drawn = player_deck[0]
