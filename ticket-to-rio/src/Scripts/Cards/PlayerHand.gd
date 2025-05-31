@@ -47,44 +47,20 @@ func _ready() -> void:
 		print("Conectado ao Deck:", deck)
 	else:
 		print("Erro: Deck não encontrado!")
-	
-	
-	
-	
-	#var card_scene = preload(CARD_SCENE_PATH)
-	#for i in range(HAND_COUNT):
-		#var new_card = card_scene.instantiate()
-		#$"../CardManager".add_child(new_card)
-		#new_card.name = "Card"
-		#add_card_to_hand(new_card)
-
-func _process(delta: float) -> void:
-	pass
 
 func add_card_to_hand(card):
-	
 	player_hand[card]["count"] += 1
-
 	if card in player_hand:
-	
 		var new_count = player_hand[card]["count"]
 		player_hand[card]["label"].text = str(new_count)
 	else:
 		print("Carta inválida:", card)
 
-#func update_hand_position():
-	#for i in range(player_hand.size()):
-		#var new_position = Vector2(calculate_card_position(i), HAND_Y_POSITION)
-		#var card = player_hand[i]
-		#card.position = new_position
-		#animate_card_to_position(card, new_position)
-		#
 func calculate_card_position(idx):
 	var total_width = player_hand.size() - 1 * CARD_WIDTH
 	@warning_ignore("integer_division")
 	var x_offset = int(center_screen_x + idx * CARD_WIDTH - total_width / 2)
 	return x_offset
-
 
 func animate_card_to_position(card, new_position):
 	var tween = get_tree().create_tween()
@@ -93,4 +69,3 @@ func animate_card_to_position(card, new_position):
 func remove_card_from_hand(card):
 	if card in player_hand:
 		player_hand.erase(card)
-		#update_hand_position()
