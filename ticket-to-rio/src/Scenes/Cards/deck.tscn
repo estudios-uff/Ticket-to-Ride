@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsyb20ya30qhy"]
+[gd_scene load_steps=5 format=3 uid="uid://dq1tbcfxp25y2"]
 
 [ext_resource type="Script" path="res://src/Scripts/deck.gd" id="1_t541v"]
 [ext_resource type="Texture2D" uid="uid://coalvn2a488x5" path="res://images/cards/deck.png" id="2_ev5em"]
@@ -25,11 +25,13 @@ position = Vector2(-0.618835, 0)
 shape = SubResource("RectangleShape2D_bq0jt")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 52.0
+offset_left = -87.8515
 offset_top = 27.0
-offset_right = 87.0
+offset_right = -52.8515
 offset_bottom = 60.0
 theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
 theme_override_fonts/normal_font = ExtResource("3_6100c")
 text = "190"
 tab_size = 0
+
+[connection signal="update_player_hand" from="." to="." method="_on_update_player_hand"]

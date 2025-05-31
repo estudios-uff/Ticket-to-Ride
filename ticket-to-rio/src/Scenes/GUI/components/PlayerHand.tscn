@@ -1,0 +1,153 @@
+[gd_scene load_steps=8 format=3 uid="uid://fjphfqkdfpv7"]
+
+[ext_resource type="Texture2D" uid="uid://b0jghcr7ulhgm" path="res://images/scenes/grayTrain.png" id="1_fm5hy"]
+[ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="1_pk22s"]
+[ext_resource type="Texture2D" uid="uid://b541j16qqk0un" path="res://images/scenes/pinkTrain.png" id="2_4g8dq"]
+[ext_resource type="Texture2D" uid="uid://dovjb6ypgdsff" path="res://images/scenes/yellowTrain.png" id="3_ldx30"]
+[ext_resource type="Texture2D" uid="uid://xvypfo4hacfy" path="res://images/scenes/blueTrain.png" id="4_wdrei"]
+[ext_resource type="Texture2D" uid="uid://cdcld7bbw1d8l" path="res://images/scenes/orangeTrain.png" id="5_5pnl8"]
+[ext_resource type="Texture2D" uid="uid://cb4idcmb807xp" path="res://images/scenes/redTrain.png" id="6_r1rdl"]
+
+[node name="PlayerHand" type="Node2D"]
+script = ExtResource("1_pk22s")
+
+[node name="Blue" type="Node2D" parent="."]
+
+[node name="BlueTrain" type="Sprite2D" parent="Blue"]
+position = Vector2(708, 470)
+rotation = -1.22173
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_wdrei")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Blue"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 773.0
+offset_top = 387.0
+offset_right = 813.0
+offset_bottom = 427.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+
+[node name="Pink" type="Node2D" parent="."]
+
+[node name="PinkTrain" type="Sprite2D" parent="Pink"]
+position = Vector2(595, 440)
+rotation = -1.43641
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_4g8dq")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Pink"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 642.0
+offset_top = 345.0
+offset_right = 682.0
+offset_bottom = 385.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+
+[node name="Yellow" type="Node2D" parent="."]
+
+[node name="YellowTrain" type="Sprite2D" parent="Yellow"]
+position = Vector2(478, 430)
+rotation = -1.57603
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_ldx30")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Yellow"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 516.0
+offset_top = 327.0
+offset_right = 556.0
+offset_bottom = 367.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+
+[node name="Red" type="Node2D" parent="."]
+
+[node name="RedTrain" type="Sprite2D" parent="Red"]
+position = Vector2(360, 433)
+rotation = -1.67552
+scale = Vector2(0.198, 0.2)
+texture = ExtResource("6_r1rdl")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Red"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 390.0
+offset_top = 326.0
+offset_right = 430.0
+offset_bottom = 366.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+
+[node name="Orange" type="Node2D" parent="."]
+
+[node name="OrangeTrain" type="Sprite2D" parent="Orange"]
+position = Vector2(249, 452)
+rotation = -1.80991
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_5pnl8")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Orange"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 265.0
+offset_top = 339.0
+offset_right = 305.0
+offset_bottom = 379.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+
+[node name="Rainbow" type="Node2D" parent="."]
+visible = false
+
+[node name="RainbowTrain" type="Sprite2D" parent="Rainbow"]
+position = Vector2(144, 487)
+rotation = -1.91463
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_fm5hy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Rainbow"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 149.0
+offset_top = 372.0
+offset_right = 189.0
+offset_bottom = 412.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Green" type="Node2D" parent="."]
+visible = false
+
+[node name="GreenTrain" type="Sprite2D" parent="Green"]
+position = Vector2(144, 487)
+rotation = -1.91463
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_fm5hy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Green"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 149.0
+offset_top = 372.0
+offset_right = 189.0
+offset_bottom = 412.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+metadata/_edit_use_anchors_ = true
+
+[node name="Gray" type="Node2D" parent="."]
+
+[node name="GrayTrain" type="Sprite2D" parent="Gray"]
+position = Vector2(144, 487)
+rotation = -1.91463
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_fm5hy")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Gray"]
+modulate = Color(0, 0, 0, 1)
+offset_left = 149.0
+offset_top = 372.0
+offset_right = 189.0
+offset_bottom = 412.0
+scale = Vector2(1.5, 1.5)
+text = "0"
+metadata/_edit_use_anchors_ = true
