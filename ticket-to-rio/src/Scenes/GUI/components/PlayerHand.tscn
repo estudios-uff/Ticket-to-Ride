@@ -14,85 +14,85 @@ script = ExtResource("1_pk22s")
 [node name="Blue" type="Node2D" parent="."]
 
 [node name="BlueTrain" type="Sprite2D" parent="Blue"]
-position = Vector2(708, 470)
+position = Vector2(885.579, 624.803)
 rotation = -1.22173
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_wdrei")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Blue"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 773.0
-offset_top = 387.0
-offset_right = 813.0
-offset_bottom = 427.0
+offset_left = 950.579
+offset_top = 541.803
+offset_right = 990.579
+offset_bottom = 581.803
 scale = Vector2(1.5, 1.5)
 text = "0"
 
 [node name="Pink" type="Node2D" parent="."]
 
 [node name="PinkTrain" type="Sprite2D" parent="Pink"]
-position = Vector2(595, 440)
+position = Vector2(772.579, 594.803)
 rotation = -1.43641
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_4g8dq")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Pink"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 642.0
-offset_top = 345.0
-offset_right = 682.0
-offset_bottom = 385.0
+offset_left = 819.579
+offset_top = 499.803
+offset_right = 859.579
+offset_bottom = 539.803
 scale = Vector2(1.5, 1.5)
 text = "0"
 
 [node name="Yellow" type="Node2D" parent="."]
 
 [node name="YellowTrain" type="Sprite2D" parent="Yellow"]
-position = Vector2(478, 430)
+position = Vector2(655.579, 584.803)
 rotation = -1.57603
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_ldx30")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Yellow"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 516.0
-offset_top = 327.0
-offset_right = 556.0
-offset_bottom = 367.0
+offset_left = 693.579
+offset_top = 481.803
+offset_right = 733.579
+offset_bottom = 521.803
 scale = Vector2(1.5, 1.5)
 text = "0"
 
 [node name="Red" type="Node2D" parent="."]
 
 [node name="RedTrain" type="Sprite2D" parent="Red"]
-position = Vector2(360, 433)
+position = Vector2(537.579, 587.803)
 rotation = -1.67552
 scale = Vector2(0.198, 0.2)
 texture = ExtResource("6_r1rdl")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Red"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 390.0
-offset_top = 326.0
-offset_right = 430.0
-offset_bottom = 366.0
+offset_left = 567.579
+offset_top = 480.803
+offset_right = 607.579
+offset_bottom = 520.803
 scale = Vector2(1.5, 1.5)
 text = "0"
 
 [node name="Orange" type="Node2D" parent="."]
 
 [node name="OrangeTrain" type="Sprite2D" parent="Orange"]
-position = Vector2(249, 452)
+position = Vector2(426.579, 606.803)
 rotation = -1.80991
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("5_5pnl8")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Orange"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 265.0
-offset_top = 339.0
-offset_right = 305.0
-offset_bottom = 379.0
+offset_left = 442.579
+offset_top = 493.803
+offset_right = 482.579
+offset_bottom = 533.803
 scale = Vector2(1.5, 1.5)
 text = "0"
 
@@ -137,17 +137,17 @@ metadata/_edit_use_anchors_ = true
 [node name="Gray" type="Node2D" parent="."]
 
 [node name="GrayTrain" type="Sprite2D" parent="Gray"]
-position = Vector2(144, 487)
+position = Vector2(321.579, 641.803)
 rotation = -1.91463
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_fm5hy")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Gray"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 149.0
-offset_top = 372.0
-offset_right = 189.0
-offset_bottom = 412.0
+offset_left = 326.579
+offset_top = 526.803
+offset_right = 366.579
+offset_bottom = 566.803
 scale = Vector2(1.5, 1.5)
 text = "0"
 metadata/_edit_use_anchors_ = true
