@@ -2,7 +2,11 @@ extends Node2D
 
 const CARD_SCENE_PATH = "res://src/Scenes/Cards/card.tscn"
 
+signal update_player_hand(card_drawn)
+
 var player_deck = []
+
+@onready var grayTrain: RichTextLabel = $Gray/RichTextLabel
 
 var trains_deck = {
 	"blueTrain": 12,
@@ -27,10 +31,13 @@ func draw_card():
 	#var card_drawn = player_deck[0]
 	var card_drawn = player_deck.pick_random()
 	
+	player_deck.pop_back()
+	
+	trains_deck[card_drawn] -= 1
+	update_player_hand.emit(card_drawn)
+	
 	#if $"../PlayerHand".player_hand.size() <= 7:	
 		#player_deck.erase(card_drawn)
-		
-	print(card_drawn)
 	
 	if player_deck.size() == 0:
 		$Area2D/CollisionShape2D.disabled = true
