@@ -18,7 +18,7 @@ var map_data = {
 			"y": 195
 		},
 		"Duque de Caxias": {
-			"x": 630,
+			"x": 630, 	
 			"y": 404
 		},
 		"Guapimirim": {
@@ -48,10 +48,6 @@ var map_data = {
 		"Niterói": {
 			"x": 769,
 			"y": 467
-		},
-		"Nova Cidade 6": {
-			"x": 1181,
-			"y": 561
 		},
 		"Nova Iguaçu": {
 			"x": 536,
@@ -109,9 +105,48 @@ var map_data = {
 	"routes": [
 		{"from": "Barra Mansa", "to": "Volta Redonda", "color": "yellow", "cost": 1},
 		{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
-		{"from": "Volta Redonda", "to": "Pinheral", "color": "pink", "cost": 2},
-		{"from": "Pinheral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
-		{"from": "Pinheral", "to": "Piraí", "color": "grey", "cost": 3},
+		{"from": "Volta Redonda", "to": "Pinheiral", "color": "pink", "cost": 2},
+		{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
+		{"from": "Pinheiral", "to": "Piraí", "color": "grey", "cost": 3},
+		{"from": "Piraí", "to": "Seropédica", "color": "grey", "cost": 5},
+		{"from": "Piraí", "to": "Paracambi", "color": "orange", "cost": 3},
+		{"from": "Paracambi", "to": "Piraí", "color": "yellow", "cost": 3},
+		{"from": "Seropédica", "to": "Itaguaí", "color": "green", "cost": 2},
+		{"from": "Seropédica", "to": "Queimados", "color": "pink", "cost": 3},
+		{"from": "Seropédica", "to": "Japeri", "color": "grey", "cost": 2},
+		{"from": "Japeri", "to": "Paracambi", "color": "grey", "cost": 1},
+		{"from": "Paracambi", "to": "Japeri", "color": "grey", "cost": 1},
+		{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
+		{"from": "Barra do Piraí", "to": "Valença", "color": "grey", "cost": 6},
+		{"from": "Barra do Piraí", "to": "Vassouras", "color": "pink", "cost": 4},
+		{"from": "Valença", "to": "Vassouras", "color": "grey", "cost": 3},
+		{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 4},
+		{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 5},
+		{"from": "Japeri", "to": "Queimados", "color": "green", "cost": 2},
+		{"from": "Japeri", "to": "Miguel Pereira", "color": "grey", "cost": 6},
+		{"from": "Queimados", "to": "Japeri", "color": "orange", "cost": 2},
+		{"from": "Queimados", "to": "Nova Iguaçu", "color": "yellow", "cost": 2},
+		{"from": "Nova Iguaçu", "to": "Queimados", "color": "white", "cost": 2},
+		{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "grey", "cost": 8},
+		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "grey", "cost": 7},
+		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "grey", "cost": 7},
+		{"from": "Itaguaí", "to": "Nova Iguaçu", "color": "blue", "cost": 8},
+		{"from": "Nova Iguaçu", "to": "Duque de Caxias", "color": "green", "cost": 3},
+		{"from": "Duque de Caxias", "to": "Nova Iguaçu", "color": "orange", "cost": 3},
+		{"from": "Duque de Caxias", "to": "Rio de Janeiro", "color": "white", "cost": 4},
+		{"from": "Duque de Caxias", "to": "Petrópolis", "color": "yellow", "cost": 8},
+		{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
+		{"from": "Rio de Janeiro", "to": "Niterói", "color": "grey", "cost": 1},
+		{"from": "Niterói", "to": "Rio de Janeiro", "color": "grey", "cost": 1},
+		{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
+		{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
+		{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
+		{"from": "Itaboraí", "to": "Tanguá", "color": "blue", "cost": 3},
+		{"from": "Tanguá", "to": "Maricá", "color": "yellow", "cost": 5},
+		{"from": "Niterói", "to": "Itaboraí", "color": "white", "cost": 6},
+		{"from": "Niterói", "to": "Maricá", "color": "blue", "cost": 6},
+		{"from": "Teresópolis", "to": "Petrópolis", "color": "green", "cost": 5},
+		{"from": "Teresópolis", "to": "Guapimirim", "color": "pink", "cost": 2},
 		
 	]
 }

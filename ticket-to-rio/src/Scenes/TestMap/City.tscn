@@ -1,19 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://cjjymqrvowf4x"]
+[gd_scene load_steps=6 format=3 uid="uid://cjjymqrvowf4x"]
 
-[ext_resource type="Texture2D" uid="uid://ducb5qiyhn1ay" path="res://images/utils/informacoes.png" id="1_ebc3s"]
 [ext_resource type="Script" path="res://src/Scripts/components/city.gd" id="1_h2187"]
-[ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="3_1kid5"]
+[ext_resource type="Texture2D" uid="uid://bu8vasndqcq4b" path="res://images/utils/players/pin.png" id="2_fo1vn"]
+[ext_resource type="Texture2D" uid="uid://qy3ptu2vqeai" path="res://images/utils/cardCreditsBtn.png" id="2_pmb0w"]
+[ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="4_67btu"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7sc8"]
-radius = 363.294
+radius = 44.3571
 
 [node name="City" type="Node2D"]
 z_index = 2
 script = ExtResource("1_h2187")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = -38.0
+offset_top = -25.0
+offset_right = 822.0
+offset_bottom = 115.0
+scale = Vector2(0.09, 0.09)
+texture = ExtResource("2_pmb0w")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -38.0
+offset_top = -22.0
+offset_right = 39.0
+offset_bottom = -14.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_67btu")
+theme_override_font_sizes/font_size = 8
+text = "Cidade Alta"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.0234375, 0.0234375)
-texture = ExtResource("1_ebc3s")
+scale = Vector2(0.26087, 0.243243)
+texture = ExtResource("2_fo1vn")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
 z_index = 1
@@ -22,16 +43,6 @@ z_index = 1
 z_index = 2
 shape = SubResource("CircleShape2D_b7sc8")
 
-[node name="Label" type="Label" parent="."]
-offset_left = -45.0
-offset_top = -25.0
-offset_right = 44.0
-offset_bottom = -2.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_1kid5")
-theme_override_font_sizes/font_size = 10
-text = "Cidade Alta"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [connection signal="input_event" from="Sprite2D/Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_exited"]

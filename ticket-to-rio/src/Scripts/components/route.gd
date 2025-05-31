@@ -5,10 +5,12 @@ class_name Route
 @export var to_city_name: String = ""
 @export var route_color: Color = Color.WHITE
 @export var wagon_cost: int = 0
-
+@export var parallel_offset: float = 5.5
+@export var line_visual_width: float = 10.0
 @onready var line_2d: Line2D = $Line2D
 @onready var area_2d: Area2D = $Area2D
 @onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D
+@export var collision_area_width: float = 15.0
 
 var wagon_sprite_scene: PackedScene = preload("res://src/Scenes/TestMap/WagonSprite.tscn")
 var from_city_node: Node2D = null
@@ -19,115 +21,145 @@ signal route_clicked(route_node)
 func _ready():
 	if area_2d:
 		area_2d.input_event.connect(_on_area_2d_input_event)
-
-
-func update_route_visuals():
-	if from_city_node and to_city_node:
-		line_2d.clear_points()
-		line_2d.add_point(from_city_node.position)
-		line_2d.add_point(to_city_node.position)
-		line_2d.queue_redraw()
-
-		# Reconfigura o CollisionShape2D (copie o código de setup_route)
-		var start_pos = from_city_node.position
-		var end_pos = to_city_node.position
-
-		var direction = (end_pos - start_pos).normalized()
-		var length = start_pos.distance_to(end_pos)
-		var width = 20.0 # Ajuste conforme necessário
-
-		var rect_shape = RectangleShape2D.new()
-		rect_shape.size = Vector2(length, width)
-		collision_shape_2d.shape = rect_shape
-
-		var center_of_route_global = (start_pos + end_pos) / 2
-		collision_shape_2d.position = center_of_route_global - self.global_position
-		collision_shape_2d.rotation = direction.angle()
-
-		spawn_wagons() # Se quiser que os vagões também se repositionem
 		
-# Função para configurar a rota dinamicamente
 func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int):
 	from_city_node = p_from_city
 	to_city_node = p_to_city
 	route_color = p_color
 	wagon_cost = p_cost
 
-	# Define os pontos da Line2D
+	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
+		printerr("Route setup: From or To city node is not valid.")
+		line_2d.clear_points() 
+		line_2d.queue_redraw()
+		_clear_wagons() 
+		return
+
+	var start_pos_global = from_city_node.global_position
+	var end_pos_global = to_city_node.global_position
+
+	var direction = (end_pos_global - start_pos_global).normalized()
+	var perpendicular_offset_vec = Vector2.ZERO
+	if parallel_offset != 0.0:
+		var perpendicular_direction = direction.orthogonal()
+		perpendicular_offset_vec = perpendicular_direction * parallel_offset
+
+	var actual_start_pos_global = start_pos_global + perpendicular_offset_vec
+	var actual_end_pos_global = end_pos_global + perpendicular_offset_vec
+
+	
 	line_2d.clear_points()
-	line_2d.add_point(from_city_node.position)
-	line_2d.add_point(to_city_node.position)
+	line_2d.add_point(to_local(actual_start_pos_global))
+	line_2d.add_point(to_local(actual_end_pos_global))
 	line_2d.default_color = route_color
-	line_2d.width = 10
+	line_2d.width = line_visual_width
 	line_2d.queue_redraw()
 
-	# Configura o CollisionShape2D para cobrir a rota
-	# Criamos um retângulo que se estende ao longo da rota
-	var start_pos = from_city_node.position
-	var end_pos = to_city_node.position
+	
+	var route_length = start_pos_global.distance_to(end_pos_global)
 
-	var direction = (end_pos - start_pos).normalized()
-	var length = start_pos.distance_to(end_pos)
-	var width = 15.0 # Largura da área de colisão (ajuste conforme necessário)
-
-	# Crie um RectangleShape2D e defina seu tamanho e posição
 	var rect_shape = RectangleShape2D.new()
-	rect_shape.size = Vector2(length, width)
+	rect_shape.size = Vector2(route_length, collision_area_width)
 	collision_shape_2d.shape = rect_shape
 
-	# Posicione o CollisionShape2D no centro da linha
-	collision_shape_2d.position = (start_pos + end_pos) / 2 - global_position # Ajuste para posição local
-	collision_shape_2d.rotation = direction.angle() # Rotaciona para alinhar com a rota
+	var collision_center_global = (actual_start_pos_global + actual_end_pos_global) / 2
+	
+	collision_shape_2d.position = area_2d.to_local(collision_center_global)
+	collision_shape_2d.rotation = direction.angle() 
 
-	# Instanciar sprites de vagões
 	spawn_wagons()
 
-func spawn_wagons():
-	# Remover vagões existentes antes de adicionar novos
+func update_route_visuals():
+	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
+		line_2d.clear_points()
+		line_2d.queue_redraw()
+		_clear_wagons()
+		if is_instance_valid(collision_shape_2d) and is_instance_valid(collision_shape_2d.shape):
+			
+			
+			pass
+		return
+
+	var start_pos_global = from_city_node.global_position
+	var end_pos_global = to_city_node.global_position
+
+	var direction = (end_pos_global - start_pos_global).normalized()
+	var perpendicular_offset_vec = Vector2.ZERO
+	if parallel_offset != 0.0:
+		var perpendicular_direction = direction.orthogonal()
+		perpendicular_offset_vec = perpendicular_direction * parallel_offset
+
+	var actual_start_pos_global = start_pos_global + perpendicular_offset_vec
+	var actual_end_pos_global = end_pos_global + perpendicular_offset_vec
+
+	line_2d.clear_points()
+	line_2d.add_point(to_local(actual_start_pos_global))
+	line_2d.add_point(to_local(actual_end_pos_global))
+	line_2d.queue_redraw()
+
+	var route_length = start_pos_global.distance_to(end_pos_global)
+	
+	var rect_shape: RectangleShape2D
+	if collision_shape_2d.shape is RectangleShape2D:
+		rect_shape = collision_shape_2d.shape as RectangleShape2D
+	else:
+		rect_shape = RectangleShape2D.new()
+		collision_shape_2d.shape = rect_shape
+	
+	rect_shape.size = Vector2(route_length, collision_area_width)
+
+	var collision_center_global = (actual_start_pos_global + actual_end_pos_global) / 2
+	collision_shape_2d.position = area_2d.to_local(collision_center_global)
+	collision_shape_2d.rotation = direction.angle()
+
+	spawn_wagons() 
+
+func _clear_wagons():
 	for child in get_children():
 		if child is Sprite2D and child.name.begins_with("Wagon"):
 			child.queue_free()
 
-	if wagon_cost == 0: return # Não spawnar vagões se o custo for 0
+func spawn_wagons():
+	_clear_wagons() 
 
-	var start_pos = from_city_node.position
-	var end_pos = to_city_node.position
+	if wagon_cost == 0: return
+	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
+		return
 
-	var direction = (end_pos - start_pos).normalized()
-	var length = start_pos.distance_to(end_pos)
+	var start_pos_global = from_city_node.global_position
+	var end_pos_global = to_city_node.global_position
+	var direction = (end_pos_global - start_pos_global).normalized()
 
-	# Ajuste o espaçamento entre os vagões
-	# Uma forma simples: dividir o comprimento pelo número de vagões + 1 para um bom espaçamento
+	var perpendicular_offset_vec = Vector2.ZERO
+	if parallel_offset != 0.0:
+		var perpendicular_direction = direction.orthogonal()
+		perpendicular_offset_vec = perpendicular_direction * parallel_offset
+
+	var actual_start_pos_global = start_pos_global + perpendicular_offset_vec
+	var actual_end_pos_global = end_pos_global + perpendicular_offset_vec
+	
 	var spacing_factor = 1.0 / (wagon_cost + 1)
-	var current_pos_offset = 0.0
 
 	for i in range(wagon_cost):
 		var wagon_instance = wagon_sprite_scene.instantiate()
-		add_child(wagon_instance) # Adicione como filho da rota
+		add_child(wagon_instance) 
 
-		# Calcule a posição do vagão ao longo da rota
-		current_pos_offset = (i + 1) * spacing_factor
-		wagon_instance.position = start_pos.lerp(end_pos, current_pos_offset) - global_position # Ajuste para posição local
+		var t = (i + 1) * spacing_factor
+		var wagon_global_pos = actual_start_pos_global.lerp(actual_end_pos_global, t)
+		
+		wagon_instance.position = to_local(wagon_global_pos) 
+		wagon_instance.rotation = direction.angle() 
+		wagon_instance.name = "Wagon" + str(i)
 
-		# Rotacionar o vagão para alinhar com a rota
-		wagon_instance.rotation = direction.angle()
-		wagon_instance.name = "Wagon" + str(i) # Nome para fácil identificação
+		
+		
 
-		# Mudar a cor do vagão (se aplicável, por exemplo, para vagões do jogador)
-		# wagon_instance.modulate = route_color # Se você quiser que o sprite pegue a cor da rota
-
-	
-
-# Função para mudar os sprites dos vagões para uma cor específica (ex: do jogador)
 func set_wagons_player_color(player_color: Color):
 	for child in get_children():
 		if child is Sprite2D and child.name.begins_with("Wagon"):
 			child.modulate = player_color
-			# Você pode carregar um sprite diferente aqui se tiver sprites específicos para jogadores
-			# child.texture = load("res://assets/player_wagon_sprite.png")
 
-
-func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			print("Rota Clicada: ", from_city_name, " - ", to_city_name)
-			emit_signal("route_clicked", self) # Emite o sinal com a própria rota como argumento
+			print("Route Clicked: ", from_city_name, " - ", to_city_name, " (Offset: ", parallel_offset, ")")
+			emit_signal("route_clicked", self)

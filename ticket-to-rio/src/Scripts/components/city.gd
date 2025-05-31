@@ -10,7 +10,9 @@ var is_dragging: bool = false
 var drag_offset: Vector2 = Vector2.ZERO
 
 func _ready():
-	label_node.text = city_name # Define o texto do Label com o nome da cidade
+	label_node.text = city_name 
+	$TextureRect.modulate.a = 0.3
+	$Label.modulate.a = 0.3
 	
 	if editor_mode:
 		set_process_input(true)
@@ -44,3 +46,17 @@ func _on_area_2d_input_event(viewport: Node, event: InputEvent, shape_idx: int) 
 			# Para isso, precisamos conectar este sinal em tempo de execução na cena Map
 			# ou criar um sinal aqui que a cena Map irá capturar.
 			emit_signal("city_clicked", self) # Emite o sinal com a própria cidade como argumento
+
+
+	
+
+
+
+func _on_area_2d_mouse_entered() -> void:
+	$TextureRect.modulate.a = 1.0
+	$Label.modulate.a = 1.0
+
+
+func _on_area_2d_mouse_exited() -> void:
+	$TextureRect.modulate.a = 0.3
+	$Label.modulate.a = 0.3
