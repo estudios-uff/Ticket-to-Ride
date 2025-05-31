@@ -1,0 +1,108 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcpcr8dwfyos8"]
+
+[ext_resource type="Script" path="res://src/Scripts/components/map_editor.gd" id="1_aladv"]
+[ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="2_pfg1m"]
+
+[node name="MapEditor" type="Node2D"]
+script = ExtResource("1_aladv")
+
+[node name="MapDisplay" type="TextureRect" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="MapDisplay"]
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0.886275, 1, 1, 1)
+
+[node name="TextureRect" type="TextureRect" parent="MapDisplay"]
+layout_mode = 0
+offset_right = 101773.0
+offset_bottom = 54000.0
+scale = Vector2(0.01, 0.01)
+texture = ExtResource("2_pfg1m")
+
+[node name="UIContainer" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer"]
+layout_mode = 0
+offset_left = 1150.0
+offset_top = 542.0
+offset_right = 1273.0
+offset_bottom = 713.0
+
+[node name="BtnCreateCity" type="Button" parent="UIContainer/VBoxContainer"]
+layout_mode = 2
+text = "Criar Cidade"
+
+[node name="BtnCreateRoute" type="Button" parent="UIContainer/VBoxContainer"]
+layout_mode = 2
+text = "Criar Rota"
+
+[node name="BtnMove" type="Button" parent="UIContainer/VBoxContainer"]
+layout_mode = 2
+text = "Mover"
+
+[node name="BtnSaveMap" type="Button" parent="UIContainer/VBoxContainer"]
+layout_mode = 2
+text = "Salvar Mapa"
+
+[node name="BtnLoadMap" type="Button" parent="UIContainer/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Carregar Mapa"
+
+[node name="PropertiesPanel" type="PanelContainer" parent="UIContainer"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 553.0
+offset_right = 194.0
+offset_bottom = 716.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIContainer/PropertiesPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UIContainer/PropertiesPanel/VBoxContainer"]
+layout_mode = 2
+text = "Propriedads do Nó"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UIContainer/PropertiesPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UIContainer/PropertiesPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Nome:"
+
+[node name="LineEditName" type="LineEdit" parent="UIContainer/PropertiesPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UIContainer/PropertiesPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UIContainer/PropertiesPanel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "Custo:"
+
+[node name="SpinBoxCost" type="SpinBox" parent="UIContainer/PropertiesPanel/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="UIContainer/PropertiesPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UIContainer/PropertiesPanel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+text = "Cor: "
+
+[node name="ColorPickerButtonRoute" type="ColorPickerButton" parent="UIContainer/PropertiesPanel/VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+
+[node name="BtnApplyProperties" type="Button" parent="UIContainer/PropertiesPanel/VBoxContainer"]
+layout_mode = 2
+text = "Aplicar"
+
+[connection signal="gui_input" from="MapDisplay" to="." method="_on_map_display_gui_input"]
