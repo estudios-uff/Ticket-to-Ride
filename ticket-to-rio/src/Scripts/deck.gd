@@ -2,6 +2,7 @@ extends Node2D
 
 const CARD_SCENE_PATH = "res://src/Scenes/Cards/card.tscn"
 
+
 signal update_player_hand(card_drawn)
 
 var player_deck = []
@@ -27,10 +28,12 @@ func _ready() -> void:
 			player_deck.append(key)
 	$RichTextLabel.text = str(player_deck.size())
 
+
 func draw_card():
 	#var card_drawn = player_deck[0]
 	var card_drawn = player_deck.pick_random()
 	
+
 	player_deck.pop_back()
 	
 	trains_deck[card_drawn] -= 1
@@ -38,6 +41,7 @@ func draw_card():
 	
 	#if $"../PlayerHand".player_hand.size() <= 7:	
 		#player_deck.erase(card_drawn)
+
 	
 	if player_deck.size() == 0:
 		$Area2D/CollisionShape2D.disabled = true
@@ -55,6 +59,7 @@ func draw_card():
 		#$"../CardManager".add_child(new_card)
 		#new_card.name = "Card"
 		#$"../PlayerHand".add_card_to_hand(new_card)
+
 	
 	# ADICIONA VARIAS CARTAS NA MAO DE UMA VEZ
 	#for i in range(player_deck.size()):

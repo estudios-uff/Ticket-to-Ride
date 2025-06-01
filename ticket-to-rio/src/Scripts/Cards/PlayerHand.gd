@@ -18,11 +18,11 @@ const HAND_Y_POSITION = 260
 
 var player_hand = {}
 
+
 var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	
+func _ready() -> void:	
 	player_hand = {
 		"blueTrain": {"count": 0, "label": blue},
 		"grayTrain": {"count": 0, "label": gray},
@@ -135,3 +135,4 @@ func remove_card_from_hand(card_identifier: String) -> void:
 		# update_hand_position() 
 	else:
 		print("Tentativa de remover carta inválida:", card_identifier)
+
