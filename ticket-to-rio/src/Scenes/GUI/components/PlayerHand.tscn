@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://fjphfqkdfpv7"]
+[gd_scene load_steps=12 format=3 uid="uid://fjphfqkdfpv7"]
 
 [ext_resource type="Texture2D" uid="uid://b0jghcr7ulhgm" path="res://images/scenes/grayTrain.png" id="1_fm5hy"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="1_pk22s"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/Scripts/Cards/cardHand.gd" id="2_06kwb"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="3_g5klp"]
 [ext_resource type="Texture2D" uid="uid://dovjb6ypgdsff" path="res://images/scenes/yellowTrain.png" id="3_ldx30"]
+[ext_resource type="Texture2D" uid="uid://d3g3ibyt85d7s" path="res://images/utils/Elipse 1.png" id="4_hxtxa"]
 [ext_resource type="Texture2D" uid="uid://xvypfo4hacfy" path="res://images/scenes/blueTrain.png" id="4_wdrei"]
 [ext_resource type="Texture2D" uid="uid://cdcld7bbw1d8l" path="res://images/scenes/orangeTrain.png" id="5_5pnl8"]
 [ext_resource type="Texture2D" uid="uid://cb4idcmb807xp" path="res://images/scenes/redTrain.png" id="6_r1rdl"]
@@ -14,11 +15,12 @@
 size = Vector2(79.5, 202.395)
 
 [node name="PlayerHand" type="Node2D"]
-position = Vector2(2, 2)
+position = Vector2(3, 13)
 script = ExtResource("1_pk22s")
+metadata/_edit_horizontal_guides_ = [589.0]
 
 [node name="Blue" type="Node2D" parent="."]
-position = Vector2(149, 185)
+position = Vector2(123, 173)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -28,12 +30,17 @@ rotation = -1.22173
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("4_wdrei")
 
+[node name="Sprite2D" type="Sprite2D" parent="Blue"]
+position = Vector2(886.25, 625)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Blue"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 945.0
-offset_top = 536.0
-offset_right = 972.0
-offset_bottom = 576.0
+offset_left = 887.5
+offset_top = 600.0
+offset_right = 914.5
+offset_bottom = 640.0
 rotation = 0.342769
 scale = Vector2(1.5, 1.5)
 theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
@@ -48,7 +55,7 @@ rotation = 0.345999
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Pink" type="Node2D" parent="."]
-position = Vector2(149, 185)
+position = Vector2(139, 169)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -58,12 +65,17 @@ rotation = -1.43641
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("2_4g8dq")
 
+[node name="Sprite2D" type="Sprite2D" parent="Pink"]
+position = Vector2(776.25, 595)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Pink"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 813.0
-offset_top = 495.0
-offset_right = 840.0
-offset_bottom = 535.0
+offset_left = 771.25
+offset_top = 570.0
+offset_right = 798.25
+offset_bottom = 610.0
 rotation = 0.130189
 scale = Vector2(1.5, 1.5)
 theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
@@ -79,7 +91,7 @@ rotation = 0.133366
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Yellow" type="Node2D" parent="."]
-position = Vector2(149, 185)
+position = Vector2(147, 172)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -89,12 +101,17 @@ rotation = -1.57603
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_ldx30")
 
+[node name="Sprite2D" type="Sprite2D" parent="Yellow"]
+position = Vector2(658.75, 585)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Yellow"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 682.0
-offset_top = 480.0
-offset_right = 709.0
-offset_bottom = 520.0
+offset_left = 650.0
+offset_top = 561.25
+offset_right = 677.0
+offset_bottom = 601.25
 rotation = -0.00812545
 scale = Vector2(1.5, 1.5)
 theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
@@ -110,7 +127,8 @@ rotation = -0.0049811
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Red" type="Node2D" parent="."]
-position = Vector2(149, 185)
+position = Vector2(158, 171)
+rotation = 0.00821086
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -120,12 +138,17 @@ rotation = -1.67552
 scale = Vector2(0.198, 0.2)
 texture = ExtResource("6_r1rdl")
 
+[node name="Sprite2D" type="Sprite2D" parent="Red"]
+position = Vector2(541.25, 586.25)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Red"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 551.0
-offset_top = 482.0
-offset_right = 578.0
-offset_bottom = 522.0
+offset_left = 531.25
+offset_top = 562.5
+offset_right = 558.25
+offset_bottom = 602.5
 rotation = -0.0867944
 scale = Vector2(1.5, 1.5)
 theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
@@ -141,7 +164,7 @@ rotation = -0.108182
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Orange" type="Node2D" parent="."]
-position = Vector2(149, 185)
+position = Vector2(163, 173)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -151,12 +174,17 @@ rotation = -1.80991
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("5_5pnl8")
 
+[node name="Sprite2D" type="Sprite2D" parent="Orange"]
+position = Vector2(428.75, 607.5)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Orange"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 425.0
-offset_top = 501.0
-offset_right = 452.0
-offset_bottom = 541.0
+offset_left = 415.0
+offset_top = 586.25
+offset_right = 442.0
+offset_bottom = 626.25
 rotation = -0.263525
 scale = Vector2(1.5, 1.5)
 theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
@@ -180,6 +208,11 @@ position = Vector2(144, 487)
 rotation = -1.91463
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_fm5hy")
+
+[node name="Sprite2D" type="Sprite2D" parent="Rainbow"]
+position = Vector2(323.75, 641.25)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Rainbow"]
 modulate = Color(0, 0, 0, 1)
@@ -210,6 +243,11 @@ rotation = -1.91463
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_fm5hy")
 
+[node name="Sprite2D" type="Sprite2D" parent="Green"]
+position = Vector2(323.75, 641.25)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Green"]
 modulate = Color(0, 0, 0, 1)
 offset_left = 945.0
@@ -231,7 +269,7 @@ rotation = 0.345999
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Gray" type="Node2D" parent="."]
-position = Vector2(149, 185)
+position = Vector2(161, 166)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -241,12 +279,17 @@ rotation = -1.91463
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_fm5hy")
 
+[node name="Sprite2D" type="Sprite2D" parent="Gray"]
+position = Vector2(323.75, 641.25)
+scale = Vector2(1.69355, 1.69355)
+texture = ExtResource("4_hxtxa")
+
 [node name="RichTextLabel" type="RichTextLabel" parent="Gray"]
 modulate = Color(0, 0, 0, 1)
-offset_left = 312.0
-offset_top = 534.0
-offset_right = 339.0
-offset_bottom = 574.0
+offset_left = 308.75
+offset_top = 620.0
+offset_right = 335.75
+offset_bottom = 660.0
 rotation = -0.337069
 scale = Vector2(1.5, 1.5)
 theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
