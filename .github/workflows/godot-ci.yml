@@ -1,5 +1,4 @@
 name: "godot-ci export"
-
 on:
   push:
     branches:
@@ -27,6 +26,7 @@ jobs:
           lfs: true
 
       - name: Setup Godot Templates and User Config
+
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/
@@ -36,6 +36,7 @@ jobs:
       - name: Windows Build
         run: |
           echo "Creating build directory for Windows..."
+
           mkdir -v -p build/windows
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
@@ -178,3 +179,4 @@ jobs:
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
