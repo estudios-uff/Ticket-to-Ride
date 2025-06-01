@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://daxub4d1aqurh"]
+
+[ext_resource type="Texture2D" uid="uid://cacy22xt1h605" path="res://images/utils/cardCredits.png" id="1_86eeg"]
+[ext_resource type="Script" path="res://src/Scripts/manager_objetivos.gd" id="1_xl4mf"]
+[ext_resource type="Shader" path="res://shaders/border_shader.gdshader" id="3_2gbim"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k0xv7"]
+shader = ExtResource("3_2gbim")
+shader_parameter/border_color = Color(0, 0, 1, 1)
+shader_parameter/border_pixel_width = 5.0
+shader_parameter/draw_border = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_obnx7"]
+shader = ExtResource("3_2gbim")
+shader_parameter/border_color = Color(0, 0, 1, 1)
+shader_parameter/border_pixel_width = 5.0
+shader_parameter/draw_border = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uyjat"]
+shader = ExtResource("3_2gbim")
+shader_parameter/border_color = Color(0, 0, 1, 1)
+shader_parameter/border_pixel_width = 5.0
+shader_parameter/draw_border = false
+
+[node name="ManagerObjetivos" type="Node2D"]
+script = ExtResource("1_xl4mf")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 204.0
+offset_bottom = 550.0
+texture = ExtResource("1_86eeg")
+
+[node name="Objetivo1" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_k0xv7")
+offset_left = 2.0
+offset_top = 22.0
+offset_right = 201.0
+offset_bottom = 166.0
+
+[node name="Objetivo2" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_obnx7")
+offset_left = 2.0
+offset_top = 169.0
+offset_right = 201.0
+offset_bottom = 328.0
+
+[node name="Objetivo3" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_uyjat")
+offset_left = 2.0
+offset_top = 321.0
+offset_right = 201.0
+offset_bottom = 470.0
+
+[node name="GerarNovamente" type="Button" parent="."]
+offset_left = 44.0
+offset_top = 502.0
+offset_right = 164.0
+offset_bottom = 533.0
+text = "Gerar novos: 2"
+
+[node name="OK" type="Button" parent="."]
+offset_left = 59.0
+offset_top = 468.0
+offset_right = 146.0
+offset_bottom = 499.0
+text = "Confirmar"
+
+[connection signal="pressed" from="GerarNovamente" to="." method="_on_gerar_novamente_pressed"]
+[connection signal="pressed" from="OK" to="." method="_on_ok_pressed"]
