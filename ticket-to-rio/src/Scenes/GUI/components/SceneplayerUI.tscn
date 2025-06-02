@@ -5,5 +5,7 @@
 [node name="Node2D" type="Node2D"]
 
 [node name="PlayerUi" parent="." instance=ExtResource("1_kmu0f")]
-offset_top = 607.0
-offset_bottom = 607.0
+
+offset_top = 600.0
+offset_bottom = 600.0
+

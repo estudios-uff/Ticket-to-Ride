@@ -17,12 +17,11 @@ const HAND_Y_POSITION = 260
 @onready var deck: Node2D # Will be assigned in _ready
 
 var player_hand = {}
-
-
 var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
-func _ready() -> void:	
+func _ready() -> void:
+
 	player_hand = {
 		"blueTrain": {"count": 0, "label": blue},
 		"grayTrain": {"count": 0, "label": gray},
@@ -58,20 +57,8 @@ func _ready() -> void:
 		else:
 			print("Erro: Sinal 'update_player_hand' não encontrado no Deck.")
 	else:
-		print("Erro: Deck não encontrado no caminho '../Deck'. Verifique a hierarquia da cena.")
-	
-	
-	#var card_scene = preload(CARD_SCENE_PATH)
-	#for i in range(HAND_COUNT):
-		#var new_card = card_scene.instantiate()
-		#$"../CardManager".add_child(new_card)
-		#new_card.name = "Card"
-		#add_card_to_hand(new_card)
+		print("Erro: Deck não encontrado!")
 
-func _process(delta: float) -> void:
-	pass
-
-# Argument 'card' is expected to be the identifier string (e.g., "blueTrain")
 func add_card_to_hand(card_identifier: String) -> void:
 	if card_identifier in player_hand:
 		player_hand[card_identifier]["count"] += 1
@@ -103,22 +90,17 @@ func update_card_visibility(card_identifier: String) -> void:
 		print("Carta inválida em update_card_visibility:", card_identifier)
 
 
-#func update_hand_position():
-	#for i in range(player_hand.size()):
-		#var new_position = Vector2(calculate_card_position(i), HAND_Y_POSITION)
-		#var card = player_hand[i]
-		#card.position = new_position
-		#animate_card_to_position(card, new_position)
-		
-func calculate_card_position(idx: int) -> float: # Changed to int and float return
-	var total_width = (player_hand.size() - 1) * CARD_WIDTH # Corrected calculation
-	var x_offset = center_screen_x + idx * CARD_WIDTH - total_width / 2.0 # Use float division
+
+func calculate_card_position(idx):
+	var total_width = player_hand.size() - 1 * CARD_WIDTH
+	@warning_ignore("integer_division")
+	var x_offset = int(center_screen_x + idx * CARD_WIDTH - total_width / 2)
 	return x_offset
 
-
-func animate_card_to_position(card_node: Node2D, new_position: Vector2) -> void: # Added type hints
+func animate_card_to_position(card, new_position):
 	var tween = get_tree().create_tween()
-	tween.tween_property(card_node, "position", new_position, 0.1)
+	tween.tween_property(card, "position", new_position, 0.1)
+
 
 # If you implement card removal, ensure you update visibility
 func remove_card_from_hand(card_identifier: String) -> void:
@@ -135,4 +117,3 @@ func remove_card_from_hand(card_identifier: String) -> void:
 		# update_hand_position() 
 	else:
 		print("Tentativa de remover carta inválida:", card_identifier)
-

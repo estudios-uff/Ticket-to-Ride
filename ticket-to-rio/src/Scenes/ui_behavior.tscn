@@ -1,6 +1,5 @@
 [gd_scene load_steps=2 format=3 uid="uid://bofb141rqpvkf"]
 
-
 [ext_resource type="Script" path="res://src/Scripts/camera_behavior.gd" id="1_nmvqp"]
 
 [node name="UI_Behavior" type="Node"]

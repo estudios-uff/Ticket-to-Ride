@@ -7,10 +7,10 @@ on:
     branches:
       - main
 
+
 env:
   GODOT_VERSION: 4.3
   EXPORT_NAME: ticket-to-rio
-
   PROJECT_PATH: ticket-to-rio 
 
 jobs:
@@ -26,13 +26,11 @@ jobs:
           lfs: true
 
       - name: Setup Godot Templates and User Config
-
         run: |
           mkdir -v -p ~/.local/share/godot/export_templates/
           mkdir -v -p ~/.config/
           mv /root/.config/godot ~/.config/godot
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
-          
       - name: Windows Build
         run: |
           echo "Creating build directory for Windows..."
@@ -179,4 +177,3 @@ jobs:
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
