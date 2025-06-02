@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://daxub4d1aqurh"]
+[gd_scene load_steps=14 format=3 uid="uid://daxub4d1aqurh"]
 
 [ext_resource type="Texture2D" uid="uid://cacy22xt1h605" path="res://images/utils/cardCredits.png" id="1_86eeg"]
 [ext_resource type="Script" path="res://src/Scripts/manager_objetivos.gd" id="1_xl4mf"]
 [ext_resource type="Shader" path="res://shaders/border_shader.gdshader" id="3_2gbim"]
+[ext_resource type="Texture2D" uid="uid://qy3ptu2vqeai" path="res://images/utils/cardCreditsBtn.png" id="4_lr0rg"]
+[ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="4_w5gi1"]
+[ext_resource type="Texture2D" uid="uid://e2u64spb45fp" path="res://images/utils/cardCreditsBtnActv.png" id="5_qlfip"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0xv7"]
 shader = ExtResource("3_2gbim")
@@ -22,48 +25,83 @@ shader_parameter/border_color = Color(0, 0, 1, 1)
 shader_parameter/border_pixel_width = 5.0
 shader_parameter/draw_border = false
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o7wbe"]
+texture = ExtResource("4_lr0rg")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4aj7t"]
+texture = ExtResource("5_qlfip")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bag4w"]
+texture = ExtResource("5_qlfip")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gignn"]
+texture = ExtResource("4_lr0rg")
+
 [node name="ManagerObjetivos" type="Node2D"]
 script = ExtResource("1_xl4mf")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-offset_right = 204.0
-offset_bottom = 550.0
+offset_left = -367.0
+offset_top = -41.0
+offset_right = 229.0
+offset_bottom = 619.0
 texture = ExtResource("1_86eeg")
 
 [node name="Objetivo1" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_k0xv7")
-offset_left = 2.0
-offset_top = 22.0
-offset_right = 201.0
-offset_bottom = 166.0
+offset_left = 10.0
+offset_top = 61.0
+offset_right = 209.0
+offset_bottom = 205.0
 
 [node name="Objetivo2" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_obnx7")
-offset_left = 2.0
-offset_top = 169.0
-offset_right = 201.0
-offset_bottom = 328.0
+offset_left = 10.0
+offset_top = 208.0
+offset_right = 209.0
+offset_bottom = 367.0
 
 [node name="Objetivo3" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_uyjat")
-offset_left = 2.0
-offset_top = 321.0
-offset_right = 201.0
-offset_bottom = 470.0
+offset_left = 10.0
+offset_top = 360.0
+offset_right = 209.0
+offset_bottom = 509.0
 
 [node name="GerarNovamente" type="Button" parent="."]
-offset_left = 44.0
-offset_top = 502.0
-offset_right = 164.0
-offset_bottom = 533.0
+offset_left = 28.0
+offset_top = 548.0
+offset_right = 184.0
+offset_bottom = 579.0
+theme_override_fonts/font = ExtResource("4_w5gi1")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_o7wbe")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4aj7t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bag4w")
+theme_override_styles/normal = SubResource("StyleBoxTexture_gignn")
 text = "Gerar novos: 2"
 
 [node name="OK" type="Button" parent="."]
-offset_left = 59.0
-offset_top = 468.0
-offset_right = 146.0
-offset_bottom = 499.0
+offset_left = 28.0
+offset_top = 512.0
+offset_right = 184.0
+offset_bottom = 543.0
+theme_override_fonts/font = ExtResource("4_w5gi1")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_o7wbe")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4aj7t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bag4w")
+theme_override_styles/normal = SubResource("StyleBoxTexture_gignn")
 text = "Confirmar"
+
+[node name="Label" type="Label" parent="."]
+offset_top = 12.0
+offset_right = 221.0
+offset_bottom = 61.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_w5gi1")
+theme_override_font_sizes/font_size = 26
+text = "Objetivos"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="GerarNovamente" to="." method="_on_gerar_novamente_pressed"]
 [connection signal="pressed" from="OK" to="." method="_on_ok_pressed"]

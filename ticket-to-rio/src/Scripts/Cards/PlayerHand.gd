@@ -60,11 +60,18 @@ func _ready() -> void:
 	else:
 		print("Erro: Deck não encontrado!")
 
-func add_card_to_hand(card):
-	player_hand[card]["count"] += 1
-	if card in player_hand:
-		var new_count = player_hand[card]["count"]
-		player_hand[card]["label"].text = str(new_count)
+func add_card_to_hand(card_identifier: String) -> void:
+	if card_identifier in player_hand:
+		player_hand[card_identifier]["count"] += 1
+		var current_card_data = player_hand[card_identifier]
+		var label_node = current_card_data["label"]
+		var new_count = current_card_data["count"]
+
+		if label_node is RichTextLabel: # Check if label is valid
+			label_node.text = str(new_count)
+			label_node.visible = new_count > 0 # Show label if count > 0, hide otherwise
+		else:
+			print("Erro: Label não é um RichTextLabel para ", card_identifier)
 	else:
 		print("Carta inválida recebida:", card_identifier)
 
@@ -92,7 +99,7 @@ func calculate_card_position(idx):
 
 func animate_card_to_position(card, new_position):
 	var tween = get_tree().create_tween()
-	tween.tween_property(card_node, "position", new_position, 0.1)
+	tween.tween_property(card, "position", new_position, 0.1)
 
 # If you implement card removal, ensure you update visibility
 func remove_card_from_hand(card_identifier: String) -> void:
