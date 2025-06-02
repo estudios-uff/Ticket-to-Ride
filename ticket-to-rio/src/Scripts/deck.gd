@@ -30,7 +30,7 @@ func _ready() -> void:
 func draw_card():
 	#var card_drawn = player_deck[0]
 	var card_drawn = player_deck.pick_random()
-	
+
 	player_deck.pop_back()
 	
 	trains_deck[card_drawn] -= 1
@@ -38,7 +38,6 @@ func draw_card():
 	
 	#if $"../PlayerHand".player_hand.size() <= 7:	
 		#player_deck.erase(card_drawn)
-	
 	if player_deck.size() == 0:
 		$Area2D/CollisionShape2D.disabled = true
 		$Sprite2D.visible = false

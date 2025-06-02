@@ -17,12 +17,11 @@ const HAND_Y_POSITION = 260
 @onready var deck: Node2D # Will be assigned in _ready
 
 var player_hand = {}
-
 var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+
 	player_hand = {
 		"blueTrain": {"count": 0, "label": blue},
 		"grayTrain": {"count": 0, "label": gray},
@@ -91,6 +90,7 @@ func update_card_visibility(card_identifier: String) -> void:
 		print("Carta inválida em update_card_visibility:", card_identifier)
 
 
+
 func calculate_card_position(idx):
 	var total_width = player_hand.size() - 1 * CARD_WIDTH
 	@warning_ignore("integer_division")
@@ -100,6 +100,7 @@ func calculate_card_position(idx):
 func animate_card_to_position(card, new_position):
 	var tween = get_tree().create_tween()
 	tween.tween_property(card, "position", new_position, 0.1)
+
 
 # If you implement card removal, ensure you update visibility
 func remove_card_from_hand(card_identifier: String) -> void:

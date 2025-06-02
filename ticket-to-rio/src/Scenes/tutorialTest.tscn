@@ -1,5 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://or4w2v47qbt4"]
 
+
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
@@ -59,7 +60,9 @@ anchoramento = 0
 
 [node name="NodePlayerUI" parent="." instance=ExtResource("13_rviws")]
 z_index = 5
+
 position = Vector2(0, 12)
+
 
 [node name="UI_Behavior" parent="NodePlayerUI" instance=ExtResource("9_74bsh")]
 anchoramento = 0
