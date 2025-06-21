@@ -1,5 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://or4w2v47qbt4"]
-
+[gd_scene load_steps=16 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
@@ -15,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://daxub4d1aqurh" path="res://src/Scenes/ManagerObjetivos.tscn" id="13_kx73r"]
 [ext_resource type="PackedScene" uid="uid://bba6bcq0cxwn3" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 [ext_resource type="PackedScene" uid="uid://fjphfqkdfpv7" path="res://src/Scenes/GUI/components/PlayerHand.tscn" id="14_ugbi5"]
+[ext_resource type="PackedScene" uid="uid://bfk5e1f8jhcf0" path="res://src/Scenes/turn_manager.tscn" id="15_otum2"]
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("11_lv38c")
@@ -33,11 +33,17 @@ volume_db = -17.949
 autoplay = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
 texture = ExtResource("5_x4qt4")
 
+[node name="PlayerHandsContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="PlayerHand" parent="." instance=ExtResource("14_ugbi5")]
+visible = false
 z_index = 5
 
 [node name="UI_Behavior2" parent="PlayerHand" instance=ExtResource("9_74bsh")]
@@ -53,6 +59,7 @@ position = Vector2(1228, 66)
 anchoramento = 0
 
 [node name="NodeLoja" parent="." instance=ExtResource("12_jdx0c")]
+visible = false
 z_index = 5
 
 [node name="UI_Behavior" parent="NodeLoja" instance=ExtResource("9_74bsh")]
@@ -60,9 +67,7 @@ anchoramento = 0
 
 [node name="NodePlayerUI" parent="." instance=ExtResource("13_rviws")]
 z_index = 5
-
 position = Vector2(0, 12)
-
 
 [node name="UI_Behavior" parent="NodePlayerUI" instance=ExtResource("9_74bsh")]
 anchoramento = 0
@@ -79,4 +84,18 @@ z_index = 5
 [node name="ManagerObjetivos" parent="." instance=ExtResource("13_kx73r")]
 z_index = 6
 
+[node name="EndTurnButton" type="Button" parent="."]
+offset_left = 1024.0
+offset_top = 660.0
+offset_right = 1104.0
+offset_bottom = 700.0
+text = "End Turn"
+
+[node name="EnemyThinking" type="Timer" parent="."]
+wait_time = 1.25
+one_shot = true
+
+[node name="TurnManager" parent="." instance=ExtResource("15_otum2")]
+
 [connection signal="draw" from="Deck" to="." method="_on_deck_draw"]
+[connection signal="pressed" from="EndTurnButton" to="TurnManager" method="_on_end_turn_button_pressed"]
