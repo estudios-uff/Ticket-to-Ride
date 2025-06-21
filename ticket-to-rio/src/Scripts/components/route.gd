@@ -4,6 +4,7 @@ class_name Route
 @export var from_city_name: String = ""
 @export var to_city_name: String = ""
 @export var route_color: Color = Color.WHITE
+var route_color_name: String = ""
 @export var wagon_cost: int = 0
 @export var parallel_offset: float = 5.5
 @export var line_visual_width: float = 10.0
@@ -16,17 +17,21 @@ var wagon_sprite_scene: PackedScene = preload("res://src/Scenes/TestMap/WagonSpr
 var from_city_node: Node2D = null
 var to_city_node: Node2D = null
 
+var claimed: bool = false
+
 signal route_clicked(route_node)
 
 func _ready():
 	if area_2d:
 		area_2d.input_event.connect(_on_area_2d_input_event)
 		
-func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int):
-	from_city_node = p_from_city
-	to_city_node = p_to_city
-	route_color = p_color
-	wagon_cost = p_cost
+func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int, p_color_name: String = ""):
+        from_city_node = p_from_city
+        to_city_node = p_to_city
+        route_color = p_color
+        wagon_cost = p_cost
+        route_color_name = p_color_name
+        claimed = false
 
 	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
 		printerr("Route setup: From or To city node is not valid.")

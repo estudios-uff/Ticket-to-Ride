@@ -6,6 +6,10 @@ var route_scene: PackedScene = preload("res://src/Scenes/TestMap/Route.tscn")
 var info_popup_scene: PackedScene = preload("res://src/Scenes/TestMap/InfoPopup.tscn")
 var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_da_cidade)
 
+@export var player_hand_path: NodePath
+@export var player_color: Color = Color.GREEN
+var player_hand: Node = null
+
 # Dados de exemplo do mapa (pode vir de um arquivo JSON/CSV em um jogo real)
 var map_data = {
 	"cities": {
@@ -152,7 +156,9 @@ var map_data = {
 }
 
 func _ready():
-	draw_map()
+        if player_hand_path:
+                player_hand = get_node_or_null(player_hand_path)
+        draw_map()
 
 func draw_map():
 	# 1. Instanciar Cidades
@@ -181,8 +187,8 @@ func draw_map():
 			var route_instance = route_scene.instantiate()
 			add_child(route_instance) # Adiciona como filho do Map
 			
-			# Configura a rota usando a função setup_route
-			route_instance.setup_route(from_city_node, to_city_node, parse_color(route_data.color), route_data.cost)
+                        # Configura a rota usando a função setup_route
+                        route_instance.setup_route(from_city_node, to_city_node, parse_color(route_data.color), route_data.cost, route_data.color)
 			route_instance.from_city_name = from_city_name # Para depuração
 			route_instance.to_city_name = to_city_name   # Para depuração
 
@@ -206,8 +212,67 @@ func parse_color(color_string: String) -> Color:
 		"black": return Color(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, ALPHA_VALUE)
 		"white": return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)
 		"gray": return Color(Color.GRAY.r, Color.GRAY.g, Color.GRAY.b, ALPHA_VALUE)
-		"pink": return Color(1.0, 0.75, 0.8, ALPHA_VALUE) # Rosa
-		_: return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)  # Padrão para branco se a cor não for reconhecida
+                "pink": return Color(1.0, 0.75, 0.8, ALPHA_VALUE) # Rosa
+                _: return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)  # Padrão para branco se a cor não for reconhecida
+
+func color_name_to_card_key(color_string: String) -> String:
+        match color_string.to_lower():
+                "blue":
+                        return "blueTrain"
+                "green":
+                        return "greenTrain"
+                "yellow":
+                        return "yellowTrain"
+                "orange":
+                        return "orangeTrain"
+                "pink":
+                        return "pinkTrain"
+                "red":
+                        return "redTrain"
+                "white":
+                        return "rainbowTrain"
+                "gray", "grey":
+                        return "grayTrain"
+                _:
+                        return "grayTrain"
+
+func attempt_buy_route(card_key: String, cost: int) -> bool:
+        if player_hand == null:
+                return false
+        var rainbow_count = player_hand.player_hand["rainbowTrain"]["count"] if "rainbowTrain" in player_hand.player_hand else 0
+        if card_key == "grayTrain":
+                var best_color = ""
+                var best_count = 0
+                for key in player_hand.player_hand.keys():
+                        if key == "rainbowTrain":
+                                continue
+                        var c = player_hand.player_hand[key]["count"]
+                        if c > best_count:
+                                best_count = c
+                                best_color = key
+                if best_color == "":
+                        best_color = "grayTrain"
+                if best_count + rainbow_count < cost:
+                        return false
+                var use_from_color = min(cost, best_count)
+                for i in range(use_from_color):
+                        player_hand.remove_card_from_hand(best_color)
+                var remaining = cost - use_from_color
+                for i in range(remaining):
+                        player_hand.remove_card_from_hand("rainbowTrain")
+                return true
+        else:
+                var color_count = player_hand.player_hand[card_key]["count"] if card_key in player_hand.player_hand else 0
+                if color_count + rainbow_count < cost:
+                        return false
+                var use_from_color = min(cost, color_count)
+                for i in range(use_from_color):
+                        player_hand.remove_card_from_hand(card_key)
+                var remaining = cost - use_from_color
+                for i in range(remaining):
+                        player_hand.remove_card_from_hand("rainbowTrain")
+                return true
+
 
 
 func show_info_popup(message: String, global_position: Vector2):
@@ -217,7 +282,7 @@ func show_info_popup(message: String, global_position: Vector2):
 	# Ajusta a posição do pop-up para que ele apareça próximo ao clique
 	# Pode ser necessário ajustar o offset para centralizar o pop-up
 	var popup_offset = Vector2(popup_instance.size.x / 2, popup_instance.size.y / 2) # Para centralizar o pop-up
-	popup_instance.show_message(message, global_position - popup_offset)
+        popup_instance.show_message(message, global_position - popup_offset)
 	# Se o pop-up não tem um tamanho definido na cena, você pode precisar de um Frame ou de um Control
 	# que auto-expanda para que popup_instance.size.x e y sejam válidos.
 	# Caso contrário, apenas posicione sem offset inicialmente para testar.
@@ -230,8 +295,14 @@ func _on_city_clicked(city_node: Node2D):
 	# Lógica do jogo aqui (ex: destacar cidade para construir rota)
 
 func _on_route_clicked(route_node: Node2D):
-	print("Mapa recebeu clique na rota: ", route_node.from_city_name, " - ", route_node.to_city_name, " (Custo: ", route_node.wagon_cost, ")")
-	# Exemplo: Simular que o jogador reivindicou a rota (muda a cor dos vagões)
-	# Em um jogo real, você verificaria se o jogador tem os vagões e cartas de trem necessários.
-	var player_color = Color.GREEN # Exemplo: Cor do jogador
-	route_node.set_wagons_player_color(player_color)
+        if route_node.claimed:
+                show_info_popup("Rota já comprada", route_node.position)
+                return
+
+        var card_key = color_name_to_card_key(route_node.route_color_name)
+        if attempt_buy_route(card_key, route_node.wagon_cost):
+                route_node.set_wagons_player_color(player_color)
+                route_node.claimed = true
+                show_info_popup("Rota comprada!", route_node.position)
+        else:
+                show_info_popup("Cartas insuficientes", route_node.position)
