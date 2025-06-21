@@ -6,12 +6,14 @@ var route_scene: PackedScene = preload("res://src/Scenes/TestMap/Route.tscn")
 var info_popup_scene: PackedScene = preload("res://src/Scenes/TestMap/InfoPopup.tscn")
 var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_da_cidade)
 
-@export var player_hand_path: NodePath
+@export var player_hand_path: String = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 @export var player_color: Color = Color.GREEN
-var player_hand: Node = null
+var player_hand: Array[Node] = []
 @export var purchased_routes_label_path: NodePath
 var purchased_routes_label: RichTextLabel = null
 var purchased_routes: Array[String] = []
+
+@onready var turn_manager = get_node("/root/TutorialTest/TurnManager")
 
 # Dados de exemplo do mapa (pode vir de um arquivo JSON/CSV em um jogo real)
 var map_data = {
@@ -159,8 +161,11 @@ var map_data = {
 }
 
 func _ready():
-	if player_hand_path:
-		player_hand = get_node_or_null(player_hand_path)
+	for i in range(Global.num_players):
+		var player_hand_path_i = player_hand_path + "_" + str(i)
+		var player_hand_nodepath_i: NodePath = player_hand_path_i
+		if player_hand_nodepath_i:
+			player_hand.append(get_node_or_null(player_hand_nodepath_i))
 	if purchased_routes_label_path:
 		purchased_routes_label = get_node_or_null(purchased_routes_label_path)
 		update_purchased_routes_label()
@@ -242,17 +247,17 @@ func color_name_to_card_key(color_string: String) -> String:
 		_:
 			return "grayTrain"
 
-func attempt_buy_route(card_key: String, cost: int) -> bool:
-	if player_hand == null:
+func attempt_buy_route(index_player: int, card_key: String, cost: int) -> bool:
+	if player_hand[index_player] == null:
 		return false
-	var rainbow_count = player_hand.player_hand["rainbowTrain"]["count"] if "rainbowTrain" in player_hand.player_hand else 0
+	var rainbow_count = player_hand[index_player].player_hand["rainbowTrain"]["count"] if "rainbowTrain" in player_hand[index_player].player_hand else 0
 	if card_key == "grayTrain":
 		var best_color = ""
 		var best_count = 0
-		for key in player_hand.player_hand.keys():
+		for key in player_hand[index_player].player_hand.keys():
 			if key == "rainbowTrain":
 				continue
-			var c = player_hand.player_hand[key]["count"]
+			var c = player_hand[index_player].player_hand[key]["count"]
 			if c > best_count:
 				best_count = c
 				best_color = key
@@ -262,21 +267,21 @@ func attempt_buy_route(card_key: String, cost: int) -> bool:
 			return false
 		var use_from_color = min(cost, best_count)
 		for i in range(use_from_color):
-			player_hand.remove_card_from_hand(best_color)
+			player_hand[index_player].remove_card_from_hand(best_color)
 		var remaining = cost - use_from_color
 		for i in range(remaining):
-			player_hand.remove_card_from_hand("rainbowTrain")
+			player_hand[index_player].remove_card_from_hand("rainbowTrain")
 		return true
 	else:
-		var color_count = player_hand.player_hand[card_key]["count"] if card_key in player_hand.player_hand else 0
+		var color_count = player_hand[index_player].player_hand[card_key]["count"] if card_key in player_hand[index_player].player_hand else 0
 		if color_count + rainbow_count < cost:
 			return false
 		var use_from_color = min(cost, color_count)
 		for i in range(use_from_color):
-			player_hand.remove_card_from_hand(card_key)
+			player_hand[index_player].remove_card_from_hand(card_key)
 		var remaining = cost - use_from_color
 		for i in range(remaining):
-			player_hand.remove_card_from_hand("rainbowTrain")
+			player_hand[index_player].remove_card_from_hand("rainbowTrain")
 		return true
 
 
@@ -310,7 +315,7 @@ func _on_route_clicked(route_node: Node2D):
 		return
 
 	var card_key = color_name_to_card_key(route_node.route_color_name)
-	if attempt_buy_route(card_key, route_node.wagon_cost):
+	if attempt_buy_route(turn_manager.index_player, card_key, route_node.wagon_cost):
 		route_node.set_wagons_route_color(route_node.route_color_name)
 		route_node.claimed = true
 		purchased_routes.append("%s - %s" % [route_node.from_city_name, route_node.to_city_name])
