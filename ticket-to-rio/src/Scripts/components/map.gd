@@ -282,21 +282,21 @@ func attempt_buy_route(card_key: String, cost: int) -> bool:
 
 
 func show_info_popup(message: String, global_position: Vector2):
-        var popup_instance = info_popup_scene.instantiate()
-        add_child(popup_instance) # Adiciona o pop-up como filho do Map (ou de uma camada UI)
+	var popup_instance = info_popup_scene.instantiate()
+	add_child(popup_instance) # Adiciona o pop-up como filho do Map (ou de uma camada UI)
 
 	# Ajusta a posição do pop-up para que ele apareça próximo ao clique
 	# Pode ser necessário ajustar o offset para centralizar o pop-up
-	var popup_offset = Vector2(popup_instance.size.x / 2, popup_instance.size.y / 2) # Para centralizar o pop-up
-	popup_instance.show_message(message, global_position - popup_offset)
+	var popup_offset = Vector2(get_window().size.x / 2, get_window().size.y / 2) # Para centralizar o pop-up
+	popup_instance.show_message(message,  popup_offset)
 	# Se o pop-up não tem um tamanho definido na cena, você pode precisar de um Frame ou de um Control
 	# que auto-expanda para que popup_instance.size.x e y sejam válidos.
 	# Caso contrário, apenas posicione sem offset inicialmente para testar.
-        # popup_instance.show_message(message, global_position)
+	# popup_instance.show_message(message, global_position)
 
 func update_purchased_routes_label():
-        if purchased_routes_label:
-                purchased_routes_label.text = "\n".join(purchased_routes)
+	if purchased_routes_label:
+		purchased_routes_label.text = "\n".join(purchased_routes)
 
 # Funções de callback para os sinais de clique
 func _on_city_clicked(city_node: Node2D):
@@ -309,13 +309,13 @@ func _on_route_clicked(route_node: Node2D):
 		show_info_popup("Rota já comprada", route_node.position)
 		return
 
-        var card_key = color_name_to_card_key(route_node.route_color_name)
-        if attempt_buy_route(card_key, route_node.wagon_cost):
-			route_node.set_wagons_route_color(route_node.route_color_name)
-			route_node.claimed = true
-			purchased_routes.append("%s - %s" % [route_node.from_city_name, route_node.to_city_name])
-			update_purchased_routes_label()
-			show_info_popup("Rota comprada!", route_node.position)
-			print("Rota comprada! " , "por jogador: ", player_color)
-        else:
-			show_info_popup("Cartas insuficientes", route_node.position)
+	var card_key = color_name_to_card_key(route_node.route_color_name)
+	if attempt_buy_route(card_key, route_node.wagon_cost):
+		route_node.set_wagons_route_color(route_node.route_color_name)
+		route_node.claimed = true
+		purchased_routes.append("%s - %s" % [route_node.from_city_name, route_node.to_city_name])
+		update_purchased_routes_label()
+		show_info_popup("Rota comprada!", route_node.position)
+		print("Rota comprada! " , "por jogador: ", player_color)
+	else:
+		show_info_popup("Cartas insuficientes", route_node.position)
