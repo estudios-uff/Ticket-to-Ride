@@ -4,6 +4,7 @@ class_name Route
 @export var from_city_name: String = ""
 @export var to_city_name: String = ""
 @export var route_color: Color = Color.WHITE
+var route_color_name: String = ""
 @export var wagon_cost: int = 0
 @export var parallel_offset: float = 5.5
 @export var line_visual_width: float = 10.0
@@ -16,17 +17,32 @@ var wagon_sprite_scene: PackedScene = preload("res://src/Scenes/TestMap/WagonSpr
 var from_city_node: Node2D = null
 var to_city_node: Node2D = null
 
+var claimed: bool = false
+
+const WAGON_TEXTURES := {
+		"blue": preload("res://images/utils/wagonBlue.png"),
+		"green": preload("res://images/utils/wagonGreen.png"),
+		"yellow": preload("res://images/utils/wagonYellow.png"),
+		"orange": preload("res://images/utils/wagonOrange.png"),
+		"white": preload("res://images/utils/wagonWhite.png"),
+		"gray": preload("res://images/utils/wagonGray.png"),
+		"pink": preload("res://images/scenes/pinkTrain.png"),
+		"red": preload("res://images/scenes/redTrain.png")
+}
+
 signal route_clicked(route_node)
 
 func _ready():
 	if area_2d:
 		area_2d.input_event.connect(_on_area_2d_input_event)
 		
-func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int):
+func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int, p_color_name: String = ""):
 	from_city_node = p_from_city
 	to_city_node = p_to_city
 	route_color = p_color
 	wagon_cost = p_cost
+	route_color_name = p_color_name
+	claimed = false
 
 	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
 		printerr("Route setup: From or To city node is not valid.")
@@ -120,7 +136,7 @@ func _clear_wagons():
 			child.queue_free()
 
 func spawn_wagons():
-	_clear_wagons() 
+	_clear_wagons()
 
 	if wagon_cost == 0: return
 	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
@@ -142,24 +158,35 @@ func spawn_wagons():
 
 	for i in range(wagon_cost):
 		var wagon_instance = wagon_sprite_scene.instantiate()
-		add_child(wagon_instance) 
+		add_child(wagon_instance)
+
+		var sprite = wagon_instance.get_node_or_null("vagao")
+		if sprite is Sprite2D:
+			sprite.texture = WAGON_TEXTURES.get("gray")
 
 		var t = (i + 1) * spacing_factor
 		var wagon_global_pos = actual_start_pos_global.lerp(actual_end_pos_global, t)
-		
-		wagon_instance.position = to_local(wagon_global_pos) 
+
+		wagon_instance.position = to_local(wagon_global_pos)
 		wagon_instance.rotation = direction.angle() 
 		wagon_instance.name = "Wagon" + str(i)
 
-		
-		
+			
 
 func set_wagons_player_color(player_color: Color):
 	for child in get_children():
 		if child is Sprite2D and child.name.begins_with("Wagon"):
 			child.modulate = player_color
 
+func set_wagons_route_color(color_name: String):
+		var texture = WAGON_TEXTURES.get(color_name.to_lower(), WAGON_TEXTURES.get("gray"))
+		for child in get_children():
+				if child.name.begins_with("Wagon"):
+						var sprite = child.get_node_or_null("vagao")
+						if sprite is Sprite2D:
+								sprite.texture = texture
+
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			print("Route Clicked: ", from_city_name, " - ", to_city_name, " (Offset: ", parallel_offset, ")")
-			emit_signal("route_clicked", self)
+		print("Route Clicked: ", from_city_name, " - ", to_city_name, " (cost: ", wagon_cost, ")")
+		emit_signal("route_clicked", self)
