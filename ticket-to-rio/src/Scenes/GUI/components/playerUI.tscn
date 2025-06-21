@@ -164,6 +164,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ObjetivosJogador" type="Button" parent="."]
+layout_mode = 0
 offset_left = 36.0
 offset_top = 63.0
 offset_right = 122.0
