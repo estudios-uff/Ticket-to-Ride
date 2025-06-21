@@ -8,7 +8,7 @@ var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_
 
 @export var player_hand_path: String = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 @export var player_color: Color = Color.GREEN
-var player_hand: Array[Node] = []
+@export var player_hand: Array[Node] = []
 @export var purchased_routes_label_path: NodePath
 var purchased_routes_label: RichTextLabel = null
 var purchased_routes: Array[String] = []
@@ -116,37 +116,37 @@ var map_data = {
 		{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
 		{"from": "Volta Redonda", "to": "Pinheiral", "color": "pink", "cost": 2},
 		{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
-		{"from": "Pinheiral", "to": "Piraí", "color": "grey", "cost": 3},
-		{"from": "Piraí", "to": "Seropédica", "color": "grey", "cost": 5},
+		{"from": "Pinheiral", "to": "Piraí", "color": "gray", "cost": 3},
+		{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 5},
 		{"from": "Piraí", "to": "Paracambi", "color": "orange", "cost": 3},
 		{"from": "Paracambi", "to": "Piraí", "color": "yellow", "cost": 3},
 		{"from": "Seropédica", "to": "Itaguaí", "color": "green", "cost": 2},
 		{"from": "Seropédica", "to": "Queimados", "color": "pink", "cost": 3},
-		{"from": "Seropédica", "to": "Japeri", "color": "grey", "cost": 2},
-		{"from": "Japeri", "to": "Paracambi", "color": "grey", "cost": 1},
-		{"from": "Paracambi", "to": "Japeri", "color": "grey", "cost": 1},
+		{"from": "Seropédica", "to": "Japeri", "color": "gray", "cost": 2},
+		{"from": "Japeri", "to": "Paracambi", "color": "gray", "cost": 1},
+		{"from": "Paracambi", "to": "Japeri", "color": "gray", "cost": 1},
 		{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
-		{"from": "Barra do Piraí", "to": "Valença", "color": "grey", "cost": 6},
+		{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
 		{"from": "Barra do Piraí", "to": "Vassouras", "color": "pink", "cost": 4},
-		{"from": "Valença", "to": "Vassouras", "color": "grey", "cost": 3},
+		{"from": "Valença", "to": "Vassouras", "color": "gray", "cost": 3},
 		{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 4},
 		{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 5},
 		{"from": "Japeri", "to": "Queimados", "color": "green", "cost": 2},
-		{"from": "Japeri", "to": "Miguel Pereira", "color": "grey", "cost": 6},
+		{"from": "Japeri", "to": "Miguel Pereira", "color": "gray", "cost": 6},
 		{"from": "Queimados", "to": "Japeri", "color": "orange", "cost": 2},
 		{"from": "Queimados", "to": "Nova Iguaçu", "color": "yellow", "cost": 2},
 		{"from": "Nova Iguaçu", "to": "Queimados", "color": "white", "cost": 2},
-		{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "grey", "cost": 8},
-		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "grey", "cost": 7},
-		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "grey", "cost": 7},
+		{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "gray", "cost": 8},
+		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "gray", "cost": 7},
+		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "gray", "cost": 7},
 		{"from": "Itaguaí", "to": "Nova Iguaçu", "color": "blue", "cost": 8},
 		{"from": "Nova Iguaçu", "to": "Duque de Caxias", "color": "green", "cost": 3},
 		{"from": "Duque de Caxias", "to": "Nova Iguaçu", "color": "orange", "cost": 3},
 		{"from": "Duque de Caxias", "to": "Rio de Janeiro", "color": "white", "cost": 4},
 		{"from": "Duque de Caxias", "to": "Petrópolis", "color": "yellow", "cost": 8},
 		{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
-		{"from": "Rio de Janeiro", "to": "Niterói", "color": "grey", "cost": 1},
-		{"from": "Niterói", "to": "Rio de Janeiro", "color": "grey", "cost": 1},
+		{"from": "Rio de Janeiro", "to": "Niterói", "color": "gray", "cost": 1},
+		{"from": "Niterói", "to": "Rio de Janeiro", "color": "gray", "cost": 1},
 		{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
 		{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
 		{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
@@ -160,16 +160,12 @@ var map_data = {
 	]
 }
 
-func _ready():
-	for i in range(Global.num_players):
-		var player_hand_path_i = player_hand_path + "_" + str(i)
-		var player_hand_nodepath_i: NodePath = player_hand_path_i
-		if player_hand_nodepath_i:
-			player_hand.append(get_node_or_null(player_hand_nodepath_i))
+func _ready():		
 	if purchased_routes_label_path:
 		purchased_routes_label = get_node_or_null(purchased_routes_label_path)
 		update_purchased_routes_label()
 	draw_map()
+	print('draw')
 
 func draw_map():
 	# 1. Instanciar Cidades
@@ -242,7 +238,7 @@ func color_name_to_card_key(color_string: String) -> String:
 			return "redTrain"
 		"white":
 			return "rainbowTrain"
-		"gray", "grey":
+		"gray":
 			return "grayTrain"
 		_:
 			return "grayTrain"
@@ -321,6 +317,6 @@ func _on_route_clicked(route_node: Node2D):
 		purchased_routes.append("%s - %s" % [route_node.from_city_name, route_node.to_city_name])
 		update_purchased_routes_label()
 		show_info_popup("Rota comprada!", route_node.position)
-		print("Rota comprada! " , "por jogador: ", player_color)
+		print("Rota comprada! " , "por jogador: ", turn_manager.index_player)
 	else:
 		show_info_popup("Cartas insuficientes", route_node.position)

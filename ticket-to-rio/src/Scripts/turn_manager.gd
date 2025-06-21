@@ -3,7 +3,7 @@ extends Node
 enum State { CHOOSING_OBJECTIVES, PLAYER_TURN, IA_TURN }
 var current_state: State
 
-var index_player = 0
+@export var index_player = 0
 var playerHands = []
 var iaHands = []
 var index_ia = 0
@@ -21,7 +21,12 @@ var player_hand_scene = preload("res://src/Scenes/GUI/components/PlayerHand.tscn
 @onready var manager_objetivos = get_node("/root/TutorialTest/ManagerObjetivos")
 var player_objectives = {} 
 
+@onready var map = get_node("/root/TutorialTest/Map")
+
+
 @onready var end_turn_button = $"../EndTurnButton"
+
+
 
 func _ready() -> void:
 	# Conecta o sinal do Deck a uma função AQUI no TurnManager
@@ -68,6 +73,13 @@ func _ready() -> void:
 		ui_instance.visible = (i == 0) # Apenas a UI do primeiro jogador é visível
 		
 		player_objectives[i] = [] 
+	
+	for i in range(Global.num_players):
+		var player_hand_path_i = map.player_hand_path + "_" + str(i)
+		var player_hand_nodepath_i: NodePath = player_hand_path_i
+		if player_hand_nodepath_i:
+			print(get_node_or_null(player_hand_nodepath_i))
+			map.player_hand.append(get_node_or_null(player_hand_nodepath_i))
 		
 func _on_deck_card_drawn(card_identifier: String) -> void:
 	# Verifica se há jogadores humanos no jogo
