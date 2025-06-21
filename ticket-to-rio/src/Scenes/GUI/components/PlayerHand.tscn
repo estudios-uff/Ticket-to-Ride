@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://fjphfqkdfpv7"]
+[gd_scene load_steps=14 format=3 uid="uid://fjphfqkdfpv7"]
 
 [ext_resource type="Texture2D" uid="uid://b0jghcr7ulhgm" path="res://images/scenes/grayTrain.png" id="1_fm5hy"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="1_pk22s"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://src/Scripts/Cards/cardHand.gd" id="2_06kwb"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="3_g5klp"]
 [ext_resource type="Texture2D" uid="uid://dovjb6ypgdsff" path="res://images/scenes/yellowTrain.png" id="3_ldx30"]
+[ext_resource type="Texture2D" uid="uid://xtvdcsl1pgfe" path="res://images/scenes/raindowTrain.png" id="3_xiq6n"]
 [ext_resource type="Texture2D" uid="uid://d3g3ibyt85d7s" path="res://images/utils/Elipse 1.png" id="4_hxtxa"]
 [ext_resource type="Texture2D" uid="uid://xvypfo4hacfy" path="res://images/scenes/blueTrain.png" id="4_wdrei"]
 [ext_resource type="Texture2D" uid="uid://cdcld7bbw1d8l" path="res://images/scenes/orangeTrain.png" id="5_5pnl8"]
@@ -31,7 +32,7 @@ script = ExtResource("2_06kwb")
 position = Vector2(885.579, 624.803)
 rotation = -1.22173
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_4g8dq")
+texture = ExtResource("3_xiq6n")
 
 [node name="Sprite2D" type="Sprite2D" parent="Rainbow"]
 position = Vector2(886.25, 625)

@@ -157,6 +157,27 @@ func _ready() -> void:
 	
 	gerar_objetivos()
 
+func get_random_objectives(amount: int) -> Array[Texture2D]:
+	# Cria um array vazio para armazenar o resultado
+	var selecionadas: Array[Texture2D] = []
+	
+	# Garante que não tentemos pegar mais cartas do que existem no baralho.
+	# Se o baralho estiver vazio, retorna um array vazio para evitar erros.
+	if todas_as_cartas.is_empty():
+		printerr("ManagerObjetivos: Não há cartas no baralho de objetivos para selecionar.")
+		return selecionadas
+	
+	# Embaralha a lista de todas as cartas para garantir a aleatoriedade
+	todas_as_cartas.shuffle()
+	
+	# Pega a quantidade de cartas solicitada do topo da lista embaralhada.
+	# A função 'min' garante que o laço não tente acessar um índice que não existe,
+	# caso 'amount' seja maior que o número de cartas restantes.
+	for i in range(min(amount, todas_as_cartas.size())):
+		selecionadas.append(todas_as_cartas[i])
+		
+	return selecionadas
+
 func gerar_objetivos():
 	var cartas_selecionadas: Array[Texture] = []
 	var indices_usados: Array[int] = []
@@ -190,6 +211,19 @@ func gerar_objetivos():
 		print("Cartas selecionadas, atribuídas e redimensionadas!")
 	else:
 		printerr("Não foi possível selecionar 3 cartas únicas.")
+
+func iniciar_selecao_de_objetivos() -> void:
+	# Reseta o estado para um novo jogador
+	objetivos_marcados = [false, false, false]
+	tentativas = 2
+	$GerarNovamente.text = "Gerar novos: " + str(tentativas)
+	
+	# Gera um novo conjunto de 3 objetivos
+	gerar_objetivos()
+	
+	# Mostra a tela de seleção
+	show()
+	$"../EndTurnButton".disabled = true
 
 # Função chamada quando ocorre um evento de input GUI em um dos TextureRects
 func _on_objetivo_gui_input(event: InputEvent, texture_rect_node: TextureRect, objective_index: int) -> void:
@@ -233,5 +267,6 @@ func _on_ok_pressed() -> void:
 		
 		emit_signal("objetivos_escolhidos", selecionadas)
 		hide() 
+		$"../EndTurnButton".disabled = false
 	else:
 		print("Selecione pelo menos 2 objetivos para continuar.")

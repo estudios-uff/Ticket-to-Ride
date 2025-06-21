@@ -9,14 +9,14 @@ var player_deck = []
 @onready var grayTrain: RichTextLabel = $Gray/RichTextLabel
 
 var trains_deck = {
-	"blueTrain": 12,
-	"grayTrain": 12,
-	"greenTrain": 12,
-	"orangeTrain": 12,
-	"pinkTrain": 12,
-	"redTrain": 12,
-	"yellowTrain": 12,
-	"rainbowTrain": 14
+	"blueTrain": 20,
+	"grayTrain": 20,
+	"greenTrain": 20,
+	"orangeTrain": 20,
+	"pinkTrain": 20,
+	"redTrain": 20,
+	"yellowTrain": 20,
+	"rainbowTrain": 24
 }
 
 func _ready() -> void:

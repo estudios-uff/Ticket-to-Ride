@@ -19,6 +19,8 @@ const HAND_Y_POSITION = 260
 var player_hand = {}
 var center_screen_x
 
+@onready var ja_comprou = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	player_hand = {

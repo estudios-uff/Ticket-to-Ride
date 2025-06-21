@@ -26,8 +26,8 @@ const WAGON_TEXTURES := {
 		"orange": preload("res://images/utils/wagonOrange.png"),
 		"white": preload("res://images/utils/wagonWhite.png"),
 		"gray": preload("res://images/utils/wagonGray.png"),
-		"pink": preload("res://images/scenes/pinkTrain.png"),
-		"red": preload("res://images/scenes/redTrain.png")
+		"pink": preload("res://images/utils/wagonPink.png"),
+		"red": preload("res://images/utils/wagonRed.png")
 }
 
 signal route_clicked(route_node)

@@ -50,7 +50,7 @@ z_index = 5
 anchoramento = 0
 
 [node name="Map" parent="." instance=ExtResource("6_3bipw")]
-player_hand_path = NodePath("")
+player_hand_path = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 
 [node name="Deck" parent="." instance=ExtResource("11_hcphn")]
 z_index = 5
@@ -66,7 +66,14 @@ z_index = 5
 [node name="UI_Behavior" parent="NodeLoja" instance=ExtResource("9_74bsh")]
 anchoramento = 0
 
+[node name="PlayerUIsContainer" type="VBoxContainer" parent="."]
+z_index = 6
+offset_top = 574.0
+offset_right = 40.0
+offset_bottom = 574.0
+
 [node name="NodePlayerUI" parent="." instance=ExtResource("13_rviws")]
+visible = false
 z_index = 5
 position = Vector2(0, 12)
 
@@ -90,6 +97,7 @@ offset_left = 1024.0
 offset_top = 660.0
 offset_right = 1104.0
 offset_bottom = 700.0
+disabled = true
 text = "End Turn"
 
 [node name="EnemyThinking" type="Timer" parent="."]
