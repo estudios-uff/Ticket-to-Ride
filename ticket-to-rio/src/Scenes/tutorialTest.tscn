@@ -1,10 +1,9 @@
 [gd_scene load_steps=15 format=3 uid="uid://or4w2v47qbt4"]
 
-
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
-[ext_resource type="Texture2D" uid="uid://bfvgjesd54vwp" path="res://images/scenes/Train-board-generator---Rio-de-Janeiro-White.png" id="5_x4qt4"]
+[ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="5_nyu14"]
 [ext_resource type="PackedScene" uid="uid://qarho3gx552b" path="res://src/Scenes/TestMap/Map.tscn" id="6_3bipw"]
 [ext_resource type="PackedScene" uid="uid://bofb141rqpvkf" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
@@ -35,7 +34,7 @@ autoplay = true
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
 position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
-texture = ExtResource("5_x4qt4")
+texture = ExtResource("5_nyu14")
 
 [node name="PlayerHand" parent="." instance=ExtResource("14_ugbi5")]
 z_index = 5
@@ -60,9 +59,7 @@ anchoramento = 0
 
 [node name="NodePlayerUI" parent="." instance=ExtResource("13_rviws")]
 z_index = 5
-
 position = Vector2(0, 12)
-
 
 [node name="UI_Behavior" parent="NodePlayerUI" instance=ExtResource("9_74bsh")]
 anchoramento = 0

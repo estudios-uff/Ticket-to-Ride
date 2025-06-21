@@ -26,12 +26,12 @@ func _ready():
 		area_2d.input_event.connect(_on_area_2d_input_event)
 		
 func setup_route(p_from_city: Node2D, p_to_city: Node2D, p_color: Color, p_cost: int, p_color_name: String = ""):
-        from_city_node = p_from_city
-        to_city_node = p_to_city
-        route_color = p_color
-        wagon_cost = p_cost
-        route_color_name = p_color_name
-        claimed = false
+	from_city_node = p_from_city
+	to_city_node = p_to_city
+	route_color = p_color
+	wagon_cost = p_cost
+	route_color_name = p_color_name
+	claimed = false
 
 	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
 		printerr("Route setup: From or To city node is not valid.")
@@ -156,8 +156,7 @@ func spawn_wagons():
 		wagon_instance.rotation = direction.angle() 
 		wagon_instance.name = "Wagon" + str(i)
 
-		
-		
+			
 
 func set_wagons_player_color(player_color: Color):
 	for child in get_children():
@@ -166,5 +165,5 @@ func set_wagons_player_color(player_color: Color):
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			print("Route Clicked: ", from_city_name, " - ", to_city_name, " (Offset: ", parallel_offset, ")")
-			emit_signal("route_clicked", self)
+		print("Route Clicked: ", from_city_name, " - ", to_city_name, " (cost: ", wagon_cost, ")")
+		emit_signal("route_clicked", self)
