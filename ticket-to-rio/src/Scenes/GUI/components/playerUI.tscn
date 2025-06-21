@@ -1,4 +1,3 @@
-
 [gd_scene load_steps=14 format=3 uid="uid://wmjylpquqe00"]
 
 [ext_resource type="Script" path="res://src/Scripts/components/player_ui.gd" id="1_1cfbd"]
@@ -7,8 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://c3lnvb44ptstd" path="res://images/cards/backCard.png" id="5_rs0vy"]
 [ext_resource type="FontFile" uid="uid://7rsf1kqchhis" path="res://Fonts/alte_haas_grotesk/AlteHaasGroteskBold.ttf" id="5_tx7c2"]
 [ext_resource type="FontFile" uid="uid://bafsfyvcttkmd" path="res://Fonts/wishcar_moundy/Wishcar Moundy Italic.otf" id="6_eatd2"]
-
-[ext_resource type="Texture2D" uid="uid://ducb5qiyhn1ay" path="res://images/utils/informacoes.png" id="6_jgrrl"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_51k3y"]
 texture = ExtResource("1_uk857")
@@ -36,7 +33,6 @@ texture = ExtResource("5_rs0vy")
 texture = ExtResource("1_uk857")
 modulate_color = Color(0, 0.741176, 0.952941, 1)
 
-
 [node name="PlayerUi" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -48,14 +44,12 @@ script = ExtResource("1_1cfbd")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(79, -7)
-
 scale = Vector2(0.232, 0.232)
 texture = ExtResource("2_v85ca")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 14.0
-
 offset_top = 17.0
 offset_right = 144.0
 offset_bottom = 130.0
@@ -71,7 +65,6 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 142.0
 offset_bottom = 86.0
-
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -181,4 +174,3 @@ layout_mode = 2
 layout_mode = 2
 
 [connection signal="pressed" from="ObjetivosJogador" to="." method="_on_objetivos_jogador_pressed"]
-

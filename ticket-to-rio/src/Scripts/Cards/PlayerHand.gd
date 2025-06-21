@@ -21,7 +21,6 @@ var center_screen_x
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-
 	player_hand = {
 		"blueTrain": {"count": 0, "label": blue},
 		"grayTrain": {"count": 0, "label": gray},
@@ -43,21 +42,17 @@ func _ready() -> void:
 
 	center_screen_x = -get_viewport().size.x / 4
 
-	# Tenta encontrar o Deck no caminho correto.
-	# Ensure this path is correct for your scene tree structure.
-	# Common paths could be get_parent().get_node("Deck") or get_node("/root/YourMainScene/Deck")
-	var deck_node = get_node_or_null("../Deck") 
-
-	if deck_node:
-		deck = deck_node
-		# Ensure the 'update_player_hand' signal exists in your Deck script and emits a card identifier
-		if deck.has_signal("update_player_hand"):
-			deck.update_player_hand.connect(add_card_to_hand)
-			print("Conectado ao Deck:", deck)
-		else:
-			print("Erro: Sinal 'update_player_hand' não encontrado no Deck.")
-	else:
-		print("Erro: Deck não encontrado!")
+	#var deck_node = get_node_or_null("/root/TutorialTest/Deck") 
+	#if deck_node:
+		#deck = deck_node
+		## Ensure the 'update_player_hand' signal exists in your Deck script and emits a card identifier
+		#if deck.has_signal("update_player_hand"):
+			#deck.update_player_hand.connect(add_card_to_hand)
+			#print("Conectado ao Deck:", deck)
+		#else:
+			#print("Erro: Sinal 'update_player_hand' não encontrado no Deck.")
+	#else:
+		#print("Erro: Deck não encontrado!")
 
 func add_card_to_hand(card_identifier: String) -> void:
 	if card_identifier in player_hand:
