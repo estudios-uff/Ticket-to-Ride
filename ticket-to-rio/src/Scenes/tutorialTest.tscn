@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=15 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bd70r7s6svycj" path="res://src/Scenes/GUI/components/SceneGroupShopTicket.tscn" id="12_jdx0c"]
 [ext_resource type="PackedScene" uid="uid://daxub4d1aqurh" path="res://src/Scenes/ManagerObjetivos.tscn" id="13_kx73r"]
 [ext_resource type="PackedScene" uid="uid://bba6bcq0cxwn3" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
+[ext_resource type="PackedScene" uid="uid://fjphfqkdfpv7" path="res://src/Scenes/GUI/components/PlayerHand.tscn" id="14_ugbi5"]
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("11_lv38c")
@@ -35,6 +36,12 @@ visible = false
 position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
 texture = ExtResource("5_nyu14")
+
+[node name="PlayerHand" parent="." instance=ExtResource("14_ugbi5")]
+z_index = 5
+
+[node name="UI_Behavior2" parent="PlayerHand" instance=ExtResource("9_74bsh")]
+anchoramento = 0
 
 [node name="Map" parent="." instance=ExtResource("6_3bipw")]
 player_hand_path = NodePath("")
