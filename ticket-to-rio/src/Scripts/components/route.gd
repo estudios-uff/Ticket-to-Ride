@@ -19,6 +19,17 @@ var to_city_node: Node2D = null
 
 var claimed: bool = false
 
+const WAGON_TEXTURES := {
+        "blue": preload("res://images/utils/wagonBlue.png"),
+        "green": preload("res://images/utils/wagonGreen.png"),
+        "yellow": preload("res://images/utils/wagonYellow.png"),
+        "orange": preload("res://images/utils/wagonOrange.png"),
+        "white": preload("res://images/utils/wagonWhite.png"),
+        "gray": preload("res://images/utils/wagonGray.png"),
+        "pink": preload("res://images/scenes/pinkTrain.png"),
+        "red": preload("res://images/scenes/redTrain.png")
+}
+
 signal route_clicked(route_node)
 
 func _ready():
@@ -125,7 +136,7 @@ func _clear_wagons():
 			child.queue_free()
 
 func spawn_wagons():
-	_clear_wagons() 
+        _clear_wagons()
 
 	if wagon_cost == 0: return
 	if not is_instance_valid(from_city_node) or not is_instance_valid(to_city_node):
@@ -145,14 +156,18 @@ func spawn_wagons():
 	
 	var spacing_factor = 1.0 / (wagon_cost + 1)
 
-	for i in range(wagon_cost):
-		var wagon_instance = wagon_sprite_scene.instantiate()
-		add_child(wagon_instance) 
+        for i in range(wagon_cost):
+                var wagon_instance = wagon_sprite_scene.instantiate()
+                add_child(wagon_instance)
 
-		var t = (i + 1) * spacing_factor
-		var wagon_global_pos = actual_start_pos_global.lerp(actual_end_pos_global, t)
-		
-		wagon_instance.position = to_local(wagon_global_pos) 
+                var sprite = wagon_instance.get_node_or_null("vagao")
+                if sprite is Sprite2D:
+                        sprite.texture = WAGON_TEXTURES.get("gray")
+
+                var t = (i + 1) * spacing_factor
+                var wagon_global_pos = actual_start_pos_global.lerp(actual_end_pos_global, t)
+
+                wagon_instance.position = to_local(wagon_global_pos)
 		wagon_instance.rotation = direction.angle() 
 		wagon_instance.name = "Wagon" + str(i)
 
@@ -160,9 +175,17 @@ func spawn_wagons():
 		
 
 func set_wagons_player_color(player_color: Color):
-	for child in get_children():
-		if child is Sprite2D and child.name.begins_with("Wagon"):
-			child.modulate = player_color
+        for child in get_children():
+                if child is Sprite2D and child.name.begins_with("Wagon"):
+                        child.modulate = player_color
+
+func set_wagons_route_color(color_name: String):
+        var texture = WAGON_TEXTURES.get(color_name.to_lower(), WAGON_TEXTURES.get("gray"))
+        for child in get_children():
+                if child.name.begins_with("Wagon"):
+                        var sprite = child.get_node_or_null("vagao")
+                        if sprite is Sprite2D:
+                                sprite.texture = texture
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:

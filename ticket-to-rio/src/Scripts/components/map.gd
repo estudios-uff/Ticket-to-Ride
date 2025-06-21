@@ -9,6 +9,9 @@ var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_
 @export var player_hand_path: NodePath
 @export var player_color: Color = Color.GREEN
 var player_hand: Node = null
+@export var purchased_routes_label_path: NodePath
+var purchased_routes_label: RichTextLabel = null
+var purchased_routes: Array[String] = []
 
 # Dados de exemplo do mapa (pode vir de um arquivo JSON/CSV em um jogo real)
 var map_data = {
@@ -158,6 +161,9 @@ var map_data = {
 func _ready():
         if player_hand_path:
                 player_hand = get_node_or_null(player_hand_path)
+        if purchased_routes_label_path:
+                purchased_routes_label = get_node_or_null(purchased_routes_label_path)
+                update_purchased_routes_label()
         draw_map()
 
 func draw_map():
@@ -276,8 +282,8 @@ func attempt_buy_route(card_key: String, cost: int) -> bool:
 
 
 func show_info_popup(message: String, global_position: Vector2):
-	var popup_instance = info_popup_scene.instantiate()
-	add_child(popup_instance) # Adiciona o pop-up como filho do Map (ou de uma camada UI)
+        var popup_instance = info_popup_scene.instantiate()
+        add_child(popup_instance) # Adiciona o pop-up como filho do Map (ou de uma camada UI)
 
 	# Ajusta a posição do pop-up para que ele apareça próximo ao clique
 	# Pode ser necessário ajustar o offset para centralizar o pop-up
@@ -286,7 +292,11 @@ func show_info_popup(message: String, global_position: Vector2):
 	# Se o pop-up não tem um tamanho definido na cena, você pode precisar de um Frame ou de um Control
 	# que auto-expanda para que popup_instance.size.x e y sejam válidos.
 	# Caso contrário, apenas posicione sem offset inicialmente para testar.
-	# popup_instance.show_message(message, global_position)
+        # popup_instance.show_message(message, global_position)
+
+func update_purchased_routes_label():
+        if purchased_routes_label:
+                purchased_routes_label.text = "\n".join(purchased_routes)
 
 # Funções de callback para os sinais de clique
 func _on_city_clicked(city_node: Node2D):
@@ -301,8 +311,10 @@ func _on_route_clicked(route_node: Node2D):
 
         var card_key = color_name_to_card_key(route_node.route_color_name)
         if attempt_buy_route(card_key, route_node.wagon_cost):
-                route_node.set_wagons_player_color(player_color)
+                route_node.set_wagons_route_color(route_node.route_color_name)
                 route_node.claimed = true
+                purchased_routes.append("%s - %s" % [route_node.from_city_name, route_node.to_city_name])
+                update_purchased_routes_label()
                 show_info_popup("Rota comprada!", route_node.position)
         else:
                 show_info_popup("Cartas insuficientes", route_node.position)
