@@ -1,10 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://butn7tcai5fuf"]
+[gd_scene load_steps=4 format=3 uid="uid://butn7tcai5fuf"]
 
 [ext_resource type="Texture2D" uid="uid://cewoh3hvrqka" path="res://images/scenes/ticket.png" id="1_kvoyk"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="2_iss3f"]
-[ext_resource type="PackedScene" uid="uid://fjphfqkdfpv7" path="res://src/Scenes/GUI/components/PlayerHand.tscn" id="3_mbgu0"]
-[ext_resource type="PackedScene" uid="uid://bofb141rqpvkf" path="res://src/Scenes/ui_behavior.tscn" id="4_3cinn"]
-[ext_resource type="PackedScene" uid="uid://bfk5e1f8jhcf0" path="res://src/Scenes/turn_manager.tscn" id="5_xlw7h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4v87y"]
 size = Vector2(933.059, 537.216)
@@ -39,27 +36,3 @@ theme_override_font_sizes/font_size = 12
 text = "23"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="PlayerHandsContainer" type="VBoxContainer" parent="."]
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PlayerHand" parent="." instance=ExtResource("3_mbgu0")]
-visible = false
-z_index = 5
-
-[node name="UI_Behavior2" parent="PlayerHand" instance=ExtResource("4_3cinn")]
-anchoramento = 0
-
-[node name="EndTurnButton" type="Button" parent="."]
-offset_left = 1024.0
-offset_top = 660.0
-offset_right = 1104.0
-offset_bottom = 700.0
-text = "End Turn"
-
-[node name="EnemyThinking" type="Timer" parent="."]
-wait_time = 1.25
-one_shot = true
-
-[node name="TurnManager" parent="." instance=ExtResource("5_xlw7h")]
