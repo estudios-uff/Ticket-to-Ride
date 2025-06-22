@@ -9,6 +9,7 @@ var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_
 @export var player_hand_path: String = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 @export var player_color: Color = Color.GREEN
 @export var player_hand: Array[Node] = []
+
 @export var purchased_routes_label_path: NodePath
 var purchased_routes_label: RichTextLabel = null
 var purchased_routes: Array[String] = []
@@ -160,7 +161,8 @@ var map_data = {
 	]
 }
 
-func _ready():		
+
+func _ready():
 	if purchased_routes_label_path:
 		purchased_routes_label = get_node_or_null(purchased_routes_label_path)
 		update_purchased_routes_label()

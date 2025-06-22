@@ -49,6 +49,7 @@ z_index = 5
 anchoramento = 0
 
 [node name="Map" parent="." instance=ExtResource("6_3bipw")]
+player_hand_path = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 
 [node name="Deck" parent="." instance=ExtResource("11_hcphn")]
 z_index = 5
