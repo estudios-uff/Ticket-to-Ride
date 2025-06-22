@@ -314,6 +314,7 @@ func _on_route_clicked(route_node: Node2D):
 
 	var card_key = color_name_to_card_key(route_node.route_color_name)
 	if attempt_buy_route(turn_manager.index_player, card_key, route_node.wagon_cost):
+		var color = Global.get_player_color(turn_manager.index_player)
 		route_node.set_wagons_route_color(route_node.route_color_name)
 		route_node.claimed = true
 		purchased_routes.append("%s - %s" % [route_node.from_city_name, route_node.to_city_name])
