@@ -9,7 +9,8 @@ var screen_size
 var card_being_dragged
 var is_hovering_on_card
 var player_hand_reference
-
+ 
+ 
 func _process(delta: float) -> void:
 	if card_being_dragged:
 		var mouse_pos = get_global_mouse_position()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bsyb20ya30qhy"]
+[gd_scene load_steps=5 format=3 uid="uid://dq1tbcfxp25y2"]
 
 [ext_resource type="Script" path="res://src/Scripts/deck.gd" id="1_t541v"]
 [ext_resource type="Texture2D" uid="uid://coalvn2a488x5" path="res://images/cards/deck.png" id="2_ev5em"]
@@ -8,15 +8,17 @@
 size = Vector2(184.406, 122.667)
 
 [node name="Deck" type="Node2D"]
-position = Vector2(81, 53)
+position = Vector2(0, 3.8147e-06)
 scale = Vector2(0.808, 0.75)
 script = ExtResource("1_t541v")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1513.56, 94.6666)
 scale = Vector2(0.177531, 0.177531)
 texture = ExtResource("2_ev5em")
 
 [node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1513.56, 94.6666)
 collision_layer = 4
 collision_mask = 4
 
@@ -25,11 +27,13 @@ position = Vector2(-0.618835, 0)
 shape = SubResource("RectangleShape2D_bq0jt")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = 52.0
-offset_top = 27.0
-offset_right = 87.0
-offset_bottom = 60.0
+offset_left = 1425.71
+offset_top = 121.667
+offset_right = 1460.71
+offset_bottom = 154.667
 theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
 theme_override_fonts/normal_font = ExtResource("3_6100c")
 text = "190"
 tab_size = 0
+
+[connection signal="update_player_hand" from="." to="." method="_on_update_player_hand"]

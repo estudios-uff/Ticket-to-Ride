@@ -1,0 +1,101 @@
+{
+	"cities": {
+		"Barra Mansa": {
+			"x": 58,
+			"y": 244
+		},
+		"Barra do Piraí": {
+			"x": 286,
+			"y": 195
+		},
+		"Duque de Caxias": {
+			"x": 630,
+			"y": 404
+		},
+		"Guapimirim": {
+			"x": 850,
+			"y": 238
+		},
+		"Itaboraí": {
+			"x": 932,
+			"y": 377
+		},
+		"Itaguaí": {
+			"x": 321,
+			"y": 452
+		},
+		"Japeri": {
+			"x": 401,
+			"y": 306
+		},
+		"Maricá": {
+			"x": 960,
+			"y": 493
+		},
+		"Miguel Pereira": {
+			"x": 525,
+			"y": 183
+		},
+		"Niterói": {
+			"x": 769,
+			"y": 467
+		},
+		"Nova Cidade 6": {
+			"x": 1181,
+			"y": 561
+		},
+		"Nova Iguaçu": {
+			"x": 536,
+			"y": 386
+		},
+		"Paracambi": {
+			"x": 364,
+			"y": 287
+		},
+		"Petrópolis": {
+			"x": 719,
+			"y": 217
+		},
+		"Pinheiral": {
+			"x": 169,
+			"y": 223
+		},
+		"Piraí": {
+			"x": 240,
+			"y": 300
+		},
+		"Queimados": {
+			"x": 467,
+			"y": 358
+		},
+		"Rio de Janeiro": {
+			"x": 717,
+			"y": 485
+		},
+		"Seropédica": {
+			"x": 364,
+			"y": 378
+		},
+		"Tanguá": {
+			"x": 1028,
+			"y": 369
+		},
+		"Teresópolis": {
+			"x": 853,
+			"y": 159
+		},
+		"Valença": {
+			"x": 369,
+			"y": 47
+		},
+		"Vassouras": {
+			"x": 394,
+			"y": 151
+		},
+		"Volta Redonda": {
+			"x": 103,
+			"y": 231
+		}
+	},
+	"routes": []
+}
