@@ -17,14 +17,14 @@
 size = Vector2(79.5, 202.395)
 
 [node name="PlayerHand" type="Node2D"]
-position = Vector2(25, -15)
+position = Vector2(16, 9)
 rotation = 0.0174533
 script = ExtResource("1_pk22s")
 metadata/_edit_horizontal_guides_ = [589.0]
 
 [node name="Rainbow" type="Node2D" parent="."]
-position = Vector2(286, 81)
-rotation = 0.174533
+position = Vector2(239.712, 100.832)
+rotation = 0.0996152
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -59,7 +59,8 @@ rotation = 0.345999
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Blue" type="Node2D" parent="."]
-position = Vector2(123, 166)
+position = Vector2(114.618, 149.022)
+rotation = -0.00969052
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -94,7 +95,8 @@ rotation = 0.345999
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Pink" type="Node2D" parent="."]
-position = Vector2(139, 166)
+position = Vector2(138.818, 155.601)
+rotation = -0.00781286
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -130,7 +132,7 @@ rotation = 0.133366
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Yellow" type="Node2D" parent="."]
-position = Vector2(147, 166)
+position = Vector2(148.683, 152.428)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -166,8 +168,8 @@ rotation = -0.0049811
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Red" type="Node2D" parent="."]
-position = Vector2(155, 166)
-rotation = 0.00821086
+position = Vector2(178.329, 131.908)
+rotation = 0.0467638
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -203,7 +205,8 @@ rotation = -0.108182
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Orange" type="Node2D" parent="."]
-position = Vector2(161, 169)
+position = Vector2(178.364, 133.908)
+rotation = 0.0394705
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -239,7 +242,8 @@ rotation = -0.233589
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Gray" type="Node2D" parent="."]
-position = Vector2(161, 166)
+position = Vector2(177.277, 128.926)
+rotation = 0.0257298
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")
 
@@ -275,7 +279,7 @@ rotation = -0.342897
 shape = SubResource("RectangleShape2D_efp8x")
 
 [node name="Green" type="Node2D" parent="."]
-position = Vector2(174, 211)
+position = Vector2(172.098, 176.023)
 rotation = -0.0872665
 scale = Vector2(0.8, 0.8)
 script = ExtResource("2_06kwb")

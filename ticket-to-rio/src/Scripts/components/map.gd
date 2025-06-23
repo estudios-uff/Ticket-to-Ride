@@ -547,8 +547,8 @@ func _on_route_clicked(route_node: Node2D):
 	
 	if attempt_buy_route(player_index, card_key, route_node.wagon_cost):
 		var color = Global.get_participant_color(player_index)
-		# route_node.set_wagons_route_color(route_node.route_color_name)
-		route_node.set_wagons_route_color(color) # Usa a cor do jogador que comprou
+		#route_node.set_wagons_route_color(route_node.route_color_name)
+		route_node.set_wagons_route_color(color)
 
 		route_node.claimed = true
 		

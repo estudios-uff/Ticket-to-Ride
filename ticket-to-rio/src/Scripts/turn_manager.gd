@@ -405,14 +405,14 @@ func opponents_ai_turn(ia_index: int, ia_hand_node) -> void:
 				
 				# Paga pelas cartas e manda o mapa registrar a compra
 				_ai_pay_for_route(ia_hand_node, route_data)
-				map.claim_route_for_player(route_node, ia_id)
+				map.claim_route_for_player(route_node, Global.num_players+ia_index)
 				
 				print("--- FIM TURNO: IA " + str(ia_index) + " (comprou uma rota) ---")
-				map.get_child(1).text = map.get_child(1).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n"
+				map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n"
 				return # Termina o turno após uma ação bem-sucedida
 
 	print("--- FIM TURNO: IA " + str(ia_index) + " (não comprou nada) ---")
-	map.get_child(1).text = map.get_child(1).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+	map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:

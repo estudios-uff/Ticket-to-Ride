@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://or4w2v47qbt4"]
+[gd_scene load_steps=29 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
@@ -14,7 +14,41 @@
 [ext_resource type="PackedScene" uid="uid://daxub4d1aqurh" path="res://src/Scenes/ManagerObjetivos.tscn" id="13_kx73r"]
 [ext_resource type="PackedScene" uid="uid://bba6bcq0cxwn3" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 [ext_resource type="PackedScene" uid="uid://fjphfqkdfpv7" path="res://src/Scenes/GUI/components/PlayerHand.tscn" id="14_ugbi5"]
+[ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="15_6qoyv"]
 [ext_resource type="PackedScene" uid="uid://bfk5e1f8jhcf0" path="res://src/Scenes/turn_manager.tscn" id="15_otum2"]
+[ext_resource type="Texture2D" uid="uid://ejfloeqwhu3w" path="res://images/utils/wagonWhite.png" id="16_fe2ab"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1otgf"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6ste8"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3offe"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5xw0b"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c22u1"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_52ryj"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rerip"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vkypp"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5jgf7"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jwm2e"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ppqo"]
+texture = ExtResource("16_fe2ab")
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("11_lv38c")
@@ -78,7 +112,7 @@ offset_bottom = 574.0
 [node name="NodePlayerUI" parent="." instance=ExtResource("13_rviws")]
 visible = false
 z_index = 5
-position = Vector2(0, 12)
+position = Vector2(0, 1)
 
 [node name="UI_Behavior" parent="NodePlayerUI" instance=ExtResource("9_74bsh")]
 anchoramento = 0
@@ -96,12 +130,26 @@ z_index = 5
 z_index = 6
 
 [node name="EndTurnButton" type="Button" parent="."]
-offset_left = 1024.0
+offset_left = 1016.0
 offset_top = 660.0
-offset_right = 1104.0
+offset_right = 1112.0
 offset_bottom = 700.0
+theme_override_colors/font_disabled_color = Color(0.252028, 0.252028, 0.252028, 1)
+theme_override_fonts/font = ExtResource("15_6qoyv")
+theme_override_styles/focus = SubResource("StyleBoxTexture_1otgf")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxTexture_6ste8")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_3offe")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_5xw0b")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_c22u1")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_52ryj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_rerip")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5jgf7")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxTexture_jwm2e")
+theme_override_styles/normal = SubResource("StyleBoxTexture_1ppqo")
 disabled = true
 text = "End Turn"
+flat = true
 
 [node name="EnemyThinking" type="Timer" parent="."]
 wait_time = 1.25

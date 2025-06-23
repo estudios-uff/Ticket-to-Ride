@@ -20,8 +20,8 @@ var to_city_node: Node2D = null
 var claimed: bool = false
 
 const WAGON_TEXTURES := {
-	Color.BLUE: preload("res://images/utils/wagonBlue.png"),
-	Color.GREEN: preload("res://images/utils/wagonGreen.png"),
+	Color.SKY_BLUE: preload("res://images/utils/wagonBlue.png"),
+	Color.LIME_GREEN: preload("res://images/utils/wagonGreen.png"),
 	Color.YELLOW: preload("res://images/utils/wagonYellow.png"),
 	Color.ORANGE_RED: preload("res://images/utils/wagonOrange.png"),
 	Color.WHITE: preload("res://images/utils/wagonWhite.png"),
@@ -179,12 +179,12 @@ func set_wagons_player_color(player_color: Color):
 			child.modulate = player_color
 
 func set_wagons_route_color(color: Color):
-		var texture = WAGON_TEXTURES.get(color, Color.GRAY)
-		for child in get_children():
-				if child.name.begins_with("Wagon"):
-					var sprite = child.get_node_or_null("vagao")
-					if sprite is Sprite2D:
-							sprite.texture = texture
+	var texture = WAGON_TEXTURES.get(color, Color.GRAY)
+	for child in get_children():
+		if child.name.begins_with("Wagon"):
+			var sprite = child.get_node_or_null("vagao")
+			if sprite is Sprite2D:
+				sprite.texture = texture
 
 func _on_area_2d_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
