@@ -47,7 +47,7 @@ func draw_card():
 	# ADICIONA UMA POR VEZ ATE ACABAR O DECK
 	var card_scene = preload(CARD_SCENE_PATH)
 	var new_card = card_scene.instantiate()
-	var card_image_path = str("res://images/cards/" + card_drawn + ".png")
+	var card_image_path = str("res://images/scenes/" + card_drawn + ".png")
 	new_card.get_node("BackCardImage").texture = load(card_image_path)
 	
 	#if $"../PlayerHand".player_hand.size() <= 4:
