@@ -9,13 +9,13 @@ var player_deck = []
 @onready var grayTrain: RichTextLabel = $Gray/RichTextLabel
 
 var trains_deck = {
-	"blueTrain": 20,
-	"grayTrain": 20,
-	"greenTrain": 20,
-	"orangeTrain": 20,
-	"pinkTrain": 20,
-	"redTrain": 20,
-	"yellowTrain": 20,
+	"blueTrain": 28,
+	"grayTrain": 28,
+	"greenTrain": 28,
+	"orangeTrain": 28,
+	"pinkTrain": 28,
+	"redTrain": 28,
+	"yellowTrain": 28,
 	"rainbowTrain": 24
 }
 
@@ -28,27 +28,20 @@ func _ready() -> void:
 	$RichTextLabel.text = str(player_deck.size())
 
 func draw_card():
-	#var card_drawn = player_deck[0]
-	var card_drawn = player_deck.pick_random()
+	if player_deck.is_empty():
+		return # Não faz nada se o baralho estiver vazio
 
-	player_deck.pop_back()
+	# Lógica corrigida para comprar e remover a carta
+	var card_drawn = player_deck.pick_random()
+	player_deck.erase(card_drawn) # Remove a carta específica que foi sorteada
 	
 	trains_deck[card_drawn] -= 1
+	
+	# Emite o sinal para o jogador humano
 	update_player_hand.emit(card_drawn)
 	
-	#if $"../PlayerHand".player_hand.size() <= 7:	
-		#player_deck.erase(card_drawn)
-	if player_deck.size() == 0:
-		$Area2D/CollisionShape2D.disabled = true
-		$Sprite2D.visible = false
-		$RichTextLabel.visible = false
-		
-	$RichTextLabel.text = str(player_deck.size())
-	# ADICIONA UMA POR VEZ ATE ACABAR O DECK
-	var card_scene = preload(CARD_SCENE_PATH)
-	var new_card = card_scene.instantiate()
-	var card_image_path = str("res://images/scenes/" + card_drawn + ".png")
-	new_card.get_node("BackCardImage").texture = load(card_image_path)
+	# Atualiza a UI do baralho
+	update_deck_visuals()
 	
 	#if $"../PlayerHand".player_hand.size() <= 4:
 		#$"../CardManager".add_child(new_card)
@@ -61,3 +54,30 @@ func draw_card():
 		#$"../CardManager".add_child(new_card)
 		#new_card.name = "Card"
 		#$"../PlayerHand".add_card_to_hand(new_card)
+
+func draw_card_for_ia() -> String:
+	if player_deck.is_empty():
+		return "" # Retorna uma string vazia se o baralho acabou
+
+	# Lógica corrigida para comprar e remover a carta
+	var card_drawn = player_deck.pick_random()
+	player_deck.erase(card_drawn) # Remove a carta específica
+	
+	trains_deck[card_drawn] -= 1
+
+	# Atualiza a UI do baralho
+	update_deck_visuals()
+	
+	# Em vez de emitir um sinal, RETORNA o nome da carta
+	return card_drawn
+
+# Função auxiliar para não repetir código
+func update_deck_visuals():
+	$RichTextLabel.text = str(player_deck.size())
+	if player_deck.is_empty():
+		# Desabilita o baralho visualmente quando ele acaba
+		var collision_shape = get_node_or_null("Area2D/CollisionShape2D")
+		if collision_shape:
+			collision_shape.disabled = true
+		$Sprite2D.visible = false
+		$RichTextLabel.visible = false

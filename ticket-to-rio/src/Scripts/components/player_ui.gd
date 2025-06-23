@@ -11,6 +11,10 @@ var player_index: int = -1 # Armazenará o índice do jogador dono desta UI
 
 @onready var purchased_routes_label: RichTextLabel = get_node("/root/TutorialTest/Map/RoutesLabel")
 
+func set_player_info(color: Color, player_name: String):
+	$PlayerColorIndicator.color = color
+	$RichTextLabel.text = "[center][b]" + player_name + "[/b][/center]"
+		
 func update_routes_display(player_routes: Array):
 	if not purchased_routes_label:
 		return

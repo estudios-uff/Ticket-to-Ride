@@ -5,6 +5,7 @@ var city_scene: PackedScene = preload("res://src/Scenes/TestMap/City.tscn")
 var route_scene: PackedScene = preload("res://src/Scenes/TestMap/Route.tscn")
 var info_popup_scene: PackedScene = preload("res://src/Scenes/TestMap/InfoPopup.tscn")
 var cities: Dictionary = {} # Armazenará as instâncias das cidades (nome: nó_da_cidade)
+var route_nodes: Dictionary = {}
 
 @export var player_hand_path: String = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 @export var player_color: Color = Color.GREEN
@@ -278,6 +279,11 @@ func _ready():
 	draw_map()
 	print('draw')
 
+func _generate_route_key(route_data: Dictionary) -> String:
+	var city_names = [route_data.from, route_data.to]
+	city_names.sort() # Ordena para garantir consistência (ex: A-B é o mesmo que B-A)
+	return city_names[0] + "-" + city_names[1] + "-" + route_data.color
+
 func draw_map():
 	# 1. Instanciar Cidades
 	for city_name in map_data["cities"]:
@@ -305,6 +311,9 @@ func draw_map():
 			var route_instance = route_scene.instantiate()
 			add_child(route_instance) # Adiciona como filho do Map
 			
+			var route_key = _generate_route_key(route_data)
+			route_nodes[route_key] = route_instance
+	
 			# Configura a rota usando a função setup_route
 			route_instance.setup_route(from_city_node, to_city_node, parse_color(route_data.color), route_data.cost, route_data.color)
 			route_instance.from_city_name = from_city_name # Para depuração
@@ -413,6 +422,73 @@ func is_objective_complete(player_index: int, city_start: String, city_end: Stri
 	var visited_path: Array = [] # Usado para evitar ciclos (ex: A->B->A)
 	return _find_path_with_cost_recursive(city_start, city_end, required_points, visited_path, 0, adjacency_list)
 
+# Isso é diferente de 'is_objective_complete', pois opera no mapa inteiro para a IA poder acessar.
+func find_shortest_path_routes(city_start: String, city_end: String) -> Array:
+	# 1. Construir um grafo de adjacência de TODO o mapa
+	var adjacency_list = {}
+	for route in map_data.routes:
+		var city_a = route.from
+		var city_b = route.to
+		if not adjacency_list.has(city_a): adjacency_list[city_a] = []
+		if not adjacency_list.has(city_b): adjacency_list[city_b] = []
+		adjacency_list[city_a].append(city_b)
+		adjacency_list[city_b].append(city_a)
+
+	# 2. Algoritmo BFS para encontrar o caminho mais curto
+	var queue: Array = [[city_start]] # A fila agora guarda caminhos
+	var visited: Array = [city_start]
+
+	while not queue.is_empty():
+		var path = queue.pop_front()
+		var current_city = path.back()
+
+		if current_city == city_end:
+			# Caminho encontrado, agora converta-o em uma lista de rotas
+			var path_routes = []
+			for i in range(path.size() - 1):
+				var from_c = path[i]
+				var to_c = path[i+1]
+				# Encontra o dicionário de rota correspondente
+				for r_data in map_data.routes:
+					if (r_data.from == from_c and r_data.to == to_c) or (r_data.from == to_c and r_data.to == from_c):
+						path_routes.append(r_data)
+						break
+			return path_routes
+
+		if adjacency_list.has(current_city):
+			for neighbor in adjacency_list[current_city]:
+				if not neighbor in visited:
+					visited.append(neighbor)
+					var new_path = path.duplicate()
+					new_path.append(neighbor)
+					queue.append(new_path)
+	
+	return [] # Retorna array vazio se não encontrar caminho
+
+# Permite que a IA encontre o nó de uma rota usando os dados dela
+func get_route_node_by_data(route_data: Dictionary) -> Node:
+	var route_key = _generate_route_key(route_data)
+	return route_nodes.get(route_key, null)
+
+# Função simplificada para o TurnManager chamar após o pagamento ser processado
+func claim_route_for_player(route_node, player_id):
+	if route_node and not route_node.claimed:
+		route_node.claimed = true
+		
+		# LÓGICA DE COR MUITO MAIS SIMPLES
+		var player_color_val = Global.get_participant_color(player_id)
+		route_node.set_wagons_route_color(player_color_val)
+		
+		var route_info = {
+			"from": route_node.from_city_name,
+			"to": route_node.to_city_name,
+			"cost": route_node.wagon_cost
+		}
+		if not player_claimed_routes.has(player_id):
+			player_claimed_routes[player_id] = []
+		player_claimed_routes[player_id].append(route_info)
+
+		route_claimed.emit(player_id)
 
 # Função auxiliar recursiva que faz a busca em profundidade (DFS)
 func _find_path_with_cost_recursive(current_city: String, end_city: String, required_points: int, visited_path: Array, current_cost: int, adjacency_list: Dictionary) -> bool:
@@ -470,7 +546,7 @@ func _on_route_clicked(route_node: Node2D):
 	var card_key = color_name_to_card_key(route_node.route_color_name)
 	
 	if attempt_buy_route(player_index, card_key, route_node.wagon_cost):
-		var color = Global.get_player_color(player_index)
+		var color = Global.get_participant_color(player_index)
 		# route_node.set_wagons_route_color(route_node.route_color_name)
 		route_node.set_wagons_route_color(color) # Usa a cor do jogador que comprou
 
