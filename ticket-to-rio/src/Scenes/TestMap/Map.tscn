@@ -11,3 +11,13 @@ offset_top = 10.0
 offset_right = 160.0
 offset_bottom = 110.0
 bbcode_enabled = true
+
+[node name="ActionsLabel" type="RichTextLabel" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 460.0
+offset_right = 860.0
+offset_bottom = 75.0
+grow_horizontal = 2
+bbcode_enabled = true

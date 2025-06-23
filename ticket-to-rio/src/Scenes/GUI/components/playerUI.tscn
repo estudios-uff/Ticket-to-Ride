@@ -173,4 +173,24 @@ layout_mode = 2
 [node name="TextureRect10" type="TextureRect" parent="PanelContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="PlayerColorIndicator" type="ColorRect" parent="."]
+layout_mode = 2
+offset_left = 881.0
+offset_top = -543.0
+offset_right = 1081.0
+offset_bottom = -493.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 881.0
+offset_top = -543.0
+offset_right = 1081.0
+offset_bottom = -493.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[b]Player: 1[/b]"
+
 [connection signal="pressed" from="ObjetivosJogador" to="." method="_on_objetivos_jogador_pressed"]

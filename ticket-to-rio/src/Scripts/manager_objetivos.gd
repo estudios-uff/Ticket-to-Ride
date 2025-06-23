@@ -267,6 +267,5 @@ func _on_ok_pressed() -> void:
 		
 		emit_signal("objetivos_escolhidos", selecionadas)
 		hide() 
-		$"../EndTurnButton".disabled = false
 	else:
 		print("Selecione pelo menos 2 objetivos para continuar.")
