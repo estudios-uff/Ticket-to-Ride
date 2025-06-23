@@ -1,6 +1,7 @@
 extends Node
 
 var num_players: int
+var difficult: int
 
 # O ÚNICO dicionário que vamos precisar para guardar os dados dos jogadores e IAs
 var participants: Dictionary = {}

@@ -129,7 +129,10 @@ func _on_map_route_claimed(player_index):
 
 	# Se, após a verificação, todos os objetivos estiverem completos...
 	if all_objectives_completed:
-		print("CONDIÇÃO DE FIM DE JOGO ATINGIDA PELO JOGADOR/IA: " + player_index)
+		if player_index is int:
+			print("CONDIÇÃO DE FIM DE JOGO ATINGIDA PELO JOGADOR/IA: " + str(player_index))
+		else:
+			print("CONDIÇÃO DE FIM DE JOGO ATINGIDA PELO JOGADOR/IA: " + player_index)
 		end_game()
 
 # Nova função para finalizar o jogo
@@ -166,12 +169,12 @@ func show_winner_popup(winner_id, final_scores: Dictionary):
 	var popup = winner_popup_scene.instantiate()
 	add_child(popup) # Adiciona à cena principal
 	
-	var message = "[center][font_size=24]Fim de Jogo![/font_size][/center]\n\n"
-	message += "Pontuações Finais:\n"
+	var message = "\n[center][font_size=36]Fim de Jogo![/font_size][/center]\n"
+	message += "[center][font_size=28]Pontuações Finais:[/font_size][/center]\n"
 	for id in final_scores:
-		message += " - Jogador {id}: {final_scores[id]} pontos\n".format({"id": id, "final_scores[id]": final_scores[id]})
+		message += "[center][font_size=28] - Jogador {id}: {final_scores[id]} pontos[/font_size][/center]\n".format({"id": id, "final_scores[id]": final_scores[id]})
 		
-	message += "\n[b]O vencedor é o Jogador {winner_id} com {final_scores[winner_id]} pontos![/b]".format({"winner_id": winner_id, "final_scores[winner_id]": final_scores[winner_id]})
+	message += "\n[center][font_size=28][b]O vencedor é o Jogador {winner_id} com {final_scores[winner_id]} pontos![/b][/font_size][/center]".format({"winner_id": winner_id, "final_scores[winner_id]": final_scores[winner_id]})
 	
 	popup.show_results(message)
 
@@ -363,57 +366,119 @@ func _ai_pay_for_route(hand_node, route_data: Dictionary):
 
 func opponents_ai_turn(ia_index: int, ia_hand_node) -> void:
 	var ia_id = "ia_" + str(ia_index)
-	print("--- INÍCIO TURNO: IA " + str(ia_index) + " ---")
+	var difficult = "facil" if Global.difficult == 0 else "dificil"
+	difficult = "medio" if Global.difficult == 1 else "dificil"
+	print("--- INÍCIO TURNO: IA " + str(ia_index) + " (Dificuldade: " + difficult + ") ---")
 
 	# 1. Lógica de escolher objetivos (só na primeira rodada)
 	if player_objectives[ia_id].is_empty():
 		print("IA " + str(ia_index) + " está escolhendo seus objetivos iniciais.")
 		var objetivos_da_ia = manager_objetivos.get_random_objectives(2)
 		player_objectives[ia_id] = objetivos_da_ia
-		print("IA " + str(ia_index) + " escolheu {objetivos_da_ia.size()} objetivos.".format({"objetivos_da_ia.size()": objetivos_da_ia.size()}))
+		print("IA " + str(ia_index) + " escolheu " + str(objetivos_da_ia.size()) + " objetivos.")
 
 	# 2. A IA sempre compra uma carta no início do turno
-	if deck.has_method("draw_card_for_ia"): # Garante que a função existe no Deck
+	if deck.has_method("draw_card_for_ia"):
 		var drawn_card = deck.draw_card_for_ia()
 		if drawn_card:
 			ia_hand_node.add_card_to_hand(drawn_card)
-			print("IA " + str(ia_index) + " comprou a carta: {drawn_card}".format({"drawn_card": drawn_card}))
+			print("IA " + str(ia_index) + " comprou a carta: {drawn_card}")
+
+	# 3. Despachante de Dificuldade
+	if Global.difficult == 0:
+		_run_easy_ai_turn(ia_index, ia_hand_node)
+	elif Global.difficult == 2:
+		_run_hard_ai_turn(ia_index, ia_hand_node)
+	else: # Dificuldade Média ou Padrão pode ser a fácil
+		_run_easy_ai_turn(ia_index, ia_hand_node)
+
+# LÓGICA DA IA FÁCIL
+func _run_easy_ai_turn(ia_index: int, ia_hand_node):
+	var ia_id = "ia_" + str(ia_index)
 	
-	# 3. Criar uma "lista de desejos" de rotas para completar objetivos
+	var wishlist = _get_ai_objective_wishlist(ia_id)
+	print("IA(Fácil) " + str(ia_index) + " tem " + str(wishlist.size()) + " rotas na sua lista de desejos.")
+
+	for route_data in wishlist:
+		var route_node = map.get_route_node_by_data(route_data)
+		if route_node and not route_node.claimed:
+			if _ai_can_afford_route(ia_hand_node, route_data):
+				print("IA (Fácil) " + str(ia_index+1) + " vai comprar a rota de " + route_data.from + " - " + route_data.to)
+				_ai_pay_for_route(ia_hand_node, route_data)
+				map.claim_route_for_player(route_node, ia_id)
+				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou uma rota) ---")
+				map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n"
+				return
+
+	print("--- FIM TURNO: IA " + str(ia_index+1) + " (não comprou nada) ---")
+	map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+
+# LÓGICA DA IA DIFÍCIL
+func _run_hard_ai_turn(ia_index: int, ia_hand_node):
+	var ia_id = "ia_" + str(ia_index)
+
+	# Fase 1: Ofensiva - Tenta jogar para seus próprios objetivos primeiro
+	var offensive_wishlist = _get_ai_objective_wishlist(ia_id)
+	for route_data in offensive_wishlist:
+		var route_node = map.get_route_node_by_data(route_data)
+		if route_node and not route_node.claimed:
+			if _ai_can_afford_route(ia_hand_node, route_data):
+				print("IA (Difícil) " + str(ia_index+1) + " [JOGADA OFENSIVA] para a rota " + route_data.from + " - " + route_data.to)
+				_ai_pay_for_route(ia_hand_node, route_data)
+				map.claim_route_for_player(route_node, ia_id)
+				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou rota ofensiva) ---")
+				map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota ofensiva)\n"
+				return
+
+	# Fase 2: Defensiva - Se não conseguiu jogar para si, tenta atrapalhar
+	print("IA (Difícil) " + str(ia_index+1) + " não pôde fazer jogada ofensiva. Entrando em modo de sabotagem.")
+	var target_player_index = _get_leading_human_player_index()
+	if target_player_index != -1:
+		# Lista de rotas para bloquear: primeiro as de alto valor, depois as adjacentes ao líder
+		var blocking_wishlist = map.high_value_routes_to_block.duplicate()
+		blocking_wishlist.append_array(map.get_all_unclaimed_routes_adjacent_to_player(target_player_index))
+		
+		for route_data in blocking_wishlist:
+			var route_node = map.get_route_node_by_data(route_data)
+			if route_node and not route_node.claimed:
+				if _ai_can_afford_route(ia_hand_node, route_data):
+					print("IA (Difícil) " + str(ia_index+1) + " [JOGADA DEFENSIVA] para bloquear Jogador " + str(target_player_index) + " na rota " + route_data.from + " - " + route_data.to)
+					_ai_pay_for_route(ia_hand_node, route_data)
+					map.claim_route_for_player(route_node, ia_id)
+					print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou rota defensiva) ---")
+					map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota defensiva)\n"
+					return
+	
+	print("--- FIM TURNO: IA " + str(ia_index+1) + " (não comprou nada) ---")
+	map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+
+# Função auxiliar para pegar a lista de desejos da IA
+func _get_ai_objective_wishlist(ia_id: String) -> Array:
 	var wishlist: Array = []
+	if not player_objectives.has(ia_id): return wishlist
+
 	for objective_texture in player_objectives[ia_id]:
 		var card_path = objective_texture.resource_path
 		if map.objective_card_data.has(card_path):
 			var info = map.objective_card_data[card_path]
-			# Se o objetivo ainda não foi completo...
 			if map.find_shortest_path_routes(info.from, info.to):
 				var routes_for_objective = map.find_shortest_path_routes(info.from, info.to)
 				for r in routes_for_objective:
-					if not r in wishlist: # Evita duplicatas
+					if not r in wishlist:
 						wishlist.append(r)
+	return wishlist
+
+# Função auxiliar para encontrar o jogador humano com maior pontuação
+func _get_leading_human_player_index() -> int:
+	var leading_player = -1
+	var highest_score = -INF
+	for i in range(Global.num_players):
+		var score = calculate_player_score(i)
+		if score > highest_score:
+			highest_score = score
+			leading_player = i
+	return leading_player
 	
-	print("IA " + str(ia_index) + " tem {wishlist.size()} rotas na sua lista de desejos.".format({"wishlist.size()": wishlist.size()}))
-
-	# 4. Tentar comprar a primeira rota possível da lista de desejos
-	for route_data in wishlist:
-		# Encontra o nó da rota na cena para verificar se já foi comprada
-		var route_node = map.get_route_node_by_data(route_data) # Precisamos criar esta função
-		if route_node and not route_node.claimed:
-			# Verifica se tem cartas suficientes
-			if _ai_can_afford_route(ia_hand_node, route_data):
-				print("IA " + str(ia_index) + " PODE e VAI comprar a rota de {route_data.from} para {route_data.to}".format({"route_data.from": route_data.from, "route_data.to": route_data.to}))
-				
-				# Paga pelas cartas e manda o mapa registrar a compra
-				_ai_pay_for_route(ia_hand_node, route_data)
-				map.claim_route_for_player(route_node, ia_id)
-				
-				print("--- FIM TURNO: IA " + str(ia_index) + " (comprou uma rota) ---")
-				map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n"
-				return # Termina o turno após uma ação bem-sucedida
-
-	print("--- FIM TURNO: IA " + str(ia_index) + " (não comprou nada) ---")
-	map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
-
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if deck and deck.is_connected("update_player_hand", Callable(self, "_on_deck_card_drawn")):

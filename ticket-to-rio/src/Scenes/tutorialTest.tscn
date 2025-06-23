@@ -142,7 +142,7 @@ disabled = true
 text = "End Turn"
 
 [node name="EnemyThinking" type="Timer" parent="."]
-wait_time = 1.25
+wait_time = 1.5
 one_shot = true
 
 [node name="TurnManager" parent="." instance=ExtResource("15_otum2")]

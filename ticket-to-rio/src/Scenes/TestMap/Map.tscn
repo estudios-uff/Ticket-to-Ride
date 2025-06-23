@@ -7,8 +7,9 @@
 script = ExtResource("1_1oylf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1189.5, 476)
-scale = Vector2(0.578488, 0.409426)
+modulate = Color(1, 1, 1, 0.607843)
+position = Vector2(1184.5, 476)
+scale = Vector2(0.549419, 0.409426)
 texture = ExtResource("2_edxbp")
 
 [node name="RoutesLabel" type="RichTextLabel" parent="."]
@@ -26,6 +27,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 460.0
 offset_right = 860.0
-offset_bottom = 75.0
+offset_bottom = 100.0
 grow_horizontal = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true

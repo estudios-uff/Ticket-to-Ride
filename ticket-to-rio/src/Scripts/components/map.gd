@@ -10,6 +10,27 @@ var route_nodes: Dictionary = {}
 @export var player_hand_path: String = "/root/TutorialTest/PlayerHandsContainer/PlayerHand"
 @export var player_color: Color = Color.GREEN
 @export var player_hand: Array[Node] = []
+var high_value_routes_to_block: Array[Dictionary] = [
+	{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
+	{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
+	{"from": "Japeri", "to": "Miguel Pereira", "color": "gray", "cost": 6},
+	{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
+	{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 5},
+	{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
+	{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 4},
+	{"from": "Barra do Piraí", "to": "Vassouras", "color": "pink", "cost": 4},
+	{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 5},
+	{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 6},
+	{"from": "Duque de Caxias", "to": "Rio de Janeiro", "color": "white", "cost": 4},
+	{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
+	{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
+	{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
+	{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
+	{"from": "Tanguá", "to": "Maricá", "color": "yellow", "cost": 5},
+	{"from": "Niterói", "to": "Itaboraí", "color": "white", "cost": 6},
+	{"from": "Niterói", "to": "Maricá", "color": "blue", "cost": 6},
+	{"from": "Teresópolis", "to": "Petrópolis", "color": "green", "cost": 5},
+]
 
 var player_claimed_routes: Dictionary = {} # Chave: player_index, Valor: Array de rotas
 
@@ -469,6 +490,27 @@ func find_shortest_path_routes(city_start: String, city_end: String) -> Array:
 func get_route_node_by_data(route_data: Dictionary) -> Node:
 	var route_key = _generate_route_key(route_data)
 	return route_nodes.get(route_key, null)
+
+# Retorna todas as rotas não compradas que se conectam a uma cidade que já faz parte da rede de um jogador.
+func get_all_unclaimed_routes_adjacent_to_player(player_id) -> Array:
+	var adjacent_routes: Array = []
+	if not player_claimed_routes.has(player_id) or player_claimed_routes[player_id].is_empty():
+		return adjacent_routes
+
+	# 1. Encontra todas as cidades que o jogador já alcançou
+	var player_cities: Array = []
+	for route in player_claimed_routes[player_id]:
+		if not route.from in player_cities: player_cities.append(route.from)
+		if not route.to in player_cities: player_cities.append(route.to)
+
+	# 2. Procura por rotas não compradas que comecem ou terminem nessas cidades
+	for route_data in map_data.routes:
+		var route_node = get_route_node_by_data(route_data)
+		if route_node and not route_node.claimed:
+			if route_data.from in player_cities or route_data.to in player_cities:
+				adjacent_routes.append(route_data)
+				
+	return adjacent_routes
 
 # Função simplificada para o TurnManager chamar após o pagamento ser processado
 func claim_route_for_player(route_node, player_id):
