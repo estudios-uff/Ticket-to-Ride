@@ -331,8 +331,8 @@ func parse_color(color_string: String) -> Color:
 
 	match color_string.to_lower():
 		"red": return Color(Color.RED.r, Color.RED.g, Color.RED.b, ALPHA_VALUE)
-		"blue": return Color(Color.BLUE.r, Color.BLUE.g, Color.BLUE.b, ALPHA_VALUE)
-		"green": return Color(Color.GREEN.r, Color.GREEN.g, Color.GREEN.b, ALPHA_VALUE)
+		"blue": return Color(Color.SKY_BLUE.r, Color.SKY_BLUE.g, Color.SKY_BLUE.b, ALPHA_VALUE)
+		"green": return Color(Color.LIME_GREEN.r, Color.LIME_GREEN.g, Color.LIME_GREEN.b, ALPHA_VALUE)
 		"yellow": return Color(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, ALPHA_VALUE)
 		"orange": return Color(Color.ORANGE_RED, ALPHA_VALUE) # Laranja
 		"purple": return Color(Color.MEDIUM_PURPLE, ALPHA_VALUE) # Roxo
@@ -547,7 +547,6 @@ func _on_route_clicked(route_node: Node2D):
 	
 	if attempt_buy_route(player_index, card_key, route_node.wagon_cost):
 		var color = Global.get_participant_color(player_index)
-		#route_node.set_wagons_route_color(route_node.route_color_name)
 		route_node.set_wagons_route_color(color)
 
 		route_node.claimed = true

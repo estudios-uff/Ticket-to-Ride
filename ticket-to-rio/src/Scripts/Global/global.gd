@@ -12,6 +12,7 @@ const AVAILABLE_COLORS := {
 	"yellow": Color.YELLOW,
 	"orange": Color.ORANGE_RED,
 	"pink": Color.DEEP_PINK,
+	"red": Color.RED,
 	"gray": Color.GRAY,
 	"white": Color.WHITE
 }

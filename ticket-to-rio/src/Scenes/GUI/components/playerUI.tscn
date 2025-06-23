@@ -128,6 +128,7 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_o7cyg")
 theme_override_styles/normal = SubResource("StyleBoxTexture_w44l6")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -14.0
 offset_top = -575.0
