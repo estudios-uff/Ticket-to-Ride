@@ -5,14 +5,14 @@ var num_players: int
 var player_colors: Dictionary = {}
 
 const AVAILABLE_COLORS := {
-	"red": Color(1, 0, 0),
-	"blue": Color(0, 0, 1),
-	"green": Color(0, 1, 0),
-	"yellow": Color(1, 1, 0),
-	"orange": Color(1, 0.5, 0),
-	"pink": Color(1, 0.75, 0.8),
-	"black": Color(0, 0, 0),
-	"white": Color(1, 1, 1)
+	"red": Color.RED,
+	"blue": Color.BLUE,
+	"green": Color.GREEN,
+	"yellow": Color.YELLOW,
+	"orange": Color.ORANGE_RED,
+	"pink": Color.DEEP_PINK,
+	"black": Color.BLACK,
+	"white": Color.WHITE
 }
 
 func assign_player_colors(num: int) -> void:

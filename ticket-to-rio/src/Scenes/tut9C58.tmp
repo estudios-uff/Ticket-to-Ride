@@ -37,7 +37,6 @@ playback_type = 1
 parameters/looping = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(542, 271)
 scale = Vector2(0.0629981, 0.0577121)
 texture = ExtResource("5_nyu14")
@@ -54,6 +53,8 @@ z_index = 5
 anchoramento = 0
 
 [node name="Map" parent="." instance=ExtResource("6_3bipw")]
+player_hand_path = null
+player_color = null
 
 [node name="Deck" parent="." instance=ExtResource("11_hcphn")]
 z_index = 5

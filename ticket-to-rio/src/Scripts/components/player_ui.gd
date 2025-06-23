@@ -1,23 +1,32 @@
-# Script PlayerUi.gd MODIFICADO
-
 extends Control
 
 var meus_objetivos_selecionados: Array[Texture2D] = []
-# O dicionário de custos não é usado neste script, pode ser removido ou movido para onde for relevante
-# var custosByRote = {...} 
 
-# Remova as referências e a função _ready() que conectava o sinal
-# var manager_objetivos_node_path: NodePath = "/root/TutorialTest/ManagerObjetivos"
-# var manager_objetivos: Node
+var player_index: int = -1 # Armazenará o índice do jogador dono desta UI
+@onready var map_node = get_node("/root/TutorialTest/Map")
 
 @onready var concluidos = $CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer/Text
 @onready var nao_concluidos = $CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/Text
-# Uma forma mais robusta de pegar os TextureRects
 @onready var objectives_container = $PanelContainer/ScrollContainer/VBoxContainer
 
-# REMOVIDO _ready() e _on_manager_objetivos_escolhidos(..)
+@onready var purchased_routes_label: RichTextLabel = get_node("/root/TutorialTest/Map/RoutesLabel")
 
-# --- NOVA FUNÇÃO PÚBLICA ---
+func update_routes_display(player_routes: Array):
+	if not purchased_routes_label:
+		return
+
+	if player_routes.is_empty():
+		purchased_routes_label.text = "Nenhuma rota comprada."
+		return
+
+	var routes_as_strings: Array[String] = []
+	for route_dict in player_routes:
+		var from_city = route_dict["from"]
+		var to_city = route_dict["to"]
+		routes_as_strings.append("- {from_city} para {to_city}".format({"from_city": from_city, "to_city": to_city}))
+	
+	purchased_routes_label.text = "[b]Rotas Compradas:[/b]\n" + "\n".join(routes_as_strings)
+
 # O TurnManager vai chamar esta função para entregar os objetivos.
 func add_objetivos(novos_objetivos: Array[Texture2D]):
 	for textura in novos_objetivos:
@@ -32,21 +41,42 @@ func _on_objetivos_jogador_pressed() -> void:
 	var janela_objetivos = $PanelContainer
 	janela_objetivos.visible = not janela_objetivos.visible
 
-	# Se a janela for ficar visível, atualiza as texturas
 	if janela_objetivos.visible:
-		if meus_objetivos_selecionados.is_empty():
-			print("Nenhum objetivo selecionado para exibir.")
-			return
-		
-		print("Exibindo %d objetivos..." % meus_objetivos_selecionados.size())
-		
-		# Pega todos os TextureRects dentro do container
-		var objective_rects = objectives_container.get_children()
-		
-		# Limpa as texturas antigas primeiro
-		for rect in objective_rects:
-			rect.texture = null
+		update_objectives_display()
+
+func update_objectives_display():
+	if meus_objetivos_selecionados.is_empty():
+		print("Nenhum objetivo selecionado para exibir.")
+		return
+	
+	var objective_rects = objectives_container.get_children()
+	
+	for i in range(objective_rects.size()):
+		var rect = objective_rects[i]
+		if i < meus_objetivos_selecionados.size():
+			var textura = meus_objetivos_selecionados[i]
+			rect.texture = textura
 			
-		# Atribui as novas texturas
-		for i in range(min(meus_objetivos_selecionados.size(), objective_rects.size())):
-			objective_rects[i].texture = meus_objetivos_selecionados[i]
+			# --- LÓGICA DE VERIFICAÇÃO ---
+			var card_path = textura.resource_path
+			if map_node.objective_card_data.has(card_path):
+				var objective_info = map_node.objective_card_data[card_path]
+				var from_city = objective_info["from"]
+				var to_city = objective_info["to"]
+				var points = objective_info["points"]
+				
+				# Chama a função de busca no mapa!
+				if map_node.is_objective_complete(player_index, from_city, to_city, points):
+					print("Objetivo de %s para %s COMPLETO!" % [from_city, to_city])
+					# Efeito visual: Deixa a carta verde para indicar sucesso
+					rect.modulate = Color.LIGHT_GREEN
+				else:
+					# OBJETIVO INCOMPLETO
+					# Efeito visual: Deixa a carta com a cor normal
+					rect.modulate = Color.WHITE
+			else:
+				rect.modulate = Color.WHITE # Cor normal se não encontrar dados da carta
+		else:
+			# Limpa os slots não usados
+			rect.texture = null
+			rect.modulate = Color.WHITE

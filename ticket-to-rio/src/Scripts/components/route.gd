@@ -20,14 +20,14 @@ var to_city_node: Node2D = null
 var claimed: bool = false
 
 const WAGON_TEXTURES := {
-	"blue": preload("res://images/utils/wagonBlue.png"),
-	"green": preload("res://images/utils/wagonGreen.png"),
-	"yellow": preload("res://images/utils/wagonYellow.png"),
-	"orange": preload("res://images/utils/wagonOrange.png"),
-	"white": preload("res://images/utils/wagonWhite.png"),
-	"gray": preload("res://images/utils/wagonGray.png"),
-	"pink": preload("res://images/utils/wagonPink.png"),
-	"red": preload("res://images/utils/wagonRed.png")
+	Color.BLUE: preload("res://images/utils/wagonBlue.png"),
+	Color.GREEN: preload("res://images/utils/wagonGreen.png"),
+	Color.YELLOW: preload("res://images/utils/wagonYellow.png"),
+	Color.ORANGE_RED: preload("res://images/utils/wagonOrange.png"),
+	Color.WHITE: preload("res://images/utils/wagonWhite.png"),
+	Color.GRAY: preload("res://images/utils/wagonGray.png"),
+	Color.DEEP_PINK: preload("res://images/utils/wagonPink.png"),
+	Color.RED: preload("res://images/utils/wagonRed.png")
 }
 
 signal route_clicked(route_node)
@@ -162,7 +162,7 @@ func spawn_wagons():
 
 		var sprite = wagon_instance.get_node_or_null("vagao")
 		if sprite is Sprite2D:
-			sprite.texture = WAGON_TEXTURES.get("gray")
+			sprite.texture = WAGON_TEXTURES.get(Color.GRAY)
 
 		var t = (i + 1) * spacing_factor
 		var wagon_global_pos = actual_start_pos_global.lerp(actual_end_pos_global, t)
@@ -178,8 +178,8 @@ func set_wagons_player_color(player_color: Color):
 		if child is Sprite2D and child.name.begins_with("Wagon"):
 			child.modulate = player_color
 
-func set_wagons_route_color(color_name: String):
-		var texture = WAGON_TEXTURES.get(color_name.to_lower(), WAGON_TEXTURES.get("gray"))
+func set_wagons_route_color(color: Color):
+		var texture = WAGON_TEXTURES.get(color, Color.GRAY)
 		for child in get_children():
 				if child.name.begins_with("Wagon"):
 					var sprite = child.get_node_or_null("vagao")
