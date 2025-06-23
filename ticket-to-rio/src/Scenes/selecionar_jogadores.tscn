@@ -15,20 +15,20 @@ texture = ExtResource("1_0daqp")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 300.0
-offset_top = 200.0
-offset_right = 1048.0
-offset_bottom = 270.0
+offset_left = 284.0
+offset_top = 152.0
+offset_right = 1041.0
+offset_bottom = 222.0
 theme_override_fonts/font = ExtResource("2_bvf6m")
 theme_override_font_sizes/font_size = 36
 text = "Escolha o número de Jogadores:"
 
 [node name="Jogar" type="Button" parent="."]
 layout_mode = 0
-offset_left = 560.0
-offset_top = 260.0
-offset_right = 758.0
-offset_bottom = 327.0
+offset_left = 544.0
+offset_top = 220.0
+offset_right = 742.0
+offset_bottom = 287.0
 theme_override_fonts/font = ExtResource("2_bvf6m")
 theme_override_font_sizes/font_size = 30
 text = "1 Jogador"
@@ -36,10 +36,10 @@ flat = true
 
 [node name="Jogar2" type="Button" parent="."]
 layout_mode = 0
-offset_left = 540.0
-offset_top = 325.0
-offset_right = 791.0
-offset_bottom = 392.0
+offset_left = 524.0
+offset_top = 285.0
+offset_right = 775.0
+offset_bottom = 352.0
 theme_override_fonts/font = ExtResource("2_bvf6m")
 theme_override_font_sizes/font_size = 30
 text = "2 Jogadores"
@@ -47,10 +47,10 @@ flat = true
 
 [node name="Jogar3" type="Button" parent="."]
 layout_mode = 0
-offset_left = 540.0
-offset_top = 390.0
-offset_right = 738.0
-offset_bottom = 457.0
+offset_left = 524.0
+offset_top = 350.0
+offset_right = 775.0
+offset_bottom = 417.0
 theme_override_fonts/font = ExtResource("2_bvf6m")
 theme_override_font_sizes/font_size = 30
 text = "3 Jogadores"
@@ -58,10 +58,10 @@ flat = true
 
 [node name="Jogar4" type="Button" parent="."]
 layout_mode = 0
-offset_left = 540.0
-offset_top = 455.0
-offset_right = 738.0
-offset_bottom = 522.0
+offset_left = 524.0
+offset_top = 415.0
+offset_right = 775.0
+offset_bottom = 482.0
 theme_override_fonts/font = ExtResource("2_bvf6m")
 theme_override_font_sizes/font_size = 30
 text = "4 Jogadores"
@@ -69,10 +69,10 @@ flat = true
 
 [node name="Jogar5" type="Button" parent="."]
 layout_mode = 0
-offset_left = 540.0
-offset_top = 520.0
-offset_right = 738.0
-offset_bottom = 587.0
+offset_left = 524.0
+offset_top = 480.0
+offset_right = 775.0
+offset_bottom = 547.0
 theme_override_fonts/font = ExtResource("2_bvf6m")
 theme_override_font_sizes/font_size = 30
 text = "5 Jogadores"

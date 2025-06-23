@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://btmolatceum81"]
+
+[ext_resource type="Texture2D" uid="uid://c2u5smpfygg03" path="res://images/utils/wagonOrange.png" id="1_s6hpx"]
+
+[node name="WagonSprite" type="Node2D"]
+
+[node name="vagao" type="Sprite2D" parent="."]
+scale = Vector2(0.124113, 0.115385)
+texture = ExtResource("1_s6hpx")
