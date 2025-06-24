@@ -6,5 +6,5 @@ func show_results(message: String):
 	results_label.text = message
 	show()
 
-func _on_ok_button_pressed():
-	get_tree().quit()
+func _on_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://src/Scenes/main_menu.tscn")

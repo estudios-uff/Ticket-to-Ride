@@ -65,6 +65,9 @@ texture = ExtResource("5_1ag70")
 offset_right = 40.0
 offset_bottom = 40.0
 
+[node name="UI_Behavior" parent="PlayerHandsContainer" instance=ExtResource("9_74bsh")]
+anchoramento = 0
+
 [node name="PlayerHand" parent="." instance=ExtResource("14_ugbi5")]
 visible = false
 z_index = 5
