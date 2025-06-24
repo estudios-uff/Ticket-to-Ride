@@ -1,10 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://or4w2v47qbt4"]
-
+[gd_scene load_steps=24 format=3 uid="uid://or4w2v47qbt4"]
 
 [ext_resource type="Script" path="res://src/Scripts/cameraGame.gd" id="1_cwwrh"]
 [ext_resource type="AudioStream" uid="uid://de5ddnpnrvop5" path="res://EFX/sounds/Rio Nights.mp3" id="2_f4j3v"]
 [ext_resource type="Texture2D" uid="uid://d1n8eqv3kwejm" path="res://images/scenes/texture.png" id="2_vta80"]
-[ext_resource type="Texture2D" uid="uid://bfvgjesd54vwp" path="res://images/scenes/Train-board-generator---Rio-de-Janeiro-White.png" id="5_x4qt4"]
+[ext_resource type="Texture2D" uid="uid://bjtp2mvcjnnfv" path="res://images/scenes/Train-board-generator---Rio-de-Janeiro-White1920x1080.png" id="5_1ag70"]
 [ext_resource type="PackedScene" uid="uid://qarho3gx552b" path="res://src/Scenes/TestMap/Map.tscn" id="6_3bipw"]
 [ext_resource type="PackedScene" uid="uid://bofb141rqpvkf" path="res://src/Scenes/ui_behavior.tscn" id="9_74bsh"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/input_manager.gd" id="9_wck36"]
@@ -15,6 +14,27 @@
 [ext_resource type="PackedScene" uid="uid://daxub4d1aqurh" path="res://src/Scenes/ManagerObjetivos.tscn" id="13_kx73r"]
 [ext_resource type="PackedScene" uid="uid://bba6bcq0cxwn3" path="res://src/Scenes/GUI/components/SceneplayerUI.tscn" id="13_rviws"]
 [ext_resource type="PackedScene" uid="uid://fjphfqkdfpv7" path="res://src/Scenes/GUI/components/PlayerHand.tscn" id="14_ugbi5"]
+[ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="15_6qoyv"]
+[ext_resource type="PackedScene" uid="uid://bfk5e1f8jhcf0" path="res://src/Scenes/turn_manager.tscn" id="15_otum2"]
+[ext_resource type="Texture2D" uid="uid://ejfloeqwhu3w" path="res://images/utils/wagonWhite.png" id="16_fe2ab"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vkypp"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6ste8"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3offe"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5jgf7"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jwm2e"]
+texture = ExtResource("16_fe2ab")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1ppqo"]
+texture = ExtResource("16_fe2ab")
 
 [node name="TutorialTest" type="Node2D"]
 script = ExtResource("11_lv38c")
@@ -29,15 +49,24 @@ texture = ExtResource("2_vta80")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("2_f4j3v")
-volume_db = -17.949
+volume_db = -24.508
 autoplay = true
+max_distance = 2e+09
+area_mask = 4095
+playback_type = 1
+parameters/looping = true
 
 [node name="TrainBoardGenerator-RioDeJaneiro" type="Sprite2D" parent="."]
-position = Vector2(542, 271)
-scale = Vector2(0.0629981, 0.0577121)
-texture = ExtResource("5_x4qt4")
+position = Vector2(542, 273)
+scale = Vector2(0.556, 0.493)
+texture = ExtResource("5_1ag70")
+
+[node name="PlayerHandsContainer" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="PlayerHand" parent="." instance=ExtResource("14_ugbi5")]
+visible = false
 z_index = 5
 
 [node name="UI_Behavior2" parent="PlayerHand" instance=ExtResource("9_74bsh")]
@@ -53,16 +82,22 @@ position = Vector2(1228, 66)
 anchoramento = 0
 
 [node name="NodeLoja" parent="." instance=ExtResource("12_jdx0c")]
+visible = false
 z_index = 5
 
 [node name="UI_Behavior" parent="NodeLoja" instance=ExtResource("9_74bsh")]
 anchoramento = 0
 
+[node name="PlayerUIsContainer" type="VBoxContainer" parent="."]
+z_index = 6
+offset_top = 574.0
+offset_right = 40.0
+offset_bottom = 574.0
+
 [node name="NodePlayerUI" parent="." instance=ExtResource("13_rviws")]
+visible = false
 z_index = 5
-
-position = Vector2(0, 12)
-
+position = Vector2(0, 1)
 
 [node name="UI_Behavior" parent="NodePlayerUI" instance=ExtResource("9_74bsh")]
 anchoramento = 0
@@ -79,4 +114,38 @@ z_index = 5
 [node name="ManagerObjetivos" parent="." instance=ExtResource("13_kx73r")]
 z_index = 6
 
+[node name="EndTurnButton" type="Button" parent="."]
+offset_left = 1016.0
+offset_top = 660.0
+offset_right = 1112.0
+offset_bottom = 700.0
+theme_override_colors/font_disabled_color = Color(0.252028, 0.252028, 0.252028, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_hover_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_pressed_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_focus_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_fonts/font = ExtResource("15_6qoyv")
+theme_override_styles/focus = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxTexture_6ste8")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_3offe")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxTexture_vkypp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_5jgf7")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxTexture_jwm2e")
+theme_override_styles/normal = SubResource("StyleBoxTexture_1ppqo")
+disabled = true
+text = "End Turn"
+
+[node name="EnemyThinking" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="TurnManager" parent="." instance=ExtResource("15_otum2")]
+
 [connection signal="draw" from="Deck" to="." method="_on_deck_draw"]
+[connection signal="pressed" from="EndTurnButton" to="TurnManager" method="_on_end_turn_button_pressed"]

@@ -1,0 +1,36 @@
+[gd_scene load_steps=5 format=3 uid="uid://cvjbko0e1ixyl"]
+
+[ext_resource type="Script" path="res://src/Scripts/Cards/cardHand.gd" id="1_gwmrc"]
+[ext_resource type="Texture2D" uid="uid://cdcld7bbw1d8l" path="res://images/scenes/orangeTrain.png" id="2_bohqw"]
+[ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="3_yhmie"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_efp8x"]
+size = Vector2(79.5, 202.395)
+
+[node name="Blue2" type="Node2D"]
+script = ExtResource("1_gwmrc")
+
+[node name="BlueTrain" type="Sprite2D" parent="."]
+position = Vector2(885.579, 624.803)
+rotation = -1.22173
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_bohqw")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = 945.0
+offset_top = 536.0
+offset_right = 985.0
+offset_bottom = 576.0
+rotation = 0.342769
+scale = Vector2(1.5, 1.5)
+theme_override_colors/default_color = Color(0.684358, 0.183952, 0.332937, 1)
+theme_override_fonts/normal_font = ExtResource("3_yhmie")
+text = "0"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(886.116, 624.645)
+rotation = 0.345999
+shape = SubResource("RectangleShape2D_efp8x")

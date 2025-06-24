@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=3 uid="uid://bkwh5jjd2gqcl"]
+[gd_scene load_steps=9 format=3 uid="uid://bkwh5jjd2gqcl"]
 
-[ext_resource type="Texture2D" uid="uid://02dysrcn71q7" path="res://images/scenes/Train board generator - Rio de Janeiro[1980x1080].png" id="1_bktks"]
 [ext_resource type="PackedScene" uid="uid://67utei1opj2r" path="res://src/Scenes/Cards/card_manager.tscn" id="1_uvvgo"]
 [ext_resource type="PackedScene" uid="uid://dgwixdjbdd55n" path="res://src/Scenes/Cards/card_slot.tscn" id="2_57um0"]
 [ext_resource type="Script" path="res://src/Scripts/Cards/PlayerHand.gd" id="3_ewiqe"]
@@ -13,11 +12,6 @@
 size = Vector2(242.5, 160)
 
 [node name="Cards" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(641, 363)
-scale = Vector2(0.67037, 0.67037)
-texture = ExtResource("1_bktks")
 
 [node name="CardManager" parent="." instance=ExtResource("1_uvvgo")]
 position = Vector2(1, 2)

@@ -1,7 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://daxub4d1aqurh"]
+[gd_scene load_steps=15 format=3 uid="uid://daxub4d1aqurh"]
 
-[ext_resource type="Texture2D" uid="uid://cacy22xt1h605" path="res://images/utils/cardCredits.png" id="1_86eeg"]
 [ext_resource type="Script" path="res://src/Scripts/manager_objetivos.gd" id="1_xl4mf"]
+[ext_resource type="Texture2D" uid="uid://cosooxilu02r6" path="res://images/utils/window.png" id="2_oyhku"]
 [ext_resource type="Shader" path="res://shaders/border_shader.gdshader" id="3_2gbim"]
 [ext_resource type="Texture2D" uid="uid://qy3ptu2vqeai" path="res://images/utils/cardCreditsBtn.png" id="4_lr0rg"]
 [ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="4_w5gi1"]
@@ -37,15 +37,18 @@ texture = ExtResource("5_qlfip")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gignn"]
 texture = ExtResource("4_lr0rg")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dw0l7"]
+texture = ExtResource("5_qlfip")
+
 [node name="ManagerObjetivos" type="Node2D"]
 script = ExtResource("1_xl4mf")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = -367.0
-offset_top = -41.0
+offset_top = -66.0
 offset_right = 229.0
-offset_bottom = 619.0
-texture = ExtResource("1_86eeg")
+offset_bottom = 613.0
+texture = ExtResource("2_oyhku")
 
 [node name="Objetivo1" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_k0xv7")
@@ -88,7 +91,7 @@ offset_bottom = 543.0
 theme_override_fonts/font = ExtResource("4_w5gi1")
 theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_o7wbe")
 theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4aj7t")
-theme_override_styles/hover = SubResource("StyleBoxTexture_bag4w")
+theme_override_styles/hover = SubResource("StyleBoxTexture_dw0l7")
 theme_override_styles/normal = SubResource("StyleBoxTexture_gignn")
 text = "Confirmar"
 

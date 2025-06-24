@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dlfjjispeheax"]
+[gd_scene load_steps=9 format=3 uid="uid://dlfjjispeheax"]
 
 [ext_resource type="PackedScene" uid="uid://dabt3pgr83flg" path="res://src/Scenes/GUI/components/card_roteBlue.tscn" id="1_4rxed"]
 [ext_resource type="PackedScene" uid="uid://d2dl0712457sl" path="res://src/Scenes/GUI/components/card_roteGray.tscn" id="2_lksoi"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://bqxc0q2nlghqq" path="res://src/Scenes/GUI/components/card_roteRed.tscn" id="4_ji5y4"]
 [ext_resource type="PackedScene" uid="uid://blrjpwbptsrq3" path="res://src/Scenes/GUI/components/card_roteGreen.tscn" id="5_8m70d"]
 [ext_resource type="PackedScene" uid="uid://djevdxdfv4lqn" path="res://src/Scenes/GUI/components/card_roteYellow.tscn" id="6_bxr3n"]
+[ext_resource type="PackedScene" uid="uid://6pc1ue8e5wy7" path="res://src/Scenes/GUI/components/card_roteOrange.tscn" id="7_dr767"]
+[ext_resource type="PackedScene" uid="uid://g6rtaibwvytu" path="res://src/Scenes/GUI/components/card_roteRainbow.tscn" id="8_bq2hh"]
 
 [node name="GroupShopTicket" type="Control"]
 layout_mode = 3
@@ -15,6 +17,7 @@ anchors_preset = 0
 layout_direction = 1
 layout_mode = 1
 offset_bottom = 485.0
+scale = Vector2(0.8, 0.8)
 theme_override_constants/separation = 97
 
 [node name="CardRote" parent="VBoxContainer" instance=ExtResource("1_4rxed")]
@@ -33,4 +36,10 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="CardRote6" parent="VBoxContainer" instance=ExtResource("6_bxr3n")]
+layout_mode = 2
+
+[node name="CardRote7" parent="VBoxContainer" instance=ExtResource("7_dr767")]
+layout_mode = 2
+
+[node name="CardRote8" parent="VBoxContainer" instance=ExtResource("8_bq2hh")]
 layout_mode = 2
