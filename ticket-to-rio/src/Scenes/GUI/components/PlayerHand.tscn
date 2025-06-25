@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://src/Scripts/Cards/cardHand.gd" id="2_06kwb"]
 [ext_resource type="FontFile" uid="uid://cx85yy6hg2d6v" path="res://Fonts/wishcar_moundy/Wishcar Moundy.otf" id="3_g5klp"]
 [ext_resource type="Texture2D" uid="uid://dovjb6ypgdsff" path="res://images/scenes/yellowTrain.png" id="3_ldx30"]
-[ext_resource type="Texture2D" uid="uid://xtvdcsl1pgfe" path="res://images/scenes/raindowTrain.png" id="3_xiq6n"]
+[ext_resource type="Texture2D" uid="uid://xtvdcsl1pgfe" path="res://images/scenes/rainbowTrain.png" id="3_xiq6n"]
 [ext_resource type="Texture2D" uid="uid://d3g3ibyt85d7s" path="res://images/utils/Elipse 1.png" id="4_hxtxa"]
 [ext_resource type="Texture2D" uid="uid://xvypfo4hacfy" path="res://images/scenes/blueTrain.png" id="4_wdrei"]
 [ext_resource type="Texture2D" uid="uid://cdcld7bbw1d8l" path="res://images/scenes/orangeTrain.png" id="5_5pnl8"]

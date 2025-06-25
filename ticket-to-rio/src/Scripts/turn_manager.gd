@@ -1,6 +1,6 @@
 extends Node
 
-enum State { CHOOSING_OBJECTIVES, PLAYER_TURN, IA_TURN }
+enum State { CHOOSING_OBJECTIVES, PLAYER_TURN, IA_TURN, DRAWING_CARDS }
 var current_state: State
 
 @export var index_player = 0
@@ -22,6 +22,9 @@ var player_hand_scene = preload("res://src/Scenes/GUI/components/PlayerHand.tscn
 @onready var manager_objetivos = get_node("/root/TutorialTest/ManagerObjetivos")
 var player_objectives = {} 
 
+@onready var loja_cards = get_node("/root/TutorialTest/NodeLoja/GroupShopTicket")
+var cards_drawn_this_turn: int = 0
+var selected_shop_cards: Array[Control] = [] # Para guardar os NÓS das cartas selecionadas
 
 @onready var map = get_node("/root/TutorialTest/Map")
 @onready var end_turn_button = $"../EndTurnButton"
@@ -39,7 +42,10 @@ func _ready() -> void:
 		deck.update_player_hand.connect(_on_deck_card_drawn)
 	if manager_objetivos and manager_objetivos.has_signal("objetivos_escolhidos"):
 		manager_objetivos.objetivos_escolhidos.connect(_on_objetivos_do_jogador_escolhidos)
-	map.route_claimed.connect(_on_map_route_claimed)
+	if map:
+		map.route_claimed.connect(_on_map_route_claimed)
+	if loja_cards:
+		loja_cards.draw_button_pressed.connect(_on_shop_draw_button_pressed)
 	
 	# --- PASSO 3: Limpar todos os arrays de estado ---
 	playerHands.clear()
@@ -105,6 +111,10 @@ func _ready() -> void:
 	for i in range (len(player_uis)):
 		player_uis[i].update_routes_display([])
 	
+	# --- PASSO 7: Atualizo a loja
+	if loja_cards:
+		loja_cards.deal_initial_cards()
+	
 func _on_map_route_claimed(player_index):
 	print("TurnManager: Rota comprada recebida do jogador/IA: " + str(player_index))
 
@@ -143,7 +153,7 @@ func _on_map_route_claimed(player_index):
 				var info = map.objective_card_data[card_path]
 				
 				if player_index is int:
-					if  map.is_objective_complete(player_index, info["from"], info["to"], info["points"]):
+					if not map.is_objective_complete(player_index, info["from"], info["to"], info["points"]):
 						all_objectives_completed = false
 						break # Encontrou um objetivo incompleto, pode parar de verificar
 				else:
@@ -252,21 +262,64 @@ func calculate_player_score(player_id) -> int:
 						total_score -= points # SUBTRAI pontos se não foi completo
 					
 	return total_score
-	
-func _on_deck_card_drawn(card_identifier: String) -> void:
-	# Verifica se há jogadores humanos no jogo
-	if not playerHands.is_empty():
-		# Pega a instância da mão do jogador ATIVO
-		var active_player_hand = playerHands[index_player]
-		
-		# Chama a função para adicionar a carta APENAS na mão ativa
-		if !active_player_hand.ja_comprou:
-			active_player_hand.add_card_to_hand(card_identifier)
-			print("Carta '", card_identifier, "' entregue para o Jogador ", index_player + 1)
-			active_player_hand.ja_comprou = true
-			deck_collision_shape.disabled = true
-			$"../EndTurnButton".disabled = false
 
+func _on_deck_card_drawn(card_identifier: String):
+	if cards_drawn_this_turn >= 2: 
+		loja_cards.max_selection = 2
+		return
+
+	if cards_drawn_this_turn == 0:
+		current_state = State.DRAWING_CARDS
+		map.set_route_claiming_enabled(false) # Bloqueia compra de rotas
+	
+	playerHands[index_player].add_card_to_hand(card_identifier)
+	cards_drawn_this_turn += 1
+	loja_cards.max_selection -= 1
+	var selected_data = loja_cards.get_and_clear_selection()
+	check_card_draw_limit()
+
+func _on_shop_draw_button_pressed():
+	if cards_drawn_this_turn >= 2: 
+		loja_cards.max_selection = 2
+		loja_cards.finish_shop()
+		return
+
+	var selected_data = loja_cards.get_and_clear_selection()
+
+	if selected_data.is_empty():
+		print("Nenhuma carta da loja selecionada.")
+		return
+
+	if cards_drawn_this_turn + selected_data.size() > 2:
+		print("Ação inválida: Você não pode comprar essa quantidade de cartas.")
+		# Opcional: mostrar um pop-up de erro para o jogador
+		return
+	
+	if cards_drawn_this_turn == 0:
+		current_state = State.DRAWING_CARDS
+		map.set_route_claiming_enabled(false) # Bloqueia compra de rotas
+
+	for card_data in selected_data:
+		playerHands[index_player].add_card_to_hand(card_data.carta_clicada)
+		cards_drawn_this_turn += 1
+		loja_cards.max_selection -= 1
+		if card_data.carta_clicada == "rainbowTrain":
+			cards_drawn_this_turn = 2
+		if cards_drawn_this_turn >= 2:
+			loja_cards.max_selection = 2
+			loja_cards.finish_shop()
+			return
+		loja_cards.replace_card(card_data)
+	
+	check_card_draw_limit()
+
+func check_card_draw_limit():
+	if cards_drawn_this_turn >= 2:
+		print("Limite de compra de cartas atingido.")
+		deck_collision_shape.disabled = true
+		loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		loja_cards.visible = false
+		end_turn_button.disabled = false
 
 func _on_end_turn_button_pressed() -> void:
 	if not playerHands[index_player].ja_comprou:
@@ -278,7 +331,18 @@ func _on_end_turn_button_pressed() -> void:
 		deck_collision_shape.disabled = false
 		index_player += 1
 		change_player_hand()
+		for card_node in selected_shop_cards:
+			loja_cards._atualizar_borda_loja(card_node, false)
+		selected_shop_cards.clear()
+		cards_drawn_this_turn = 0
+		if loja_cards:
+			loja_cards.deal_initial_cards()
+			loja_cards.mouse_filter = Control.MOUSE_FILTER_STOP
 	else:
+		if loja_cards:
+			loja_cards.max_selection = 2
+			loja_cards.finish_shop()
+			loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		playerHands[index_player].visible = false
 		player_uis[index_player].visible = false
 		$"../EndTurnButton".disabled = true
@@ -334,6 +398,13 @@ func process_ia_turns() -> void:
 	round_idx += 1
 	index_player = 0
 	change_player_hand()
+	for card_node in selected_shop_cards:
+		loja_cards._atualizar_borda_loja(card_node, false)
+	selected_shop_cards.clear()
+	cards_drawn_this_turn = 0
+	if loja_cards:
+		loja_cards.deal_initial_cards()
+		loja_cards.mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	end_turn_button.disabled = false
 	end_turn_button.visible = true
@@ -434,11 +505,13 @@ func opponents_ai_turn(ia_index: int, ia_hand_node) -> void:
 		if ui_instance_index < player_uis.size():
 			player_uis[ui_instance_index].add_objetivos(objetivos_da_ia)
 		
-	# 2. A IA sempre compra uma carta no início do turno
+	# 2. A IA sempre compra duas cartas no início do turno
 	if deck.has_method("draw_card_for_ia"):
 		var drawn_card = deck.draw_card_for_ia()
+		var drawn_card2 = deck.draw_card_for_ia()
 		if drawn_card:
 			ia_hand_node.add_card_to_hand(drawn_card)
+			ia_hand_node.add_card_to_hand(drawn_card2)
 			print("IA " + str(ia_index) + " comprou a carta: {drawn_card}")
 
 	# 3. Despachante de Dificuldade

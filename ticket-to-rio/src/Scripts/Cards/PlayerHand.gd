@@ -1,7 +1,5 @@
 extends Node2D
 
-#const HAND_COUNT = 4
-#const CARD_SCENE_PATH = "res://src/Scenes/Cards/card.tscn"
 const CARD_WIDTH = 100
 const HAND_Y_POSITION = 260
 
@@ -14,12 +12,10 @@ const HAND_Y_POSITION = 260
 @onready var green: RichTextLabel = $Green/RichTextLabel
 @onready var rainbow: RichTextLabel = $Rainbow/RichTextLabel
 
-@onready var deck: Node2D # Will be assigned in _ready
+@onready var deck: Node2D
 
 var player_hand = {}
 var center_screen_x
-
-@onready var ja_comprou = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -43,18 +39,6 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	center_screen_x = -get_viewport().size.x / 4
-
-	#var deck_node = get_node_or_null("/root/TutorialTest/Deck") 
-	#if deck_node:
-		#deck = deck_node
-		## Ensure the 'update_player_hand' signal exists in your Deck script and emits a card identifier
-		#if deck.has_signal("update_player_hand"):
-			#deck.update_player_hand.connect(add_card_to_hand)
-			#print("Conectado ao Deck:", deck)
-		#else:
-			#print("Erro: Sinal 'update_player_hand' não encontrado no Deck.")
-	#else:
-		#print("Erro: Deck não encontrado!")
 
 func add_card_to_hand(card_identifier: String) -> void:
 	if card_identifier in player_hand:
@@ -86,8 +70,6 @@ func update_card_visibility(card_identifier: String) -> void:
 	else:
 		print("Carta inválida em update_card_visibility:", card_identifier)
 
-
-
 func calculate_card_position(idx):
 	var total_width = player_hand.size() - 1 * CARD_WIDTH
 	@warning_ignore("integer_division")
@@ -105,12 +87,7 @@ func remove_card_from_hand(card_identifier: String) -> void:
 		if player_hand[card_identifier]["count"] > 0:
 			player_hand[card_identifier]["count"] -= 1
 			update_card_visibility(card_identifier) # Update text and visibility
-			# If you were physically removing card nodes, that logic would go here.
-			# For now, this just decrements the count.
 		else:
 			print("Tentativa de remover carta com contagem zero:", card_identifier)
-		# If you were actually removing card objects from a list:
-		# player_hand.erase(card_identifier) # This would remove the key entirely
-		# update_hand_position() 
 	else:
 		print("Tentativa de remover carta inválida:", card_identifier)

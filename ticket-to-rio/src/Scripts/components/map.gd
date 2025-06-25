@@ -384,6 +384,12 @@ func color_name_to_card_key(color_string: String) -> String:
 		_:
 			return "grayTrain"
 
+func set_route_claiming_enabled(is_enabled: bool):
+	# Passa por todas as rotas e ativa/desativa a capacidade de serem clicadas
+	for route_node in route_nodes.values():
+		if route_node and route_node.has_node("Area2D"):
+			route_node.get_node("Area2D").input_pickable = is_enabled
+	
 func attempt_buy_route(index_player: int, card_key: String, cost: int) -> bool:
 	if player_hand[index_player] == null:
 		return false

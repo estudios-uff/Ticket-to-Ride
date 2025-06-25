@@ -3,20 +3,28 @@
 [ext_resource type="Script" path="res://src/Scripts/components/card_rote.gd" id="1_q7sl1"]
 [ext_resource type="Texture2D" uid="uid://b1l0fwqebivop" path="res://images/scenes/greenTrain.png" id="2_utxie"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_158tg"]
-size = Vector2(1028, 604)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_baqxb"]
+size = Vector2(146, 87)
 
 [node name="CardRote" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_q7sl1")
 
+[node name="Borda" type="Sprite2D" parent="."]
+position = Vector2(76, 52)
+scale = Vector2(0.144, 0.124)
+texture = ExtResource("2_utxie")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(76, 52)
 scale = Vector2(0.144244, 0.144244)
 texture = ExtResource("2_utxie")
 
-[node name="Area2D" type="Area2D" parent="Sprite2D"]
+[node name="Area2D" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
-shape = SubResource("RectangleShape2D_158tg")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(78, 52.5)
+shape = SubResource("RectangleShape2D_baqxb")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

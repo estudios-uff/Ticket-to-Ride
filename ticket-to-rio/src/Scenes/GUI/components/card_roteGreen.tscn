@@ -1,5 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://blrjpwbptsrq3"]
+[gd_scene load_steps=4 format=3 uid="uid://blrjpwbptsrq3"]
 
 [ext_resource type="PackedScene" uid="uid://dbjrufewan4oc" path="res://src/Scenes/GUI/components/cardRote.tscn" id="1_xoepx"]
+[ext_resource type="Shader" path="res://shaders/cardRote.gdshader" id="2_u2crx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7af7d"]
+shader = ExtResource("2_u2crx")
+shader_parameter/border_color = Color(0, 0, 1, 1)
+shader_parameter/border_pixel_width = 5.0
+shader_parameter/draw_border = false
 
 [node name="CardRote" instance=ExtResource("1_xoepx")]
+
+[node name="Borda" parent="." index="0"]
+material = SubResource("ShaderMaterial_7af7d")
