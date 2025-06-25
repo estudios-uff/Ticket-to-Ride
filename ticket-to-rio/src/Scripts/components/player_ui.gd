@@ -9,7 +9,7 @@ var player_index: int = -1 # Armazenará o índice do jogador dono desta UI
 @onready var nao_concluidos = $CenterContainer/VBoxContainer/HBoxContainer3/HBoxContainer2/Text
 @onready var objectives_container = $PanelContainer/ScrollContainer/VBoxContainer
 
-@onready var purchased_routes_label: RichTextLabel = get_node("/root/TutorialTest/Map/RoutesLabel")
+@onready var purchased_routes_label: RichTextLabel = $RoutesLabel
 
 func set_player_info(color: Color, player_name: String):
 	$PlayerColorIndicator.color = color
@@ -39,7 +39,8 @@ func add_objetivos(novos_objetivos: Array[Texture2D]):
 	# Atualiza o contador de objetivos não concluídos
 	nao_concluidos.text = str(meus_objetivos_selecionados.size())
 	print("%s recebeu %d novos objetivos!" % [name, novos_objetivos.size()])
-
+	
+	update_objective_counts()
 
 func _on_objetivos_jogador_pressed() -> void:
 	var janela_objetivos = $PanelContainer
@@ -50,37 +51,52 @@ func _on_objetivos_jogador_pressed() -> void:
 
 func update_objectives_display():
 	if meus_objetivos_selecionados.is_empty():
-		print("Nenhum objetivo selecionado para exibir.")
 		return
 	
 	var objective_rects = objectives_container.get_children()
 	
+	# Atualiza a cor de cada carta de objetivo
 	for i in range(objective_rects.size()):
-		var rect = objective_rects[i]
+		var rect: TextureRect = objective_rects[i]
 		if i < meus_objetivos_selecionados.size():
 			var textura = meus_objetivos_selecionados[i]
 			rect.texture = textura
 			
-			# --- LÓGICA DE VERIFICAÇÃO ---
 			var card_path = textura.resource_path
 			if map_node.objective_card_data.has(card_path):
-				var objective_info = map_node.objective_card_data[card_path]
-				var from_city = objective_info["from"]
-				var to_city = objective_info["to"]
-				var points = objective_info["points"]
-				
-				# Chama a função de busca no mapa!
-				if map_node.is_objective_complete(player_index, from_city, to_city, points):
-					print("Objetivo de %s para %s COMPLETO!" % [from_city, to_city])
-					# Efeito visual: Deixa a carta verde para indicar sucesso
-					rect.modulate = Color.LIGHT_GREEN
+				var info = map_node.objective_card_data[card_path]
+				if map_node.is_objective_complete(player_index, info.from, info.to, info.points):
+					rect.modulate = Color.LIGHT_GREEN # Completo
 				else:
-					# OBJETIVO INCOMPLETO
-					# Efeito visual: Deixa a carta com a cor normal
-					rect.modulate = Color.WHITE
+					rect.modulate = Color.WHITE # Incompleto
 			else:
-				rect.modulate = Color.WHITE # Cor normal se não encontrar dados da carta
+				rect.modulate = Color.WHITE
 		else:
-			# Limpa os slots não usados
 			rect.texture = null
 			rect.modulate = Color.WHITE
+	
+	# Após atualizar os visuais, recalcula e atualiza os contadores de texto
+	update_objective_counts()
+
+
+# NOVA FUNÇÃO: Calcula e atualiza os labels de texto
+func update_objective_counts():
+	if meus_objetivos_selecionados.is_empty():
+		if concluidos: concluidos.text = "0"
+		if nao_concluidos: nao_concluidos.text = "0"
+		return
+
+	var completed_count = 0
+	# Passa por todos os objetivos e conta quantos estão completos
+	for objective_texture in meus_objetivos_selecionados:
+		var card_path = objective_texture.resource_path
+		if map_node.objective_card_data.has(card_path):
+			var info = map_node.objective_card_data[card_path]
+			if map_node.is_objective_complete(player_index, info.from, info.to, info.points):
+				completed_count += 1
+	
+	# Finalmente, atualiza os labels de texto com os valores corretos
+	if concluidos:
+		concluidos.text = str(completed_count)
+	if nao_concluidos:
+		nao_concluidos.text = str(meus_objetivos_selecionados.size() - completed_count)

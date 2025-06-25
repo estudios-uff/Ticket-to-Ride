@@ -1,12 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://bcpcr8dwfyos8"]
 
 [ext_resource type="Script" path="res://src/Scripts/components/map_editor.gd" id="1_aladv"]
-[ext_resource type="Texture2D" uid="uid://22oc23vh0k0f" path="res://images/scenes/Train board generator - Rio de Janeiro.png" id="2_pfg1m"]
+[ext_resource type="Texture2D" uid="uid://bjtp2mvcjnnfv" path="res://images/scenes/Train-board-generator---Rio-de-Janeiro-White1920x1080.png" id="2_8owyg"]
 
 [node name="MapEditor" type="Node2D"]
 script = ExtResource("1_aladv")
 
 [node name="MapDisplay" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_8owyg")
 
 [node name="ColorRect" type="ColorRect" parent="MapDisplay"]
 visible = false
@@ -21,7 +24,6 @@ layout_mode = 0
 offset_right = 101773.0
 offset_bottom = 54000.0
 scale = Vector2(0.01, 0.01)
-texture = ExtResource("2_pfg1m")
 
 [node name="UIContainer" type="Panel" parent="."]
 anchors_preset = 15

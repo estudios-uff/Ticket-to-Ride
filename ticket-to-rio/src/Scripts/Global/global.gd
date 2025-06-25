@@ -1,6 +1,7 @@
 extends Node
 
-var num_players: int
+var num_players: int = 1
+var difficult: int = 0
 
 # O ÚNICO dicionário que vamos precisar para guardar os dados dos jogadores e IAs
 var participants: Dictionary = {}
@@ -12,6 +13,7 @@ const AVAILABLE_COLORS := {
 	"yellow": Color.YELLOW,
 	"orange": Color.ORANGE_RED,
 	"pink": Color.DEEP_PINK,
+	"red": Color.RED,
 	"gray": Color.GRAY,
 	"white": Color.WHITE
 }

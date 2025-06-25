@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dlfjjispeheax"]
+[gd_scene load_steps=18 format=3 uid="uid://dlfjjispeheax"]
 
 [ext_resource type="PackedScene" uid="uid://dabt3pgr83flg" path="res://src/Scenes/GUI/components/card_roteBlue.tscn" id="1_4rxed"]
+[ext_resource type="Script" path="res://src/Scripts/components/group_shop_ticket.gd" id="1_tf7ex"]
 [ext_resource type="PackedScene" uid="uid://d2dl0712457sl" path="res://src/Scenes/GUI/components/card_roteGray.tscn" id="2_lksoi"]
 [ext_resource type="PackedScene" uid="uid://rg8emfumm1f8" path="res://src/Scenes/GUI/components/card_rotePink.tscn" id="3_c8yi7"]
 [ext_resource type="PackedScene" uid="uid://bqxc0q2nlghqq" path="res://src/Scenes/GUI/components/card_roteRed.tscn" id="4_ji5y4"]
@@ -8,10 +9,39 @@
 [ext_resource type="PackedScene" uid="uid://djevdxdfv4lqn" path="res://src/Scenes/GUI/components/card_roteYellow.tscn" id="6_bxr3n"]
 [ext_resource type="PackedScene" uid="uid://6pc1ue8e5wy7" path="res://src/Scenes/GUI/components/card_roteOrange.tscn" id="7_dr767"]
 [ext_resource type="PackedScene" uid="uid://g6rtaibwvytu" path="res://src/Scenes/GUI/components/card_roteRainbow.tscn" id="8_bq2hh"]
+[ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="10_o54lg"]
+[ext_resource type="Texture2D" uid="uid://ejfloeqwhu3w" path="res://images/utils/wagonWhite.png" id="11_21v7e"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rh1xp"]
+texture = ExtResource("11_21v7e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xrruf"]
+texture = ExtResource("11_21v7e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_17345"]
+texture = ExtResource("11_21v7e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mvsc8"]
+texture = ExtResource("11_21v7e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7ljak"]
+texture = ExtResource("11_21v7e")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mhmso"]
+texture = ExtResource("11_21v7e")
 
 [node name="GroupShopTicket" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_tf7ex")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -12.0
+offset_right = 28.0
+offset_bottom = 40.0
+scale = Vector2(3.56, 9.96)
+mouse_filter = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_direction = 1
@@ -43,3 +73,33 @@ layout_mode = 2
 
 [node name="CardRote8" parent="VBoxContainer" instance=ExtResource("8_bq2hh")]
 layout_mode = 2
+
+[node name="drawButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 473.0
+offset_right = 98.0
+offset_bottom = 513.0
+theme_override_colors/font_disabled_color = Color(0.252028, 0.252028, 0.252028, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_hover_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_pressed_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_focus_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_fonts/font = ExtResource("10_o54lg")
+theme_override_styles/focus = SubResource("StyleBoxTexture_rh1xp")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxTexture_xrruf")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_17345")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_rh1xp")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_rh1xp")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_rh1xp")
+theme_override_styles/hover = SubResource("StyleBoxTexture_rh1xp")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxTexture_rh1xp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_mvsc8")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxTexture_7ljak")
+theme_override_styles/normal = SubResource("StyleBoxTexture_mhmso")
+disabled = true
+text = "Comprar"
+
+[connection signal="pressed" from="drawButton" to="." method="_on_draw_button_pressed"]

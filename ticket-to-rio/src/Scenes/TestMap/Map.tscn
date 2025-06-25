@@ -1,24 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://qarho3gx552b"]
+[gd_scene load_steps=2 format=3 uid="uid://qarho3gx552b"]
 
 [ext_resource type="Script" path="res://src/Scripts/components/map.gd" id="1_1oylf"]
-[ext_resource type="Texture2D" uid="uid://cosooxilu02r6" path="res://images/utils/window.png" id="2_edxbp"]
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_1oylf")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1189.5, 476)
-scale = Vector2(0.578488, 0.409426)
-texture = ExtResource("2_edxbp")
-
-[node name="RoutesLabel" type="RichTextLabel" parent="."]
-offset_left = 1107.0
-offset_top = 355.0
-offset_right = 1257.0
-offset_bottom = 592.0
-theme_override_colors/default_color = Color(0, 0, 0, 1)
-theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
-bbcode_enabled = true
 
 [node name="ActionsLabel" type="RichTextLabel" parent="."]
 anchors_preset = 5
@@ -26,6 +11,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = 460.0
 offset_right = 860.0
-offset_bottom = 75.0
+offset_bottom = 100.0
 grow_horizontal = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
