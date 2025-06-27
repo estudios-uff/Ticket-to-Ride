@@ -23,7 +23,7 @@ const WAGON_TEXTURES := {
 	Color.SKY_BLUE: preload("res://images/utils/wagonBlue.png"),
 	Color.LIME_GREEN: preload("res://images/utils/wagonGreen.png"),
 	Color.YELLOW: preload("res://images/utils/wagonYellow.png"),
-	Color.ORANGE_RED: preload("res://images/utils/wagonOrange.png"),
+	Color.DARK_ORANGE: preload("res://images/utils/wagonOrange.png"),
 	Color.WHITE: preload("res://images/utils/wagonWhite.png"),
 	Color.GRAY: preload("res://images/utils/wagonGray.png"),
 	Color.DEEP_PINK: preload("res://images/utils/wagonPink.png"),
@@ -170,9 +170,7 @@ func spawn_wagons():
 		wagon_instance.position = to_local(wagon_global_pos)
 		wagon_instance.rotation = direction.angle() 
 		wagon_instance.name = "Wagon" + str(i)
-
-			
-
+		
 func set_wagons_player_color(player_color: Color):
 	for child in get_children():
 		if child is Sprite2D and child.name.begins_with("Wagon"):

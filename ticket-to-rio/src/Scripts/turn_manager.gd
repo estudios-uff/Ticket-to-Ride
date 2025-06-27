@@ -284,6 +284,7 @@ func _on_shop_draw_button_pressed():
 		loja_cards.max_selection = 2
 		loja_cards.finish_shop()
 		check_card_draw_limit()
+		map.set_route_claiming_enabled(true)
 		return
 
 	var selected_data = loja_cards.get_and_clear_selection()
@@ -313,6 +314,7 @@ func _on_shop_draw_button_pressed():
 			loja_cards.max_selection = 2
 			loja_cards.finish_shop()
 			check_card_draw_limit()
+			map.set_route_claiming_enabled(true)
 			return
 	
 	check_card_draw_limit()
@@ -323,6 +325,7 @@ func check_card_draw_limit():
 		deck_collision_shape.disabled = true
 		loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		loja_cards.finish_shop()
+		map.set_route_claiming_enabled(true)
 		end_turn_button.disabled = false
 
 func _on_end_turn_button_pressed() -> void:
@@ -453,7 +456,7 @@ func _ai_can_afford_route(hand_node, route_data: Dictionary) -> bool:
 	var card_key = map.color_name_to_card_key(color_str)
 	var rainbow_count = hand_node.player_hand["rainbowTrain"]["count"]
 
-	if card_key == "grayTrain":
+	if card_key == "whiteTrain":
 		# Para rotas cinzas, a IA precisa de qualquer cor ou coringas
 		var max_cards_of_one_color = 0
 		for key in hand_node.player_hand:
@@ -471,7 +474,7 @@ func _ai_pay_for_route(hand_node, route_data: Dictionary):
 	var card_key = map.color_name_to_card_key(color_str)
 	var rainbow_count = hand_node.player_hand["rainbowTrain"]["count"]
 	
-	if card_key == "grayTrain":
+	if card_key == "whiteTrain":
 		var best_color = ""
 		var best_count = 0
 		for key in hand_node.player_hand.keys():

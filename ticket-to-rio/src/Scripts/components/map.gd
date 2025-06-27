@@ -249,13 +249,13 @@ var map_data = {
 		{"from": "Volta Redonda", "to": "Pinheiral", "color": "pink", "cost": 2},
 		{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
 		{"from": "Pinheiral", "to": "Piraí", "color": "gray", "cost": 3},
-		{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 5},
+		{"from": "Piraí", "to": "Seropédica", "color": "red", "cost": 5},
 		{"from": "Piraí", "to": "Paracambi", "color": "orange", "cost": 3},
 		{"from": "Paracambi", "to": "Piraí", "color": "yellow", "cost": 3},
 		{"from": "Seropédica", "to": "Itaguaí", "color": "green", "cost": 2},
 		{"from": "Seropédica", "to": "Queimados", "color": "pink", "cost": 3},
-		{"from": "Seropédica", "to": "Japeri", "color": "gray", "cost": 2},
-		{"from": "Japeri", "to": "Paracambi", "color": "gray", "cost": 1},
+		{"from": "Seropédica", "to": "Japeri", "color": "red", "cost": 2},
+		{"from": "Japeri", "to": "Paracambi", "color": "red", "cost": 1},
 		{"from": "Paracambi", "to": "Japeri", "color": "gray", "cost": 1},
 		{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
 		{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
@@ -269,8 +269,8 @@ var map_data = {
 		{"from": "Queimados", "to": "Nova Iguaçu", "color": "yellow", "cost": 2},
 		{"from": "Nova Iguaçu", "to": "Queimados", "color": "white", "cost": 2},
 		{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "gray", "cost": 8},
-		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "gray", "cost": 7},
-		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "gray", "cost": 7},
+		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "red", "cost": 7},
+		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "red", "cost": 7},
 		{"from": "Itaguaí", "to": "Nova Iguaçu", "color": "blue", "cost": 8},
 		{"from": "Nova Iguaçu", "to": "Duque de Caxias", "color": "green", "cost": 3},
 		{"from": "Duque de Caxias", "to": "Nova Iguaçu", "color": "orange", "cost": 3},
@@ -278,7 +278,7 @@ var map_data = {
 		{"from": "Duque de Caxias", "to": "Petrópolis", "color": "yellow", "cost": 8},
 		{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
 		{"from": "Rio de Janeiro", "to": "Niterói", "color": "gray", "cost": 1},
-		{"from": "Niterói", "to": "Rio de Janeiro", "color": "gray", "cost": 1},
+		{"from": "Niterói", "to": "Rio de Janeiro", "color": "red", "cost": 1},
 		{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
 		{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
 		{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
@@ -358,7 +358,7 @@ func parse_color(color_string: String) -> Color:
 		"blue": return Color(Color.SKY_BLUE.r, Color.SKY_BLUE.g, Color.SKY_BLUE.b, ALPHA_VALUE)
 		"green": return Color(Color.LIME_GREEN.r, Color.LIME_GREEN.g, Color.LIME_GREEN.b, ALPHA_VALUE)
 		"yellow": return Color(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, ALPHA_VALUE)
-		"orange": return Color(Color.ORANGE_RED, ALPHA_VALUE) # Laranja
+		"orange": return Color(Color.DARK_ORANGE, ALPHA_VALUE) # Laranja
 		"purple": return Color(Color.MEDIUM_PURPLE, ALPHA_VALUE) # Roxo
 		"black": return Color(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, ALPHA_VALUE)
 		"white": return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)
@@ -381,11 +381,11 @@ func color_name_to_card_key(color_string: String) -> String:
 		"red":
 			return "redTrain"
 		"white":
-			return "rainbowTrain"
+			return "whiteTrain"
 		"gray":
 			return "grayTrain"
 		_:
-			return "grayTrain"
+			return "whiteTrain"
 
 func set_route_claiming_enabled(is_enabled: bool):
 	# Passa por todas as rotas e ativa/desativa a capacidade de serem clicadas
@@ -397,37 +397,45 @@ func attempt_buy_route(index_player: int, card_key: String, cost: int) -> bool:
 	if player_hand[index_player] == null:
 		return false
 	var rainbow_count = player_hand[index_player].player_hand["rainbowTrain"]["count"] if "rainbowTrain" in player_hand[index_player].player_hand else 0
-	if card_key == "grayTrain":
-		var best_color = ""
-		var best_count = 0
-		for key in player_hand[index_player].player_hand.keys():
-			if key == "rainbowTrain":
+	if card_key == "whiteTrain":
+		var payment_option_found = false
+		var color_to_use = ""
+		# Itera sobre todas as cores na mão do jogador
+		for potential_color_key in player_hand[index_player].player_hand:
+			if potential_color_key == "rainbowTrain":
 				continue
-			var c = player_hand[index_player].player_hand[key]["count"]
-			if c > best_count:
-				best_count = c
-				best_color = key
-		if best_color == "":
-			best_color = "grayTrain"
-		if best_count + rainbow_count < cost:
-			return false
-		var use_from_color = min(cost, best_count)
-		for i in range(use_from_color):
-			player_hand[index_player].remove_card_from_hand(best_color)
-		var remaining = cost - use_from_color
-		for i in range(remaining):
-			player_hand[index_player].remove_card_from_hand("rainbowTrain")
-		return true
+
+			var color_count = player_hand[index_player].player_hand[potential_color_key]["count"]
+			if color_count + rainbow_count >= cost:
+				payment_option_found = true
+				color_to_use = potential_color_key
+				break # Encontramos uma cor válida, não precisa checar as outras
+		if not payment_option_found:
+			return false # Após checar todas as cores, se nenhuma for suficiente, a compra falha.
+		else:
+			# Pagamento com a cor encontrada + coringas
+			var color_card_count = player_hand[index_player].player_hand[color_to_use]["count"]
+			var use_from_color = min(cost, color_card_count)
+			var use_from_rainbow = cost - use_from_color
+			
+			for i in range(use_from_color):
+				player_hand[index_player].remove_card_from_hand(color_to_use)
+			for i in range(use_from_rainbow):
+				player_hand[index_player].remove_card_from_hand("rainbowTrain")
+			return true
 	else:
-		var color_count = player_hand[index_player].player_hand[card_key]["count"] if card_key in player_hand[index_player].player_hand else 0
-		if color_count + rainbow_count < cost:
-			return false
-		var use_from_color = min(cost, color_count)
+		var color_card_count: int = player_hand[index_player].player_hand[card_key]["count"]
+		if color_card_count + rainbow_count < cost:
+			return false # Não tem cartas suficientes, a compra falha.
+
+		var use_from_color = min(cost, color_card_count)
+		var use_from_rainbow = cost - use_from_color
+
 		for i in range(use_from_color):
 			player_hand[index_player].remove_card_from_hand(card_key)
-		var remaining = cost - use_from_color
-		for i in range(remaining):
+		for i in range(use_from_rainbow):
 			player_hand[index_player].remove_card_from_hand("rainbowTrain")
+			
 		return true
 
 func is_objective_complete(player_index: int, city_start: String, city_end: String, required_points: int) -> bool:
