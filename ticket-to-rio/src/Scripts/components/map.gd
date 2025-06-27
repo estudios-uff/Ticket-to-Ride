@@ -35,6 +35,7 @@ var high_value_routes_to_block: Array[Dictionary] = [
 var player_claimed_routes: Dictionary = {} # Chave: player_index, Valor: Array de rotas
 
 signal route_claimed(player_index)
+signal all_routes_completed
 
 var objective_card_data = {
 	"res://images/cards/card (1).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8},
@@ -289,6 +290,8 @@ var map_data = {
 		{"from": "Teresópolis", "to": "Guapimirim", "color": "pink", "cost": 2}
 	]
 }
+
+var mapa_concluido = false
 
 func _ready():
 	# Inicializa o dicionário de rotas para cada jogador
@@ -607,5 +610,18 @@ func _on_route_clicked(route_node: Node2D):
 		show_info_popup("Rota comprada!", route_node.position)
 		print("Rota comprada! por jogador: ", player_index)
 		route_claimed.emit(player_index)
+		
+		var all_claimed = true
+		for node in route_nodes.values():
+			if not node.claimed:
+				all_claimed = false
+				break # Encontrou uma rota livre, não precisa checar mais
+		if all_claimed:
+			print("MAPA COMPLETO! Todas as rotas foram compradas.")
+			mapa_concluido = true
+			# Emite o sinal para avisar o TurnManager que o jogo deve acabar
+			emit_signal("all_routes_completed")
+		
+		show_info_popup("Rota comprada!", route_node.position)
 	else:
 		show_info_popup("Cartas insuficientes", route_node.position)

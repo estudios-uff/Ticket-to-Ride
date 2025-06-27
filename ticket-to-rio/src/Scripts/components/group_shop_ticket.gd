@@ -1,4 +1,3 @@
-# Script da Loja (GroupShopTicket.gd) - VERSÃO FINAL
 extends Control
 
 # Este sinal agora é emitido pelo BOTÃO de comprar, não pelas cartas.
@@ -44,11 +43,11 @@ func deal_initial_cards():
 	fundo.visible = true
 	drawButton.visible = true
 	drawButton.disabled = false
+	card_nodes.clear()
+	card_selection_state.clear()
 	for child in loja_container.get_children():
 		child.queue_free()
 	
-	card_nodes.clear()
-	card_selection_state.clear()
 
 	for i in range(MAX_CARDS_IN_SHOP):
 		var card_scene = POSSIBLE_CARD_TYPES.pick_random()
