@@ -27,6 +27,17 @@ func _ready() -> void:
 			player_deck.append(key)
 	$RichTextLabel.text = str(player_deck.size())
 
+func remove_card_from_deck():
+	if player_deck.is_empty():
+		return # Não faz nada se o baralho estiver vazio
+	
+	# Lógica corrigida para comprar e remover a carta
+	var card_drawn = player_deck.pick_random()
+	player_deck.erase(card_drawn) # Remove a carta específica que foi sorteada
+	
+	trains_deck[card_drawn] -= 1
+	update_deck_visuals()
+
 func draw_card():
 	if player_deck.is_empty():
 		return # Não faz nada se o baralho estiver vazio

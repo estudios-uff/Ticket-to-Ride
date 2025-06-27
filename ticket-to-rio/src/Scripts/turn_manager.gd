@@ -44,6 +44,7 @@ func _ready() -> void:
 		manager_objetivos.objetivos_escolhidos.connect(_on_objetivos_do_jogador_escolhidos)
 	if map:
 		map.route_claimed.connect(_on_map_route_claimed)
+		map.all_routes_completed.connect(end_game)
 	if loja_cards:
 		loja_cards.draw_button_pressed.connect(_on_shop_draw_button_pressed)
 	
@@ -282,6 +283,7 @@ func _on_shop_draw_button_pressed():
 	if cards_drawn_this_turn >= 2: 
 		loja_cards.max_selection = 2
 		loja_cards.finish_shop()
+		check_card_draw_limit()
 		return
 
 	var selected_data = loja_cards.get_and_clear_selection()
@@ -300,7 +302,9 @@ func _on_shop_draw_button_pressed():
 		map.set_route_claiming_enabled(false) # Bloqueia compra de rotas
 
 	for card_data in selected_data:
+		deck.remove_card_from_deck()
 		playerHands[index_player].add_card_to_hand(card_data.carta_clicada)
+		loja_cards.replace_card(card_data)
 		cards_drawn_this_turn += 1
 		loja_cards.max_selection -= 1
 		if card_data.carta_clicada == "rainbowTrain":
@@ -308,8 +312,8 @@ func _on_shop_draw_button_pressed():
 		if cards_drawn_this_turn >= 2:
 			loja_cards.max_selection = 2
 			loja_cards.finish_shop()
+			check_card_draw_limit()
 			return
-		loja_cards.replace_card(card_data)
 	
 	check_card_draw_limit()
 
@@ -318,16 +322,12 @@ func check_card_draw_limit():
 		print("Limite de compra de cartas atingido.")
 		deck_collision_shape.disabled = true
 		loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		loja_cards.visible = false
+		loja_cards.finish_shop()
 		end_turn_button.disabled = false
 
 func _on_end_turn_button_pressed() -> void:
-	if not playerHands[index_player].ja_comprou:
-		return
-	
 	# Verifica se ainda há um próximo jogador humano no turno
 	if index_player + 1 < Global.num_players:
-		playerHands[index_player].ja_comprou = false
 		deck_collision_shape.disabled = false
 		index_player += 1
 		change_player_hand()
@@ -400,7 +400,6 @@ func process_ia_turns() -> void:
 	change_player_hand()
 	for card_node in selected_shop_cards:
 		loja_cards._atualizar_borda_loja(card_node, false)
-	selected_shop_cards.clear()
 	cards_drawn_this_turn = 0
 	if loja_cards:
 		loja_cards.deal_initial_cards()
@@ -438,14 +437,15 @@ func change_player_hand() -> void:
 		print("Primeira rodada do jogador. Iniciando seleção de objetivos.")
 		current_state = State.CHOOSING_OBJECTIVES
 		end_turn_button.disabled = true
-		if deck_collision_shape: deck_collision_shape.disabled = true
+		if deck_collision_shape: 
+			deck_collision_shape.disabled = true
 		manager_objetivos.iniciar_selecao_de_objetivos()
 	else:
 		print("Jogador já possui objetivos. Iniciando turno normal.")
 		current_state = State.PLAYER_TURN
-		if deck_collision_shape: deck_collision_shape.disabled = false
-		if playerHands.size() > 0 and index_player < playerHands.size():
-			playerHands[index_player].ja_comprou = false
+		end_turn_button.disabled = true
+		if deck_collision_shape: 
+			deck_collision_shape.disabled = false
 
 func _ai_can_afford_route(hand_node, route_data: Dictionary) -> bool:
 	var cost = route_data.cost
