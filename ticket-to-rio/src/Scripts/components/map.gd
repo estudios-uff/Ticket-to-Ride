@@ -41,7 +41,7 @@ var objective_card_data = {
 	"res://images/cards/card (2).png": {"from": "Valença", "to": "Miguel Pereira", "points": 9},
 	"res://images/cards/card (3).png": {"from": "Niterói", "to": "Tanguá", "points": 9},
 	"res://images/cards/card (4).png": {"from": "Piraí", "to": "Itaguaí", "points": 7},
-	"res://images/cards/card (5).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, #### 1
+	#"res://images/cards/card (5).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, #### 1
 	"res://images/cards/card (6).png": {"from": "Miguel Pereira", "to": "Nova Iguaçu", "points": 8},
 	"res://images/cards/card (7).png": {"from": "Piraí", "to": "Barra de Piraí", "points": 8},
 	"res://images/cards/card (8).png": {"from": "Seropédica", "to": "Vassouras", "points": 8},
@@ -88,23 +88,23 @@ var objective_card_data = {
 	"res://images/cards/card (49).png": {"from": "Pinheiral", "to": "Nova Iguaçu", "points": 12},
 	"res://images/cards/card (50).png": {"from": "Japeri", "to": "Niterói", "points": 12},
 	"res://images/cards/card (51).png": {"from": "Petrópolis", "to": "Niterói", "points": 13},
-	"res://images/cards/card (52).png": {"from": "Niterói", "to": "Maricá", "points": 6}, #### 2
+	#"res://images/cards/card (52).png": {"from": "Niterói", "to": "Maricá", "points": 6}, #### 2
 	"res://images/cards/card (53).png": {"from": "Nova Iguaçu", "to": "Rio de Janeiro", "points": 7},
 	"res://images/cards/card (54).png": {"from": "Itaguaí", "to": "Nova Iguaçu", "points": 7},
 	"res://images/cards/card (55).png": {"from": "Volta Redonda", "to": "Barra de Piraí", "points": 7},
-	"res://images/cards/card (56).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, ### 1
+	#"res://images/cards/card (56).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, ### 1
 	"res://images/cards/card (57).png": {"from": "Nova Iguaçu", "to": "Niterói", "points": 8},
 	"res://images/cards/card (58).png": {"from": "Niterói", "to": "Tanguá", "points": 9},
 	"res://images/cards/card (59).png": {"from": "Petrópolis", "to": "Itaboraí", "points": 10},
 	"res://images/cards/card (60).png": {"from": "Paracambi", "to": "Tanguá", "points": 22},
 	"res://images/cards/card (61).png": {"from": "Nova Iguaçu", "to": "Duque de Caxias", "points": 3},
 	"res://images/cards/card (62).png": {"from": "Duque de Caxias", "to": "Rio de Janeiro", "points": 4},
-	"res://images/cards/card (63).png": {"from": "Petrópolis", "to": "Teresópolis", "points": 5}, ### 3
+	#"res://images/cards/card (63).png": {"from": "Petrópolis", "to": "Teresópolis", "points": 5}, ### 3
 	"res://images/cards/card (64).png": {"from": "Queimados", "to": "Duque de Caxias", "points": 5},
 	"res://images/cards/card (65).png": {"from": "Volta Redonda", "to": "Piraí", "points": 5},
-	"res://images/cards/card (66).png": {"from": "Guapimirim", "to": "Itaboraí", "points": 6}, ### 4
+	#"res://images/cards/card (66).png": {"from": "Guapimirim", "to": "Itaboraí", "points": 6}, ### 4
 	"res://images/cards/card (67).png": {"from": "Niterói", "to": "Itaboraí", "points": 6},
-	"res://images/cards/card (68).png": {"from": "Barra Mansa", "to": "Duque de Caxias", "points": 18},### 5
+	#"res://images/cards/card (68).png": {"from": "Barra Mansa", "to": "Duque de Caxias", "points": 18},### 5
 	"res://images/cards/card (69).png": {"from": "Seropédica", "to": "Maricá", "points": 19},
 	"res://images/cards/card (70).png": {"from": "Volta Redonda", "to": "Rio de Janeiro", "points": 21},
 	"res://images/cards/card (71).png": {"from": "Pinheiral", "to": "Petrópolis", "points": 21},
@@ -128,9 +128,9 @@ var objective_card_data = {
 	"res://images/cards/card (89).png": {"from": "Duque de Caxias", "to": "Teresópolis", "points": 13},
 	"res://images/cards/card (90).png": {"from": "Barra Mansa", "to": "Vassouras", "points": 13},
 	"res://images/cards/card (91).png": {"from": "Nova Iguaçu", "to": "Maricá", "points": 14},
-	"res://images/cards/card (92).png": {"from": "Piraí", "to": "Barra de Piraí", "points": 8}, ### 7
+	#"res://images/cards/card (92).png": {"from": "Piraí", "to": "Barra de Piraí", "points": 8}, ### 7
 	"res://images/cards/card (93).png": {"from": "Piraí", "to": "Nova iguaçu", "points": 9},
-	"res://images/cards/card (94).png": {"from": "Barra de Piraí", "to": "Itaguaí", "points": 9}, ### 8
+	#"res://images/cards/card (94).png": {"from": "Barra de Piraí", "to": "Itaguaí", "points": 9}, ### 8
 	"res://images/cards/card (95).png": {"from": "Volta Redonda", "to": "Paracambi", "points": 9},
 	"res://images/cards/card (96).png": {"from": "Queimados", "to": "Niterói", "points": 10},
 	"res://images/cards/card (97).png": {"from": "Guapamirim", "to": "Maricá", "points": 10},
@@ -138,11 +138,11 @@ var objective_card_data = {
 	"res://images/cards/card (99).png": {"from": "Teresópolis", "to": "Tanguá", "points": 11},
 	"res://images/cards/card (100).png": {"from": "Duque de Caxias", "to": "Niterói", "points": 5},
 	"res://images/cards/card (101).png": {"from": "Piraí", "to": "Seropédica", "points": 5},
-	"res://images/cards/card (102).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6}, ### 9
-	"res://images/cards/card (103).png": {"from": "Niterói", "to": "Itaboraí", "points": 6}, ### 10
+	#"res://images/cards/card (102).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6}, ### 9
+	#"res://images/cards/card (103).png": {"from": "Niterói", "to": "Itaboraí", "points": 6}, ### 10
 	"res://images/cards/card (104).png": {"from": "Vassouras", "to": "Japeri", "points": 6},
-	"res://images/cards/card (105).png": {"from": "Itaguaí", "to": "Nova Iguaçu", "points": 7}, ### 11
-	"res://images/cards/card (106).png": {"from": "Barra do Piraí", "to": "Queimados", "points": 7} ### 12
+	#"res://images/cards/card (105).png": {"from": "Itaguaí", "to": "Nova Iguaçu", "points": 7}, ### 11
+	#"res://images/cards/card (106).png": {"from": "Barra do Piraí", "to": "Queimados", "points": 7} ### 12
 }
 @onready var turn_manager = get_node("/root/TutorialTest/TurnManager")
 

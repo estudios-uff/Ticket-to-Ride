@@ -70,12 +70,14 @@ anchoramento = 0
 
 [node name="PlayerHand" parent="." instance=ExtResource("14_ugbi5")]
 visible = false
-z_index = 5
+z_index = 10
 
 [node name="UI_Behavior2" parent="PlayerHand" instance=ExtResource("9_74bsh")]
 anchoramento = 0
 
 [node name="Map" parent="." instance=ExtResource("6_3bipw")]
+z_index = 2
+position = Vector2(30, 14)
 
 [node name="Deck" parent="." instance=ExtResource("11_hcphn")]
 z_index = 5
