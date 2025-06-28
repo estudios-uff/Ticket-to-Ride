@@ -98,8 +98,8 @@ var objective_card_data = {
 	"res://images/cards/card (58).png": {"from": "Niterói", "to": "Tanguá", "points": 9},
 	"res://images/cards/card (59).png": {"from": "Petrópolis", "to": "Itaboraí", "points": 10},
 	"res://images/cards/card (60).png": {"from": "Paracambi", "to": "Tanguá", "points": 22},
-	"res://images/cards/card (61).png": {"from": "Nova Iguaçu", "to": "Duque de Caxias", "points": 3},
-	"res://images/cards/card (62).png": {"from": "Duque de Caxias", "to": "Rio de Janeiro", "points": 4},
+	#"res://images/cards/card (61).png": {"from": "Nova Iguaçu", "to": "Duque de Caxias", "points": 3},
+	#"res://images/cards/card (62).png": {"from": "Duque de Caxias", "to": "Rio de Janeiro", "points": 4},
 	#"res://images/cards/card (63).png": {"from": "Petrópolis", "to": "Teresópolis", "points": 5}, ### 3
 	"res://images/cards/card (64).png": {"from": "Queimados", "to": "Duque de Caxias", "points": 5},
 	"res://images/cards/card (65).png": {"from": "Volta Redonda", "to": "Piraí", "points": 5},
