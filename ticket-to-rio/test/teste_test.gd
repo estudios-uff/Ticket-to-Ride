@@ -1,4 +1,3 @@
-class_name GdUnitExampleTest
 extends GdUnitTestSuite
 
 func test_player_hand_counter_increases_after_draw_card():
