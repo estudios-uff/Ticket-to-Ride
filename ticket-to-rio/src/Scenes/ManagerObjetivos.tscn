@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://daxub4d1aqurh"]
+[gd_scene load_steps=22 format=3 uid="uid://daxub4d1aqurh"]
 
 [ext_resource type="Script" path="res://src/Scripts/manager_objetivos.gd" id="1_xl4mf"]
 [ext_resource type="Texture2D" uid="uid://cosooxilu02r6" path="res://images/utils/window.png" id="2_oyhku"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://qy3ptu2vqeai" path="res://images/utils/cardCreditsBtn.png" id="4_lr0rg"]
 [ext_resource type="FontFile" uid="uid://bh2j5vqg78cbw" path="res://Fonts/Mont/Mont-HeavyDEMO.otf" id="4_w5gi1"]
 [ext_resource type="Texture2D" uid="uid://e2u64spb45fp" path="res://images/utils/cardCreditsBtnActv.png" id="5_qlfip"]
+[ext_resource type="Texture2D" uid="uid://ejfloeqwhu3w" path="res://images/utils/wagonWhite.png" id="7_m2c1c"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k0xv7"]
 shader = ExtResource("3_2gbim")
@@ -31,14 +32,32 @@ texture = ExtResource("4_lr0rg")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4aj7t"]
 texture = ExtResource("5_qlfip")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bag4w"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dw0l7"]
 texture = ExtResource("5_qlfip")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gignn"]
 texture = ExtResource("4_lr0rg")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dw0l7"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bag4w"]
 texture = ExtResource("5_qlfip")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rj8go"]
+texture = ExtResource("7_m2c1c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pgs1s"]
+texture = ExtResource("7_m2c1c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xk7li"]
+texture = ExtResource("7_m2c1c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lrj0m"]
+texture = ExtResource("7_m2c1c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7gja"]
+texture = ExtResource("7_m2c1c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r1n7l"]
+texture = ExtResource("7_m2c1c")
 
 [node name="ManagerObjetivos" type="Node2D"]
 script = ExtResource("1_xl4mf")
@@ -81,18 +100,6 @@ offset_right = 209.0
 offset_bottom = 509.0
 mouse_filter = 0
 
-[node name="GerarNovamente" type="Button" parent="."]
-offset_left = 28.0
-offset_top = 548.0
-offset_right = 184.0
-offset_bottom = 579.0
-theme_override_fonts/font = ExtResource("4_w5gi1")
-theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_o7wbe")
-theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4aj7t")
-theme_override_styles/hover = SubResource("StyleBoxTexture_bag4w")
-theme_override_styles/normal = SubResource("StyleBoxTexture_gignn")
-text = "Gerar novos: 2"
-
 [node name="OK" type="Button" parent="."]
 offset_left = 28.0
 offset_top = 512.0
@@ -104,6 +111,18 @@ theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4aj7t")
 theme_override_styles/hover = SubResource("StyleBoxTexture_dw0l7")
 theme_override_styles/normal = SubResource("StyleBoxTexture_gignn")
 text = "Confirmar"
+
+[node name="GerarNovamente" type="Button" parent="."]
+offset_left = 28.0
+offset_top = 548.0
+offset_right = 184.0
+offset_bottom = 579.0
+theme_override_fonts/font = ExtResource("4_w5gi1")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_o7wbe")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_4aj7t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bag4w")
+theme_override_styles/normal = SubResource("StyleBoxTexture_gignn")
+text = "Gerar novos: 2"
 
 [node name="Label" type="Label" parent="."]
 offset_top = 12.0
@@ -117,5 +136,32 @@ text = "Objetivos"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="GerarNovamente" to="." method="_on_gerar_novamente_pressed"]
+[node name="HideButton" type="Button" parent="."]
+offset_left = 166.0
+offset_top = 605.0
+offset_right = 262.0
+offset_bottom = 645.0
+theme_override_colors/font_disabled_color = Color(0.252028, 0.252028, 0.252028, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_hover_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_pressed_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_focus_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_outline_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_fonts/font = ExtResource("4_w5gi1")
+theme_override_styles/focus = SubResource("StyleBoxTexture_rj8go")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxTexture_pgs1s")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_xk7li")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxTexture_rj8go")
+theme_override_styles/hover_pressed = SubResource("StyleBoxTexture_rj8go")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxTexture_rj8go")
+theme_override_styles/hover = SubResource("StyleBoxTexture_rj8go")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxTexture_rj8go")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lrj0m")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxTexture_w7gja")
+theme_override_styles/normal = SubResource("StyleBoxTexture_r1n7l")
+text = "On / OFF"
+
 [connection signal="pressed" from="OK" to="." method="_on_ok_pressed"]
+[connection signal="pressed" from="GerarNovamente" to="." method="_on_gerar_novamente_pressed"]
+[connection signal="pressed" from="HideButton" to="." method="_on_hide_button_pressed"]
