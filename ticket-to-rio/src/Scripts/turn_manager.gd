@@ -104,8 +104,8 @@ func _ready() -> void:
 		
 		player_uis.append(ui_instance)
 		uis_container.add_child(ui_instance)
-		#ui_instance.get_child(3).disabled = true # botão para checar objetivos
-		#ui_instance.get_child(3).visible = false # botão para checar objetivos
+		ui_instance.get_child(3).disabled = true # botão para checar objetivos
+		ui_instance.get_child(3).visible = false # botão para checar objetivos
 		ui_instance.visible = false
 	
 	# --- PASSO 6: Atualizo o label padrao das UIs
