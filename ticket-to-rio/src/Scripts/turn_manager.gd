@@ -138,36 +138,18 @@ func _on_map_route_claimed(player_index):
 	if ui_to_update != null:
 		var routes = map.player_claimed_routes.get(player_index, [])
 		ui_to_update.update_routes_display(routes)
-		ui_to_update.update_objective_counts()
+		ui_to_update.update_objectives_display()
 
 	# Parte 2: Lógica de Fim de Jogo (executa para TODOS, humanos e IAs)
 	if is_game_over:
 		return # Não faz mais verificações se o jogo já terminou
 
-	var all_objectives_completed = true
+	var all_objectives_completed = false
 	
 	# A verificação a seguir funciona com 'player_index' sendo int ou string
 	if player_objectives.has(player_index) and not player_objectives[player_index].is_empty():
-		for objective_texture in player_objectives[player_index]:
-			var card_path = objective_texture.resource_path
-			if map.objective_card_data.has(card_path):
-				var info = map.objective_card_data[card_path]
-				
-				if player_index is int:
-					if not map.is_objective_complete(player_index, info["from"], info["to"], info["points"]):
-						all_objectives_completed = false
-						break # Encontrou um objetivo incompleto, pode parar de verificar
-				else:
-					if map.find_shortest_path_routes(info["from"], info["to"]):
-						all_objectives_completed = false
-						break # Encontrou um objetivo incompleto, pode parar de verificar
-			else:
-				# Se a carta não está no dicionário de dados, consideramos incompleto
-				all_objectives_completed = false
-				break
-	else:
-		# Não tem objetivos ou a lista está vazia, não pode terminar o jogo
-		all_objectives_completed = false
+		if player_uis[index_player].concluidos.text == "2":
+			all_objectives_completed = true
 
 	# Se, após a verificação, todos os objetivos estiverem completos...
 	if all_objectives_completed:
@@ -244,7 +226,7 @@ func calculate_player_score(player_id) -> int:
 	# 2. Soma ou subtrai pontos dos objetivos
 	if player_objectives.has(player_id):
 		for objective_texture in player_objectives[player_id]:
-			var card_path = objective_texture.resource_path
+			var card_path = objective_texture.resource_path.get_file()
 			if map.objective_card_data.has(card_path):
 				var info = map.objective_card_data[card_path]
 				var points = info["points"]
@@ -252,12 +234,7 @@ func calculate_player_score(player_id) -> int:
 				var to_city = info["to"]
 				
 				if player_id is int:
-					if map.is_objective_complete(player_id, from_city, to_city, points):
-						total_score += points # Soma pontos se o objetivo foi completo
-					else:
-						total_score -= points # SUBTRAI pontos se não foi completo
-				else:
-					if map.find_shortest_path_routes(from_city, to_city):
+					if map.is_objective_complete(player_id, from_city, to_city):
 						total_score += points # Soma pontos se o objetivo foi completo
 					else:
 						total_score -= points # SUBTRAI pontos se não foi completo
@@ -266,7 +243,6 @@ func calculate_player_score(player_id) -> int:
 
 func _on_deck_card_drawn(card_identifier: String):
 	if cards_drawn_this_turn >= 2: 
-		loja_cards.max_selection = 2
 		return
 
 	if cards_drawn_this_turn == 0:
@@ -275,13 +251,11 @@ func _on_deck_card_drawn(card_identifier: String):
 	
 	playerHands[index_player].add_card_to_hand(card_identifier)
 	cards_drawn_this_turn += 1
-	loja_cards.max_selection -= 1
 	var selected_data = loja_cards.get_and_clear_selection()
 	check_card_draw_limit()
 
 func _on_shop_draw_button_pressed():
 	if cards_drawn_this_turn >= 2: 
-		loja_cards.max_selection = 2
 		loja_cards.finish_shop()
 		check_card_draw_limit()
 		map.set_route_claiming_enabled(true)
@@ -307,11 +281,9 @@ func _on_shop_draw_button_pressed():
 		playerHands[index_player].add_card_to_hand(card_data.carta_clicada)
 		loja_cards.replace_card(card_data)
 		cards_drawn_this_turn += 1
-		loja_cards.max_selection -= 1
 		if card_data.carta_clicada == "rainbowTrain":
 			cards_drawn_this_turn = 2
 		if cards_drawn_this_turn >= 2:
-			loja_cards.max_selection = 2
 			loja_cards.finish_shop()
 			check_card_draw_limit()
 			map.set_route_claiming_enabled(true)
@@ -343,7 +315,6 @@ func _on_end_turn_button_pressed() -> void:
 			loja_cards.mouse_filter = Control.MOUSE_FILTER_STOP
 	else:
 		if loja_cards:
-			loja_cards.max_selection = 2
 			loja_cards.finish_shop()
 			loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		playerHands[index_player].visible = false
@@ -457,7 +428,7 @@ func _ai_can_afford_route(hand_node, route_data: Dictionary) -> bool:
 	var rainbow_count = hand_node.player_hand["rainbowTrain"]["count"]
 
 	if card_key == "whiteTrain":
-		# Para rotas cinzas, a IA precisa de qualquer cor ou coringas
+		# Para rotas brancas, a IA precisa de qualquer cor ou coringas
 		var max_cards_of_one_color = 0
 		for key in hand_node.player_hand:
 			if key != "rainbowTrain":
@@ -532,6 +503,7 @@ func _run_easy_ai_turn(ia_index: int, ia_hand_node):
 	var wishlist = _get_ai_objective_wishlist(ia_id)
 	print("IA(Fácil) " + str(ia_index) + " tem " + str(wishlist.size()) + " rotas na sua lista de desejos.")
 
+	var all_routes_claimed = false
 	for route_data in wishlist:
 		var route_node = map.get_route_node_by_data(route_data)
 		if route_node and not route_node.claimed:
@@ -540,11 +512,19 @@ func _run_easy_ai_turn(ia_index: int, ia_hand_node):
 				_ai_pay_for_route(ia_hand_node, route_data)
 				map.claim_route_for_player(route_node, ia_id)
 				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou uma rota) ---")
-				map.get_child(0).text = map.get_child(0).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n"
+				map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n" + map.get_child(0).text
 				return
-
+		else:
+			if route_node.claimed:
+				all_routes_claimed = true
+			else:
+				all_routes_claimed = false
+	
+	if all_routes_claimed:
+		end_game()
+	player_uis[Global.num_players + ia_index].update_objectives_display()
 	print("--- FIM TURNO: IA " + str(ia_index+1) + " (não comprou nada) ---")
-	map.get_child(0).text = map.get_child(0).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+	map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n" + map.get_child(0).text
 
 # LÓGICA DA IA DIFÍCIL
 func _run_hard_ai_turn(ia_index: int, ia_hand_node):
@@ -560,7 +540,7 @@ func _run_hard_ai_turn(ia_index: int, ia_hand_node):
 				_ai_pay_for_route(ia_hand_node, route_data)
 				map.claim_route_for_player(route_node, ia_id)
 				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou rota ofensiva) ---")
-				map.get_child(0).text = map.get_child(0).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota ofensiva)\n"
+				map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota ofensiva)\n" + map.get_child(0).text
 				return
 
 	# Fase 2: Defensiva - Se não conseguiu jogar para si, tenta atrapalhar
@@ -579,11 +559,12 @@ func _run_hard_ai_turn(ia_index: int, ia_hand_node):
 					_ai_pay_for_route(ia_hand_node, route_data)
 					map.claim_route_for_player(route_node, ia_id)
 					print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou rota defensiva) ---")
-					map.get_child(0).text = map.get_child(0).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota defensiva)\n"
+					map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota defensiva)\n" + map.get_child(0).text
 					return
 	
+	player_uis[Global.num_players + ia_index].update_objectives_display()
 	print("--- FIM TURNO: IA " + str(ia_index+1) + " (não comprou nada) ---")
-	map.get_child(0).text = map.get_child(0).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+	map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n" + map.get_child(0).text
 
 # Função auxiliar para pegar a lista de desejos da IA
 func _get_ai_objective_wishlist(ia_id: String) -> Array:
@@ -594,8 +575,8 @@ func _get_ai_objective_wishlist(ia_id: String) -> Array:
 		var card_path = objective_texture.resource_path
 		if map.objective_card_data.has(card_path):
 			var info = map.objective_card_data[card_path]
-			if map.find_shortest_path_routes(info.from, info.to):
-				var routes_for_objective = map.find_shortest_path_routes(info.from, info.to)
+			var routes_for_objective = map.find_shortest_path_routes(info.from, info.to)
+			if routes_for_objective:
 				for r in routes_for_objective:
 					if not r in wishlist:
 						wishlist.append(r)

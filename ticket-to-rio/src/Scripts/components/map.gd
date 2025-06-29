@@ -11,25 +11,24 @@ var route_nodes: Dictionary = {}
 @export var player_color: Color = Color.GREEN
 @export var player_hand: Array[Node] = []
 var high_value_routes_to_block: Array[Dictionary] = [
-	{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
+	{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 7},
+	{"from": "Miguel Pereira", "to": "Petrópolis", "color": "red", "cost": 7},
+	{"from": "Petrópolis", "to": "Miguel Pereira", "color": "red", "cost": 7},
+	{"from": "Itaguaí", "to": "Nova Iguaçu", "color": "blue", "cost": 8},
+	{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "gray", "cost": 8},
+	{"from": "Duque de Caxias", "to": "Petrópolis", "color": "yellow", "cost": 8},
 	{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
 	{"from": "Japeri", "to": "Miguel Pereira", "color": "gray", "cost": 6},
 	{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 5},
-	{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 5},
-	{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
-	{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
-	{"from": "Barra do Piraí", "to": "Vassouras", "color": "pink", "cost": 4},
+	{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 4},
 	{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 5},
-	{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 6},
-	{"from": "Duque de Caxias", "to": "Rio de Janeiro", "color": "white", "cost": 4},
-	{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
-	{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
+	{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 5},
 	{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
-	{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
 	{"from": "Tanguá", "to": "Maricá", "color": "yellow", "cost": 5},
 	{"from": "Niterói", "to": "Itaboraí", "color": "white", "cost": 6},
 	{"from": "Niterói", "to": "Maricá", "color": "blue", "cost": 6},
 	{"from": "Teresópolis", "to": "Petrópolis", "color": "green", "cost": 5},
+	{"from": "Maricá", "to": "Tanguá", "color": "yellow", "points": 5},
 ]
 
 var player_claimed_routes: Dictionary = {} # Chave: player_index, Valor: Array de rotas
@@ -52,7 +51,7 @@ var objective_card_data = {
 	"res://images/cards/card (12).png": {"from": "Maricá", "to": "Tanguá", "points": 5},
 	"res://images/cards/card (13).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6},
 	"res://images/cards/card (14).png": {"from": "Guapimirim", "to": "Itaboraí", "points": 6},
-	"res://images/cards/card (15).png": {"from": "Barra Mansa", "to": "Piraí", "points": 6},
+	"res://images/cards/card (15).png": {"from": "Barra Mansa", "to": "Piraí", "points": 7},
 	"res://images/cards/card (16).png": {"from": "Niterói", "to": "Maricá", "points": 6},
 	"res://images/cards/card (17).png": {"from": "Miguel Pereira", "to": "Petrópolis", "points": 7},
 	"res://images/cards/card (18).png": {"from": "Japeri", "to": "Duque de Caxias", "points": 7},
@@ -138,7 +137,7 @@ var objective_card_data = {
 	"res://images/cards/card (98).png": {"from": "Duque de Caxias", "to": "Itaboraí", "points": 11},
 	"res://images/cards/card (99).png": {"from": "Teresópolis", "to": "Tanguá", "points": 11},
 	"res://images/cards/card (100).png": {"from": "Duque de Caxias", "to": "Niterói", "points": 5},
-	"res://images/cards/card (101).png": {"from": "Piraí", "to": "Seropédica", "points": 5},
+	"res://images/cards/card (101).png": {"from": "Piraí", "to": "Seropédica", "points": 4},
 	#"res://images/cards/card (102).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6}, ### 9
 	#"res://images/cards/card (103).png": {"from": "Niterói", "to": "Itaboraí", "points": 6}, ### 10
 	"res://images/cards/card (104).png": {"from": "Vassouras", "to": "Japeri", "points": 6},
@@ -318,7 +317,7 @@ func draw_map():
 
 		city_instance.position = Vector2(city_data.x, city_data.y)
 		cities[city_name] = city_instance # Armazena a referência para a cidade
-		city_instance.z_index = 2
+		city_instance.z_index = 1
 
 		# Conecta o sinal 'city_clicked' da cidade
 		city_instance.city_clicked.connect(_on_city_clicked)
@@ -438,7 +437,7 @@ func attempt_buy_route(index_player: int, card_key: String, cost: int) -> bool:
 			
 		return true
 
-func is_objective_complete(player_index: int, city_start: String, city_end: String, required_points: int) -> bool:
+func is_objective_complete(player_index, city_start: String, city_end: String) -> bool:
 	if not player_claimed_routes.has(player_index) or player_claimed_routes[player_index].is_empty():
 		return false
 
@@ -458,7 +457,7 @@ func is_objective_complete(player_index: int, city_start: String, city_end: Stri
 
 	# 2. Iniciar a busca recursiva a partir da cidade inicial
 	var visited_path: Array = [] # Usado para evitar ciclos (ex: A->B->A)
-	return _find_path_with_cost_recursive(city_start, city_end, required_points, visited_path, 0, adjacency_list)
+	return _find_path_with_cost_recursive(city_start, city_end, visited_path, 0, adjacency_list)
 
 # Isso é diferente de 'is_objective_complete', pois opera no mapa inteiro para a IA poder acessar.
 func find_shortest_path_routes(city_start: String, city_end: String) -> Array:
@@ -548,23 +547,27 @@ func claim_route_for_player(route_node, player_id):
 		player_claimed_routes[player_id].append(route_info)
 
 		route_claimed.emit(player_id)
+		
+		var all_claimed = true
+		for node in route_nodes.values():
+			if not node.claimed:
+				all_claimed = false
+				break # Encontrou uma rota livre, não precisa checar mais
+		if all_claimed:
+			print("MAPA COMPLETO! Todas as rotas foram compradas.")
+			mapa_concluido = true
+			# Emite o sinal para avisar o TurnManager que o jogo deve acabar
+			emit_signal("all_routes_completed")
 
 # Função auxiliar recursiva que faz a busca em profundidade (DFS)
-func _find_path_with_cost_recursive(current_city: String, end_city: String, required_points: int, visited_path: Array, current_cost: int, adjacency_list: Dictionary) -> bool:
+func _find_path_with_cost_recursive(current_city: String, end_city: String, visited_path: Array, current_cost: int, adjacency_list: Dictionary) -> bool:
 	
 	# Adiciona a cidade atual ao caminho para evitar visitar ela mesma no mesmo galho
 	visited_path.push_back(current_city)
 
 	# Condição de sucesso: Chegamos ao destino
 	if current_city == end_city:
-		# Verificamos se o custo do caminho encontrado é igual ao custo do objetivo
-		if current_cost == required_points:
-			return true # Sucesso! Encontramos um caminho com o custo exato.
-
-	# Condição de poda: Se o custo atual já excedeu o necessário, não continue por este caminho
-	if current_cost > required_points:
-		visited_path.pop_back() # Remove a cidade atual do caminho para "voltar" na recursão
-		return false
+		return true # Sucesso! Encontramos um caminho
 
 	# Explora os vizinhos
 	if adjacency_list.has(current_city):
@@ -575,7 +578,7 @@ func _find_path_with_cost_recursive(current_city: String, end_city: String, requ
 			# Se ainda não visitamos o vizinho neste caminho específico
 			if not neighbor in visited_path:
 				# Chama a função para o vizinho, somando o custo
-				if _find_path_with_cost_recursive(neighbor, end_city, required_points, visited_path, current_cost + cost_to_neighbor, adjacency_list):
+				if _find_path_with_cost_recursive(neighbor, end_city, visited_path, current_cost + cost_to_neighbor, adjacency_list):
 					return true # Um caminho válido foi encontrado em um galho da recursão, propaga o sucesso
 
 	# Backtracking: Remove a cidade atual do caminho para que outros galhos da busca possam usá-la

@@ -71,12 +71,13 @@ func create_and_add_card(card_scene: PackedScene, index: int) -> Control:
 
 func replace_card(old_card_node: Control):
 	var index = old_card_node.get_index()
-	old_card_node.queue_free()
 
 	var card_scene = POSSIBLE_CARD_TYPES.pick_random()
 	var new_card = create_and_add_card(card_scene, index)
 	loja_container.move_child(new_card, index)
 	card_nodes[index] = new_card
+	
+	old_card_node.queue_free()
 
 # A nova lógica de clique, similar à dos objetivos
 func _on_click_input(card_node: Control, card_index: int):
@@ -85,7 +86,7 @@ func _on_click_input(card_node: Control, card_index: int):
 	var is_currently_selected = card_selection_state[card_index]
 
 	# Permite a seleção se o limite não foi atingido, OU se o jogador está desselecionando uma carta
-	if current_selection_count < max_selection or is_currently_selected:
+	if current_selection_count < max_selection-1 or is_currently_selected:
 		# Alterna o estado de seleção (true -> false, false -> true)
 		card_selection_state[card_index] = not card_selection_state[card_index]
 		
@@ -93,7 +94,7 @@ func _on_click_input(card_node: Control, card_index: int):
 		_atualizar_borda_loja(card_node, card_selection_state[card_index])
 	else:
 		# Opcional: Adicionar um som ou efeito visual para indicar que a seleção está cheia
-		print("Limite de seleção de %d cartas atingido." % max_selection)
+		print("Limite de seleção de %d cartas atingido." % (max_selection-1))
 
 # Pega as cartas marcadas e limpa a seleção para a próxima vez
 func get_and_clear_selection() -> Array[Control]:

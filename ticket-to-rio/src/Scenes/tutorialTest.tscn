@@ -62,6 +62,7 @@ scale = Vector2(0.556, 0.493)
 texture = ExtResource("5_1ag70")
 
 [node name="PlayerHandsContainer" type="VBoxContainer" parent="."]
+z_index = 6
 offset_right = 40.0
 offset_bottom = 40.0
 
@@ -119,6 +120,7 @@ z_index = 5
 z_index = 6
 
 [node name="EndTurnButton" type="Button" parent="."]
+z_index = 6
 offset_left = 1016.0
 offset_top = 660.0
 offset_right = 1112.0
