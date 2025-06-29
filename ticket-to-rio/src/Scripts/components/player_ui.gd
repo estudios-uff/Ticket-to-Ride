@@ -50,9 +50,6 @@ func _on_objetivos_jogador_pressed() -> void:
 		update_objectives_display()
 
 func update_objectives_display():
-	if meus_objetivos_selecionados.is_empty():
-		return
-	
 	var objective_rects = objectives_container.get_children()
 	
 	# Atualiza a cor de cada carta de objetivo
@@ -65,7 +62,7 @@ func update_objectives_display():
 			var card_path = textura.resource_path
 			if map_node.objective_card_data.has(card_path):
 				var info = map_node.objective_card_data[card_path]
-				if map_node.is_objective_complete(player_index, info.from, info.to, info.points):
+				if map_node.is_objective_complete(player_index, info.from, info.to):
 					rect.modulate = Color.LIGHT_GREEN # Completo
 				else:
 					rect.modulate = Color.WHITE # Incompleto
@@ -92,7 +89,7 @@ func update_objective_counts():
 		var card_path = objective_texture.resource_path
 		if map_node.objective_card_data.has(card_path):
 			var info = map_node.objective_card_data[card_path]
-			if map_node.is_objective_complete(player_index, info.from, info.to, info.points):
+			if map_node.is_objective_complete(player_index, info.from, info.to):
 				completed_count += 1
 	
 	# Finalmente, atualiza os labels de texto com os valores corretos
