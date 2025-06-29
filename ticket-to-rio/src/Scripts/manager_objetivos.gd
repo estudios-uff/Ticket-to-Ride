@@ -266,6 +266,18 @@ func _on_ok_pressed() -> void:
 					printerr("Placeholder %d ou sua textura é nula ao tentar coletar objetivos." % i)
 		
 		emit_signal("objetivos_escolhidos", selecionadas)
-		hide() 
+		hide()
 	else:
 		print("Selecione pelo menos 2 objetivos para continuar.")
+
+
+func _on_hide_button_pressed() -> void:
+	$TextureRect.visible = !$TextureRect.visible
+	$Objetivo1.visible = !$Objetivo1.visible
+	$Objetivo2.visible = !$Objetivo2.visible
+	$Objetivo3.visible = !$Objetivo3.visible
+	$GerarNovamente.visible = !$GerarNovamente.visible
+	$GerarNovamente.disabled = !$GerarNovamente.disabled
+	$OK.visible = !$OK.visible
+	$OK.disabled = !$OK.disabled
+	$Label.visible = !$Label.visible
