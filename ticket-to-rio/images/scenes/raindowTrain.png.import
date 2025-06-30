@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://46tdb7pjgblh"
-path="res://.godot/imported/BaseMap.png-e1b91f5c0e16a13c3deb222a234f2970.ctex"
+uid="uid://drplw5cbdu4ri"
+path="res://.godot/imported/raindowTrain.png-334f05b5f87ef84fc637c854b22a5e8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/scenes/BaseMap.png"
-dest_files=["res://.godot/imported/BaseMap.png-e1b91f5c0e16a13c3deb222a234f2970.ctex"]
+source_file="res://images/scenes/raindowTrain.png"
+dest_files=["res://.godot/imported/raindowTrain.png-334f05b5f87ef84fc637c854b22a5e8a.ctex"]
 
 [params]
 
