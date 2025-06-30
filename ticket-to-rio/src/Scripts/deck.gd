@@ -9,14 +9,14 @@ var player_deck = []
 @onready var grayTrain: RichTextLabel = $Gray/RichTextLabel
 
 var trains_deck = {
-	"blueTrain": 28,
-	"grayTrain": 28,
-	"greenTrain": 28,
-	"orangeTrain": 28,
-	"pinkTrain": 28,
-	"redTrain": 28,
-	"yellowTrain": 28,
-	"rainbowTrain": 24
+	"blueTrain": 65,
+	"grayTrain": 65,
+	"greenTrain": 65,
+	"orangeTrain": 65,
+	"pinkTrain": 65,
+	"redTrain": 65,
+	"yellowTrain": 65,
+	"rainbowTrain": 95
 }
 
 func _ready() -> void:
@@ -26,6 +26,17 @@ func _ready() -> void:
 		for n in trains_deck[key]:
 			player_deck.append(key)
 	$RichTextLabel.text = str(player_deck.size())
+
+func remove_card_from_deck():
+	if player_deck.is_empty():
+		return # Não faz nada se o baralho estiver vazio
+	
+	# Lógica corrigida para comprar e remover a carta
+	var card_drawn = player_deck.pick_random()
+	player_deck.erase(card_drawn) # Remove a carta específica que foi sorteada
+	
+	trains_deck[card_drawn] -= 1
+	update_deck_visuals()
 
 func draw_card():
 	if player_deck.is_empty():

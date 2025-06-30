@@ -195,4 +195,22 @@ bbcode_enabled = true
 text = "Player 1"
 scroll_active = false
 
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.607843)
+position = Vector2(1184.5, -173)
+scale = Vector2(0.549419, 0.409426)
+texture = ExtResource("7_jjann")
+
+[node name="RoutesLabel" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 1107.0
+offset_top = -294.0
+offset_right = 1257.0
+offset_bottom = -56.9999
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+bbcode_enabled = true
+
 [connection signal="pressed" from="ObjetivosJogador" to="." method="_on_objetivos_jogador_pressed"]

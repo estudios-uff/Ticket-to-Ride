@@ -11,47 +11,47 @@ var route_nodes: Dictionary = {}
 @export var player_color: Color = Color.GREEN
 @export var player_hand: Array[Node] = []
 var high_value_routes_to_block: Array[Dictionary] = [
-	{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
+	{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 7},
+	{"from": "Miguel Pereira", "to": "Petrópolis", "color": "red", "cost": 7},
+	{"from": "Petrópolis", "to": "Miguel Pereira", "color": "red", "cost": 7},
+	{"from": "Itaguaí", "to": "Nova Iguaçu", "color": "blue", "cost": 8},
+	{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "gray", "cost": 8},
+	{"from": "Duque de Caxias", "to": "Petrópolis", "color": "yellow", "cost": 8},
 	{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
 	{"from": "Japeri", "to": "Miguel Pereira", "color": "gray", "cost": 6},
-	{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
-	{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 5},
-	{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
-	{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 4},
-	{"from": "Barra do Piraí", "to": "Vassouras", "color": "pink", "cost": 4},
+	{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 5},
+	{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 4},
 	{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 5},
-	{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 6},
-	{"from": "Duque de Caxias", "to": "Rio de Janeiro", "color": "white", "cost": 4},
-	{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
-	{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
+	{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 5},
 	{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
-	{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
 	{"from": "Tanguá", "to": "Maricá", "color": "yellow", "cost": 5},
 	{"from": "Niterói", "to": "Itaboraí", "color": "white", "cost": 6},
 	{"from": "Niterói", "to": "Maricá", "color": "blue", "cost": 6},
 	{"from": "Teresópolis", "to": "Petrópolis", "color": "green", "cost": 5},
+	{"from": "Maricá", "to": "Tanguá", "color": "yellow", "points": 5},
 ]
 
 var player_claimed_routes: Dictionary = {} # Chave: player_index, Valor: Array de rotas
 
 signal route_claimed(player_index)
+signal all_routes_completed
 
 var objective_card_data = {
 	"res://images/cards/card (1).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8},
 	"res://images/cards/card (2).png": {"from": "Valença", "to": "Miguel Pereira", "points": 9},
 	"res://images/cards/card (3).png": {"from": "Niterói", "to": "Tanguá", "points": 9},
 	"res://images/cards/card (4).png": {"from": "Piraí", "to": "Itaguaí", "points": 7},
-	"res://images/cards/card (5).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, #### 1
+	#"res://images/cards/card (5).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, #### 1
 	"res://images/cards/card (6).png": {"from": "Miguel Pereira", "to": "Nova Iguaçu", "points": 8},
-	"res://images/cards/card (7).png": {"from": "Piraí", "to": "Barra de Piraí", "points": 8},
+	"res://images/cards/card (7).png": {"from": "Piraí", "to": "Barra do Piraí", "points": 8},
 	"res://images/cards/card (8).png": {"from": "Seropédica", "to": "Vassouras", "points": 8},
 	"res://images/cards/card (9).png": {"from": "Pinheiral", "to": "Japeri", "points": 8},
 	"res://images/cards/card (10).png": {"from": "Queimados", "to": "Rio de Janeiro", "points": 9},
-	"res://images/cards/card (11).png": {"from": "Barra de Piraí", "to": "Itaguaí", "points": 9},
+	"res://images/cards/card (11).png": {"from": "Barra do Piraí", "to": "Itaguaí", "points": 9},
 	"res://images/cards/card (12).png": {"from": "Maricá", "to": "Tanguá", "points": 5},
 	"res://images/cards/card (13).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6},
 	"res://images/cards/card (14).png": {"from": "Guapimirim", "to": "Itaboraí", "points": 6},
-	"res://images/cards/card (15).png": {"from": "Barra Mansa", "to": "Piraí", "points": 6},
+	"res://images/cards/card (15).png": {"from": "Barra Mansa", "to": "Piraí", "points": 7},
 	"res://images/cards/card (16).png": {"from": "Niterói", "to": "Maricá", "points": 6},
 	"res://images/cards/card (17).png": {"from": "Miguel Pereira", "to": "Petrópolis", "points": 7},
 	"res://images/cards/card (18).png": {"from": "Japeri", "to": "Duque de Caxias", "points": 7},
@@ -79,7 +79,7 @@ var objective_card_data = {
 	"res://images/cards/card (40).png": {"from": "Queimados", "to": "Itaboraí", "points": 16},
 	"res://images/cards/card (41).png": {"from": "Volta Redonda", "to": "Miguel Pereira", "points": 16},
 	"res://images/cards/card (42).png": {"from": "Volta Redonda", "to": "Duque de Caxias", "points": 17},
-	"res://images/cards/card (43).png": {"from": "Barra de Piraí", "to": "Niterói", "points": 17},
+	"res://images/cards/card (43).png": {"from": "Barra do Piraí", "to": "Niterói", "points": 17},
 	"res://images/cards/card (44).png": {"from": "Vassouras", "to": "Nova Iguaçu", "points": 10},
 	"res://images/cards/card (45).png": {"from": "Volta Redonda", "to": "Seropédica", "points": 10},
 	"res://images/cards/card (46).png": {"from": "Nova Iguaçu", "to": "Petrópolis", "points": 11},
@@ -88,23 +88,23 @@ var objective_card_data = {
 	"res://images/cards/card (49).png": {"from": "Pinheiral", "to": "Nova Iguaçu", "points": 12},
 	"res://images/cards/card (50).png": {"from": "Japeri", "to": "Niterói", "points": 12},
 	"res://images/cards/card (51).png": {"from": "Petrópolis", "to": "Niterói", "points": 13},
-	"res://images/cards/card (52).png": {"from": "Niterói", "to": "Maricá", "points": 6}, #### 2
+	#"res://images/cards/card (52).png": {"from": "Niterói", "to": "Maricá", "points": 6}, #### 2
 	"res://images/cards/card (53).png": {"from": "Nova Iguaçu", "to": "Rio de Janeiro", "points": 7},
 	"res://images/cards/card (54).png": {"from": "Itaguaí", "to": "Nova Iguaçu", "points": 7},
-	"res://images/cards/card (55).png": {"from": "Volta Redonda", "to": "Barra de Piraí", "points": 7},
-	"res://images/cards/card (56).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, ### 1
+	"res://images/cards/card (55).png": {"from": "Volta Redonda", "to": "Barra do Piraí", "points": 7},
+	#"res://images/cards/card (56).png": {"from": "Duque de Caxias", "to": "Petrópolis", "points": 8}, ### 1
 	"res://images/cards/card (57).png": {"from": "Nova Iguaçu", "to": "Niterói", "points": 8},
 	"res://images/cards/card (58).png": {"from": "Niterói", "to": "Tanguá", "points": 9},
 	"res://images/cards/card (59).png": {"from": "Petrópolis", "to": "Itaboraí", "points": 10},
 	"res://images/cards/card (60).png": {"from": "Paracambi", "to": "Tanguá", "points": 22},
-	"res://images/cards/card (61).png": {"from": "Nova Iguaçu", "to": "Duque de Caxias", "points": 3},
-	"res://images/cards/card (62).png": {"from": "Duque de Caxias", "to": "Rio de Janeiro", "points": 4},
-	"res://images/cards/card (63).png": {"from": "Petrópolis", "to": "Teresópolis", "points": 5}, ### 3
+	#"res://images/cards/card (61).png": {"from": "Nova Iguaçu", "to": "Duque de Caxias", "points": 3},
+	#"res://images/cards/card (62).png": {"from": "Duque de Caxias", "to": "Rio de Janeiro", "points": 4},
+	#"res://images/cards/card (63).png": {"from": "Petrópolis", "to": "Teresópolis", "points": 5}, ### 3
 	"res://images/cards/card (64).png": {"from": "Queimados", "to": "Duque de Caxias", "points": 5},
 	"res://images/cards/card (65).png": {"from": "Volta Redonda", "to": "Piraí", "points": 5},
-	"res://images/cards/card (66).png": {"from": "Guapimirim", "to": "Itaboraí", "points": 6}, ### 4
+	#"res://images/cards/card (66).png": {"from": "Guapimirim", "to": "Itaboraí", "points": 6}, ### 4
 	"res://images/cards/card (67).png": {"from": "Niterói", "to": "Itaboraí", "points": 6},
-	"res://images/cards/card (68).png": {"from": "Barra Mansa", "to": "Duque de Caxias", "points": 18},### 5
+	#"res://images/cards/card (68).png": {"from": "Barra Mansa", "to": "Duque de Caxias", "points": 18},### 5
 	"res://images/cards/card (69).png": {"from": "Seropédica", "to": "Maricá", "points": 19},
 	"res://images/cards/card (70).png": {"from": "Volta Redonda", "to": "Rio de Janeiro", "points": 21},
 	"res://images/cards/card (71).png": {"from": "Pinheiral", "to": "Petrópolis", "points": 21},
@@ -118,7 +118,7 @@ var objective_card_data = {
 	"res://images/cards/card (79).png": {"from": "Volta Redonda", "to": "Miguel Pereira", "points": 16},
 	"res://images/cards/card (80).png": {"from": "Nova Iguaçu", "to": "Tanguá", "points": 17},
 	"res://images/cards/card (81).png": {"from": "Vassouras", "to": "Teresópolis", "points": 17},
-	"res://images/cards/card (82).png": {"from": "Barra de Piraí", "to": "Niterói", "points": 17},
+	"res://images/cards/card (82).png": {"from": "Barra do Piraí", "to": "Niterói", "points": 17},
 	"res://images/cards/card (83).png": {"from": "Japeri", "to": "Guapimirim", "points": 17},
 	"res://images/cards/card (84).png": {"from": "Barra Mansa", "to": "Seropédica", "points": 11},
 	"res://images/cards/card (85).png": {"from": "Piraí", "to": "Miguel Pereira", "points": 11},
@@ -128,21 +128,21 @@ var objective_card_data = {
 	"res://images/cards/card (89).png": {"from": "Duque de Caxias", "to": "Teresópolis", "points": 13},
 	"res://images/cards/card (90).png": {"from": "Barra Mansa", "to": "Vassouras", "points": 13},
 	"res://images/cards/card (91).png": {"from": "Nova Iguaçu", "to": "Maricá", "points": 14},
-	"res://images/cards/card (92).png": {"from": "Piraí", "to": "Barra de Piraí", "points": 8}, ### 7
+	#"res://images/cards/card (92).png": {"from": "Piraí", "to": "Barra do Piraí", "points": 8}, ### 7
 	"res://images/cards/card (93).png": {"from": "Piraí", "to": "Nova iguaçu", "points": 9},
-	"res://images/cards/card (94).png": {"from": "Barra de Piraí", "to": "Itaguaí", "points": 9}, ### 8
+	#"res://images/cards/card (94).png": {"from": "Barra do Piraí", "to": "Itaguaí", "points": 9}, ### 8
 	"res://images/cards/card (95).png": {"from": "Volta Redonda", "to": "Paracambi", "points": 9},
 	"res://images/cards/card (96).png": {"from": "Queimados", "to": "Niterói", "points": 10},
 	"res://images/cards/card (97).png": {"from": "Guapamirim", "to": "Maricá", "points": 10},
 	"res://images/cards/card (98).png": {"from": "Duque de Caxias", "to": "Itaboraí", "points": 11},
 	"res://images/cards/card (99).png": {"from": "Teresópolis", "to": "Tanguá", "points": 11},
 	"res://images/cards/card (100).png": {"from": "Duque de Caxias", "to": "Niterói", "points": 5},
-	"res://images/cards/card (101).png": {"from": "Piraí", "to": "Seropédica", "points": 5},
-	"res://images/cards/card (102).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6}, ### 9
-	"res://images/cards/card (103).png": {"from": "Niterói", "to": "Itaboraí", "points": 6}, ### 10
+	"res://images/cards/card (101).png": {"from": "Piraí", "to": "Seropédica", "points": 4},
+	#"res://images/cards/card (102).png": {"from": "Barra do Piraí", "to": "Valença", "points": 6}, ### 9
+	#"res://images/cards/card (103).png": {"from": "Niterói", "to": "Itaboraí", "points": 6}, ### 10
 	"res://images/cards/card (104).png": {"from": "Vassouras", "to": "Japeri", "points": 6},
-	"res://images/cards/card (105).png": {"from": "Itaguaí", "to": "Nova Iguaçu", "points": 7}, ### 11
-	"res://images/cards/card (106).png": {"from": "Barra do Piraí", "to": "Queimados", "points": 7} ### 12
+	#"res://images/cards/card (105).png": {"from": "Itaguaí", "to": "Nova Iguaçu", "points": 7}, ### 11
+	#"res://images/cards/card (106).png": {"from": "Barra do Piraí", "to": "Queimados", "points": 7} ### 12
 }
 @onready var turn_manager = get_node("/root/TutorialTest/TurnManager")
 
@@ -244,23 +244,23 @@ var map_data = {
 	},
 	"routes": [
 		{"from": "Barra Mansa", "to": "Volta Redonda", "color": "yellow", "cost": 1},
-		{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 6},
+		{"from": "Barra Mansa", "to": "Piraí", "color": "green", "cost": 7},
 		{"from": "Volta Redonda", "to": "Pinheiral", "color": "pink", "cost": 2},
-		{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 4},
+		{"from": "Pinheiral", "to": "Barra do Piraí", "color": "blue", "cost": 5},
 		{"from": "Pinheiral", "to": "Piraí", "color": "gray", "cost": 3},
-		{"from": "Piraí", "to": "Seropédica", "color": "gray", "cost": 5},
-		{"from": "Piraí", "to": "Paracambi", "color": "orange", "cost": 3},
-		{"from": "Paracambi", "to": "Piraí", "color": "yellow", "cost": 3},
+		{"from": "Piraí", "to": "Seropédica", "color": "red", "cost": 4},
+		{"from": "Piraí", "to": "Paracambi", "color": "orange", "cost": 4},
+		{"from": "Paracambi", "to": "Piraí", "color": "yellow", "cost": 4},
 		{"from": "Seropédica", "to": "Itaguaí", "color": "green", "cost": 2},
 		{"from": "Seropédica", "to": "Queimados", "color": "pink", "cost": 3},
-		{"from": "Seropédica", "to": "Japeri", "color": "gray", "cost": 2},
-		{"from": "Japeri", "to": "Paracambi", "color": "gray", "cost": 1},
+		{"from": "Seropédica", "to": "Japeri", "color": "red", "cost": 2},
+		{"from": "Japeri", "to": "Paracambi", "color": "red", "cost": 1},
 		{"from": "Paracambi", "to": "Japeri", "color": "gray", "cost": 1},
 		{"from": "Barra do Piraí", "to": "Paracambi", "color": "green", "cost": 4},
 		{"from": "Barra do Piraí", "to": "Valença", "color": "gray", "cost": 6},
 		{"from": "Barra do Piraí", "to": "Vassouras", "color": "pink", "cost": 4},
-		{"from": "Valença", "to": "Vassouras", "color": "gray", "cost": 3},
-		{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 4},
+		{"from": "Valença", "to": "Vassouras", "color": "gray", "cost": 4},
+		{"from": "Vassouras", "to": "Miguel Pereira", "color": "orange", "cost": 5},
 		{"from": "Vassouras", "to": "Paracambi", "color": "white", "cost": 5},
 		{"from": "Japeri", "to": "Queimados", "color": "green", "cost": 2},
 		{"from": "Japeri", "to": "Miguel Pereira", "color": "gray", "cost": 6},
@@ -268,8 +268,8 @@ var map_data = {
 		{"from": "Queimados", "to": "Nova Iguaçu", "color": "yellow", "cost": 2},
 		{"from": "Nova Iguaçu", "to": "Queimados", "color": "white", "cost": 2},
 		{"from": "Nova Iguaçu", "to": "Miguel Pereira", "color": "gray", "cost": 8},
-		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "gray", "cost": 7},
-		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "gray", "cost": 7},
+		{"from": "Miguel Pereira", "to": "Petrópolis", "color": "red", "cost": 7},
+		{"from": "Petrópolis", "to": "Miguel Pereira", "color": "red", "cost": 7},
 		{"from": "Itaguaí", "to": "Nova Iguaçu", "color": "blue", "cost": 8},
 		{"from": "Nova Iguaçu", "to": "Duque de Caxias", "color": "green", "cost": 3},
 		{"from": "Duque de Caxias", "to": "Nova Iguaçu", "color": "orange", "cost": 3},
@@ -277,7 +277,7 @@ var map_data = {
 		{"from": "Duque de Caxias", "to": "Petrópolis", "color": "yellow", "cost": 8},
 		{"from": "Rio de Janeiro", "to": "Duque de Caxias", "color": "pink", "cost": 4},
 		{"from": "Rio de Janeiro", "to": "Niterói", "color": "gray", "cost": 1},
-		{"from": "Niterói", "to": "Rio de Janeiro", "color": "gray", "cost": 1},
+		{"from": "Niterói", "to": "Rio de Janeiro", "color": "red", "cost": 1},
 		{"from": "Petrópolis", "to": "Guapimirim", "color": "white", "cost": 4},
 		{"from": "Guapimirim", "to": "Itaboraí", "color": "orange", "cost": 6},
 		{"from": "Itaboraí", "to": "Maricá", "color": "pink", "cost": 4},
@@ -289,6 +289,8 @@ var map_data = {
 		{"from": "Teresópolis", "to": "Guapimirim", "color": "pink", "cost": 2}
 	]
 }
+
+var mapa_concluido = false
 
 func _ready():
 	# Inicializa o dicionário de rotas para cada jogador
@@ -355,7 +357,7 @@ func parse_color(color_string: String) -> Color:
 		"blue": return Color(Color.SKY_BLUE.r, Color.SKY_BLUE.g, Color.SKY_BLUE.b, ALPHA_VALUE)
 		"green": return Color(Color.LIME_GREEN.r, Color.LIME_GREEN.g, Color.LIME_GREEN.b, ALPHA_VALUE)
 		"yellow": return Color(Color.YELLOW.r, Color.YELLOW.g, Color.YELLOW.b, ALPHA_VALUE)
-		"orange": return Color(Color.ORANGE_RED, ALPHA_VALUE) # Laranja
+		"orange": return Color(Color.DARK_ORANGE, ALPHA_VALUE) # Laranja
 		"purple": return Color(Color.MEDIUM_PURPLE, ALPHA_VALUE) # Roxo
 		"black": return Color(Color.BLACK.r, Color.BLACK.g, Color.BLACK.b, ALPHA_VALUE)
 		"white": return Color(Color.WHITE.r, Color.WHITE.g, Color.WHITE.b, ALPHA_VALUE)
@@ -378,50 +380,64 @@ func color_name_to_card_key(color_string: String) -> String:
 		"red":
 			return "redTrain"
 		"white":
-			return "rainbowTrain"
+			return "whiteTrain"
 		"gray":
 			return "grayTrain"
 		_:
-			return "grayTrain"
+			return "whiteTrain"
 
+func set_route_claiming_enabled(is_enabled: bool):
+	# Passa por todas as rotas e ativa/desativa a capacidade de serem clicadas
+	for route_node in route_nodes.values():
+		if route_node and route_node.has_node("Area2D"):
+			route_node.get_node("Area2D").input_pickable = is_enabled
+	
 func attempt_buy_route(index_player: int, card_key: String, cost: int) -> bool:
 	if player_hand[index_player] == null:
 		return false
 	var rainbow_count = player_hand[index_player].player_hand["rainbowTrain"]["count"] if "rainbowTrain" in player_hand[index_player].player_hand else 0
-	if card_key == "grayTrain":
-		var best_color = ""
-		var best_count = 0
-		for key in player_hand[index_player].player_hand.keys():
-			if key == "rainbowTrain":
+	if card_key == "whiteTrain":
+		var payment_option_found = false
+		var color_to_use = ""
+		# Itera sobre todas as cores na mão do jogador
+		for potential_color_key in player_hand[index_player].player_hand:
+			if potential_color_key == "rainbowTrain":
 				continue
-			var c = player_hand[index_player].player_hand[key]["count"]
-			if c > best_count:
-				best_count = c
-				best_color = key
-		if best_color == "":
-			best_color = "grayTrain"
-		if best_count + rainbow_count < cost:
-			return false
-		var use_from_color = min(cost, best_count)
-		for i in range(use_from_color):
-			player_hand[index_player].remove_card_from_hand(best_color)
-		var remaining = cost - use_from_color
-		for i in range(remaining):
-			player_hand[index_player].remove_card_from_hand("rainbowTrain")
-		return true
+
+			var color_count = player_hand[index_player].player_hand[potential_color_key]["count"]
+			if color_count + rainbow_count >= cost:
+				payment_option_found = true
+				color_to_use = potential_color_key
+				break # Encontramos uma cor válida, não precisa checar as outras
+		if not payment_option_found:
+			return false # Após checar todas as cores, se nenhuma for suficiente, a compra falha.
+		else:
+			# Pagamento com a cor encontrada + coringas
+			var color_card_count = player_hand[index_player].player_hand[color_to_use]["count"]
+			var use_from_color = min(cost, color_card_count)
+			var use_from_rainbow = cost - use_from_color
+			
+			for i in range(use_from_color):
+				player_hand[index_player].remove_card_from_hand(color_to_use)
+			for i in range(use_from_rainbow):
+				player_hand[index_player].remove_card_from_hand("rainbowTrain")
+			return true
 	else:
-		var color_count = player_hand[index_player].player_hand[card_key]["count"] if card_key in player_hand[index_player].player_hand else 0
-		if color_count + rainbow_count < cost:
-			return false
-		var use_from_color = min(cost, color_count)
+		var color_card_count: int = player_hand[index_player].player_hand[card_key]["count"]
+		if color_card_count + rainbow_count < cost:
+			return false # Não tem cartas suficientes, a compra falha.
+
+		var use_from_color = min(cost, color_card_count)
+		var use_from_rainbow = cost - use_from_color
+
 		for i in range(use_from_color):
 			player_hand[index_player].remove_card_from_hand(card_key)
-		var remaining = cost - use_from_color
-		for i in range(remaining):
+		for i in range(use_from_rainbow):
 			player_hand[index_player].remove_card_from_hand("rainbowTrain")
+			
 		return true
 
-func is_objective_complete(player_index: int, city_start: String, city_end: String, required_points: int) -> bool:
+func is_objective_complete(player_index, city_start: String, city_end: String) -> bool:
 	if not player_claimed_routes.has(player_index) or player_claimed_routes[player_index].is_empty():
 		return false
 
@@ -441,7 +457,7 @@ func is_objective_complete(player_index: int, city_start: String, city_end: Stri
 
 	# 2. Iniciar a busca recursiva a partir da cidade inicial
 	var visited_path: Array = [] # Usado para evitar ciclos (ex: A->B->A)
-	return _find_path_with_cost_recursive(city_start, city_end, required_points, visited_path, 0, adjacency_list)
+	return _find_path_with_cost_recursive(city_start, city_end, visited_path, 0, adjacency_list)
 
 # Isso é diferente de 'is_objective_complete', pois opera no mapa inteiro para a IA poder acessar.
 func find_shortest_path_routes(city_start: String, city_end: String) -> Array:
@@ -531,23 +547,27 @@ func claim_route_for_player(route_node, player_id):
 		player_claimed_routes[player_id].append(route_info)
 
 		route_claimed.emit(player_id)
+		
+		var all_claimed = true
+		for node in route_nodes.values():
+			if not node.claimed:
+				all_claimed = false
+				break # Encontrou uma rota livre, não precisa checar mais
+		if all_claimed:
+			print("MAPA COMPLETO! Todas as rotas foram compradas.")
+			mapa_concluido = true
+			# Emite o sinal para avisar o TurnManager que o jogo deve acabar
+			emit_signal("all_routes_completed")
 
 # Função auxiliar recursiva que faz a busca em profundidade (DFS)
-func _find_path_with_cost_recursive(current_city: String, end_city: String, required_points: int, visited_path: Array, current_cost: int, adjacency_list: Dictionary) -> bool:
+func _find_path_with_cost_recursive(current_city: String, end_city: String, visited_path: Array, current_cost: int, adjacency_list: Dictionary) -> bool:
 	
 	# Adiciona a cidade atual ao caminho para evitar visitar ela mesma no mesmo galho
 	visited_path.push_back(current_city)
 
 	# Condição de sucesso: Chegamos ao destino
 	if current_city == end_city:
-		# Verificamos se o custo do caminho encontrado é igual ao custo do objetivo
-		if current_cost == required_points:
-			return true # Sucesso! Encontramos um caminho com o custo exato.
-
-	# Condição de poda: Se o custo atual já excedeu o necessário, não continue por este caminho
-	if current_cost > required_points:
-		visited_path.pop_back() # Remove a cidade atual do caminho para "voltar" na recursão
-		return false
+		return true # Sucesso! Encontramos um caminho
 
 	# Explora os vizinhos
 	if adjacency_list.has(current_city):
@@ -558,7 +578,7 @@ func _find_path_with_cost_recursive(current_city: String, end_city: String, requ
 			# Se ainda não visitamos o vizinho neste caminho específico
 			if not neighbor in visited_path:
 				# Chama a função para o vizinho, somando o custo
-				if _find_path_with_cost_recursive(neighbor, end_city, required_points, visited_path, current_cost + cost_to_neighbor, adjacency_list):
+				if _find_path_with_cost_recursive(neighbor, end_city, visited_path, current_cost + cost_to_neighbor, adjacency_list):
 					return true # Um caminho válido foi encontrado em um galho da recursão, propaga o sucesso
 
 	# Backtracking: Remove a cidade atual do caminho para que outros galhos da busca possam usá-la
@@ -601,5 +621,18 @@ func _on_route_clicked(route_node: Node2D):
 		show_info_popup("Rota comprada!", route_node.position)
 		print("Rota comprada! por jogador: ", player_index)
 		route_claimed.emit(player_index)
+		
+		var all_claimed = true
+		for node in route_nodes.values():
+			if not node.claimed:
+				all_claimed = false
+				break # Encontrou uma rota livre, não precisa checar mais
+		if all_claimed:
+			print("MAPA COMPLETO! Todas as rotas foram compradas.")
+			mapa_concluido = true
+			# Emite o sinal para avisar o TurnManager que o jogo deve acabar
+			emit_signal("all_routes_completed")
+		
+		show_info_popup("Rota comprada!", route_node.position)
 	else:
 		show_info_popup("Cartas insuficientes", route_node.position)

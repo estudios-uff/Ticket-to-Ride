@@ -30,8 +30,8 @@ disabled = true
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_left = 1371.25
 offset_top = 121.667
-offset_right = 1406.25
-offset_bottom = 154.667
+offset_right = 1411.25
+offset_bottom = 156.667
 theme_override_colors/default_color = Color(0.0134357, 0.212104, 0.306116, 1)
 theme_override_fonts/normal_font = ExtResource("3_6100c")
 text = "190"

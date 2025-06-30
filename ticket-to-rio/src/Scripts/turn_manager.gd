@@ -1,8 +1,7 @@
 extends Node
 
-enum State { CHOOSING_OBJECTIVES, PLAYER_TURN, IA_TURN }
+enum State { CHOOSING_OBJECTIVES, PLAYER_TURN, IA_TURN, DRAWING_CARDS }
 var current_state: State
-
 
 @export var index_player = 0
 
@@ -23,6 +22,9 @@ var player_hand_scene = preload("res://src/Scenes/GUI/components/PlayerHand.tscn
 @onready var manager_objetivos = get_node("/root/TutorialTest/ManagerObjetivos")
 var player_objectives = {} 
 
+@onready var loja_cards = get_node("/root/TutorialTest/NodeLoja/GroupShopTicket")
+var cards_drawn_this_turn: int = 0
+var selected_shop_cards: Array[Control] = [] # Para guardar os NÓS das cartas selecionadas
 
 @onready var map = get_node("/root/TutorialTest/Map")
 @onready var end_turn_button = $"../EndTurnButton"
@@ -32,8 +34,7 @@ var winner_popup_scene = preload("res://src/Scenes/winner_popup.tscn")
 var round_idx = 1
 
 func _ready() -> void:
-	# --- PASSO 1 (O MAIS IMPORTANTE): Atribuir as cores PRIMEIRO ---
-	# Isso garante que o dicionário Global.participants esteja pronto para ser usado.
+	# --- PASSO 1: Atribuir as cores aos jogadores ---
 	Global.assign_participant_colors(Global.num_players, 5 - Global.num_players)
 
 	# --- PASSO 2: Conectar todos os sinais ---
@@ -41,7 +42,11 @@ func _ready() -> void:
 		deck.update_player_hand.connect(_on_deck_card_drawn)
 	if manager_objetivos and manager_objetivos.has_signal("objetivos_escolhidos"):
 		manager_objetivos.objetivos_escolhidos.connect(_on_objetivos_do_jogador_escolhidos)
-	map.route_claimed.connect(_on_map_route_claimed)
+	if map:
+		map.route_claimed.connect(_on_map_route_claimed)
+		map.all_routes_completed.connect(end_game)
+	if loja_cards:
+		loja_cards.draw_button_pressed.connect(_on_shop_draw_button_pressed)
 	
 	# --- PASSO 3: Limpar todos os arrays de estado ---
 	playerHands.clear()
@@ -50,35 +55,24 @@ func _ready() -> void:
 	player_objectives.clear()
 	map.player_hand.clear()
 	
-	# --- PASSO 4: Instanciar as IAs ---
-	for i in range(5 - Global.num_players):
-		var hand_instance = player_hand_scene.instantiate()
-		hand_instance.name = "IAHand_" + str(i)
-		iaHands.append(hand_instance)
-		hands_container.add_child(hand_instance)
-		hand_instance.visible = false
-		player_objectives["ia_" + str(i)] = []
-		
-	# --- PASSO 5: Instanciar os Jogadores Humanos (Mãos e UIs) ---
-	# Este é o ÚNICO laço necessário para os jogadores humanos.
+	# --- PASSO 4: Instanciar os Jogadores Humanos (Mãos e UIs) ---
 	for i in range(Global.num_players):
-		# 5a. Instancia a Mão
+		# 4a. Instancia a Mão
 		var hand_instance = player_hand_scene.instantiate()
 		hand_instance.name = "PlayerHand_" + str(i)
 		playerHands.append(hand_instance)
 		hands_container.add_child(hand_instance)
 		hand_instance.visible = (i == 0)
 		
-		# 5b. Adiciona a referência da mão ao Mapa (O JEITO CERTO)
-		# Em vez de procurar por texto, passamos a referência direta. 100% garantido.
+		# 4b. Adiciona a referência da mão ao Mapa (O JEITO CERTO)
 		map.player_hand.append(hand_instance)
 
-		# 5c. Instancia a UI
+		# 4c. Instancia a UI
 		var ui_instance = player_ui_scene.instantiate()
 		ui_instance.name = "PlayerUI_" + str(i)
 		ui_instance.player_index = i
 		
-		# 5d. Pega os dados do Global e configura a UI
+		# 4d. Pega os dados do Global e configura a UI
 		var p_color = Global.get_participant_color(i)
 		var p_name = Global.get_participant_display_name(i)
 		ui_instance.set_player_info(p_color, p_name)
@@ -88,44 +82,74 @@ func _ready() -> void:
 		ui_instance.visible = (i == 0)
 		player_objectives[i] = []
 	
+	# --- PASSO 5: Instancia Mãos e UIs para as IAs
+	for i in range(5 - Global.num_players):
+		var ia_id = "ia_" + str(i)
+		var ia_name = "IA " + str(i+1)
+		var hand_instance = player_hand_scene.instantiate()
+		hand_instance.name = "IAHand_" + str(i)
+		iaHands.append(hand_instance)
+		hands_container.add_child(hand_instance)
+		hand_instance.visible = false
+		player_objectives[ia_id] = []
+		
+		# 5c. Instancia a UI
+		var ui_instance = player_ui_scene.instantiate()
+		ui_instance.name = "IAUI_" + str(i)
+		ui_instance.player_index = ia_id
+		
+		# 5d. Pega os dados do Global e configura a UI
+		var p_color = Global.get_participant_color(ia_id)
+		ui_instance.set_player_info(p_color, ia_name)
+		
+		player_uis.append(ui_instance)
+		uis_container.add_child(ui_instance)
+		ui_instance.get_child(3).disabled = true # botão para checar objetivos
+		ui_instance.get_child(3).visible = false # botão para checar objetivos
+		ui_instance.visible = false
+	
+	# --- PASSO 6: Atualizo o label padrao das UIs
+	for i in range (len(player_uis)):
+		player_uis[i].update_routes_display([])
+	
+	# --- PASSO 7: Atualizo a loja
+	if loja_cards:
+		loja_cards.deal_initial_cards()
+	
 func _on_map_route_claimed(player_index):
 	print("TurnManager: Rota comprada recebida do jogador/IA: " + str(player_index))
 
-	# Parte 1: Atualização da Interface (só para jogadores humanos)
+	# Parte 1: Atualização da Interface
+	var ui_to_update = null
 	if player_index is int:
-		# Verifica se o índice é válido para a lista de UIs de jogadores
+		# Se for jogador humano, pega a UI pelo índice direto
 		if player_index < player_uis.size():
-			var routes = map.player_claimed_routes[player_index]
-			player_uis[player_index].update_routes_display(routes)
+			ui_to_update = player_uis[player_index]
+	else:
+		# Se for IA, calcula o índice no array de UIs
+		var ia_index_str = str(player_index).trim_prefix("ia_")
+		if ia_index_str.is_valid_int():
+			var ia_index = ia_index_str.to_int()
+			var ui_instance_index = Global.num_players + ia_index
+			if ui_instance_index < player_uis.size():
+				ui_to_update = player_uis[ui_instance_index]
+
+	# Se encontramos uma UI válida, mandamos ela atualizar TUDO
+	if ui_to_update != null:
+		var routes = map.player_claimed_routes.get(player_index, [])
+		ui_to_update.update_routes_display(routes)
+		ui_to_update.update_objectives_display()
 
 	# Parte 2: Lógica de Fim de Jogo (executa para TODOS, humanos e IAs)
 	if is_game_over:
 		return # Não faz mais verificações se o jogo já terminou
 
-	var all_objectives_completed = true
+	var all_objectives_completed = false
 	
 	# A verificação a seguir funciona com 'player_index' sendo int ou string
 	if player_objectives.has(player_index) and not player_objectives[player_index].is_empty():
-		for objective_texture in player_objectives[player_index]:
-			var card_path = objective_texture.resource_path
-			if map.objective_card_data.has(card_path):
-				var info = map.objective_card_data[card_path]
-				
-				if player_index is int:
-					if not map.is_objective_complete(player_index, info["from"], info["to"], info["points"]):
-						all_objectives_completed = false
-						break # Encontrou um objetivo incompleto, pode parar de verificar
-				else:
-					if map.find_shortest_path_routes(info["from"], info["to"]):
-						all_objectives_completed = false
-						break # Encontrou um objetivo incompleto, pode parar de verificar
-			else:
-				# Se a carta não está no dicionário de dados, consideramos incompleto
-				all_objectives_completed = false
-				break
-	else:
-		# Não tem objetivos ou a lista está vazia, não pode terminar o jogo
-		all_objectives_completed = false
+		if player_uis[index_player].concluidos.text == "2":
+			all_objectives_completed = true
 
 	# Se, após a verificação, todos os objetivos estiverem completos...
 	if all_objectives_completed:
@@ -202,7 +226,7 @@ func calculate_player_score(player_id) -> int:
 	# 2. Soma ou subtrai pontos dos objetivos
 	if player_objectives.has(player_id):
 		for objective_texture in player_objectives[player_id]:
-			var card_path = objective_texture.resource_path
+			var card_path = objective_texture.resource_path.get_file()
 			if map.objective_card_data.has(card_path):
 				var info = map.objective_card_data[card_path]
 				var points = info["points"]
@@ -210,44 +234,89 @@ func calculate_player_score(player_id) -> int:
 				var to_city = info["to"]
 				
 				if player_id is int:
-					if map.is_objective_complete(player_id, from_city, to_city, points):
-						total_score += points # Soma pontos se o objetivo foi completo
-					else:
-						total_score -= points # SUBTRAI pontos se não foi completo
-				else:
-					if map.find_shortest_path_routes(from_city, to_city):
+					if map.is_objective_complete(player_id, from_city, to_city):
 						total_score += points # Soma pontos se o objetivo foi completo
 					else:
 						total_score -= points # SUBTRAI pontos se não foi completo
 					
 	return total_score
+
+func _on_deck_card_drawn(card_identifier: String):
+	if cards_drawn_this_turn >= 2: 
+		return
+
+	if cards_drawn_this_turn == 0:
+		current_state = State.DRAWING_CARDS
+		map.set_route_claiming_enabled(false) # Bloqueia compra de rotas
 	
-func _on_deck_card_drawn(card_identifier: String) -> void:
-	# Verifica se há jogadores humanos no jogo
-	if not playerHands.is_empty():
-		# Pega a instância da mão do jogador ATIVO
-		var active_player_hand = playerHands[index_player]
-		
-		# Chama a função para adicionar a carta APENAS na mão ativa
-		if !active_player_hand.ja_comprou:
-			active_player_hand.add_card_to_hand(card_identifier)
-			print("Carta '", card_identifier, "' entregue para o Jogador ", index_player + 1)
-			active_player_hand.ja_comprou = true
-			deck_collision_shape.disabled = true
-			$"../EndTurnButton".disabled = false
+	playerHands[index_player].add_card_to_hand(card_identifier)
+	cards_drawn_this_turn += 1
+	var selected_data = loja_cards.get_and_clear_selection()
+	check_card_draw_limit()
 
+func _on_shop_draw_button_pressed():
+	if cards_drawn_this_turn >= 2: 
+		loja_cards.finish_shop()
+		check_card_draw_limit()
+		map.set_route_claiming_enabled(true)
+		return
 
-func _on_end_turn_button_pressed() -> void:
-	if not playerHands[index_player].ja_comprou:
+	var selected_data = loja_cards.get_and_clear_selection()
+
+	if selected_data.is_empty():
+		print("Nenhuma carta da loja selecionada.")
+		return
+
+	if cards_drawn_this_turn + selected_data.size() > 2:
+		print("Ação inválida: Você não pode comprar essa quantidade de cartas.")
+		# Opcional: mostrar um pop-up de erro para o jogador
 		return
 	
+	if cards_drawn_this_turn == 0:
+		current_state = State.DRAWING_CARDS
+		map.set_route_claiming_enabled(false) # Bloqueia compra de rotas
+
+	for card_data in selected_data:
+		deck.remove_card_from_deck()
+		playerHands[index_player].add_card_to_hand(card_data.carta_clicada)
+		loja_cards.replace_card(card_data)
+		cards_drawn_this_turn += 1
+		if card_data.carta_clicada == "rainbowTrain":
+			cards_drawn_this_turn = 2
+		if cards_drawn_this_turn >= 2:
+			loja_cards.finish_shop()
+			check_card_draw_limit()
+			map.set_route_claiming_enabled(true)
+			return
+	
+	check_card_draw_limit()
+
+func check_card_draw_limit():
+	if cards_drawn_this_turn >= 2:
+		print("Limite de compra de cartas atingido.")
+		deck_collision_shape.disabled = true
+		loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		loja_cards.finish_shop()
+		map.set_route_claiming_enabled(true)
+		end_turn_button.disabled = false
+
+func _on_end_turn_button_pressed() -> void:
 	# Verifica se ainda há um próximo jogador humano no turno
 	if index_player + 1 < Global.num_players:
-		playerHands[index_player].ja_comprou = false
 		deck_collision_shape.disabled = false
 		index_player += 1
 		change_player_hand()
+		for card_node in selected_shop_cards:
+			loja_cards._atualizar_borda_loja(card_node, false)
+		selected_shop_cards.clear()
+		cards_drawn_this_turn = 0
+		if loja_cards:
+			loja_cards.deal_initial_cards()
+			loja_cards.mouse_filter = Control.MOUSE_FILTER_STOP
 	else:
+		if loja_cards:
+			loja_cards.finish_shop()
+			loja_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		playerHands[index_player].visible = false
 		player_uis[index_player].visible = false
 		$"../EndTurnButton".disabled = true
@@ -268,60 +337,89 @@ func _on_objetivos_do_jogador_escolhidos(texturas_objetivos: Array[Texture2D]) -
 		deck_collision_shape.disabled = false
 	print("Fase de Objetivos concluída. Iniciando turno normal do jogador.")
 
-func process_ia_turns() -> void:
-	# Passa por cada IA
+func process_ia_turns() -> void:	
+	# 1. Esconde a UI do último jogador humano antes de começar os turnos das IAs
+	if index_player < player_uis.size():
+		player_uis[index_player].visible = false
+
+	# 2. Passa por cada IA, uma de cada vez
 	for i in range(len(iaHands)):
 		var current_ia_hand = iaHands[i]
-		current_ia_hand.visible = false
 		
-		print("IA " + str(i) + " está pensando...")
+		# Encontra o índice da UI da IA no array 'player_uis'
+		var ui_instance_index = Global.num_players + i
+		
+		if ui_instance_index < player_uis.size():
+			# 3. Mostra a UI da IA que está jogando
+			player_uis[ui_instance_index].visible = true
+		
+		print("IA " + str(i+1) + " está pensando...")
 		$"../EnemyThinking".start()
 		await $"../EnemyThinking".timeout
 		
+		# 4. A IA joga o turno
 		opponents_ai_turn(i, current_ia_hand)
-		print("IA " + str(i) + " agiu!")
-	
-	# Todos os turnos da IA acabaram, volta para o primeiro jogador
+		print("IA " + str(i+1) + " agiu!")
+		
+		await get_tree().create_timer(1.0).timeout
+		
+		# 5. Esconde a UI da IA que acabou de jogar, antes de passar para a próxima
+		if ui_instance_index < player_uis.size():
+			player_uis[ui_instance_index].visible = false
+
+	# 6. Todos os turnos da IA acabaram, volta para o primeiro jogador
 	print("Turno dos jogadores recomeçando.")
 	round_idx += 1
 	index_player = 0
-	change_player_hand() 
+	change_player_hand()
+	for card_node in selected_shop_cards:
+		loja_cards._atualizar_borda_loja(card_node, false)
+	cards_drawn_this_turn = 0
+	if loja_cards:
+		loja_cards.deal_initial_cards()
+		loja_cards.mouse_filter = Control.MOUSE_FILTER_STOP
 	
-	# Reabilita o botão de turno
-	$"../EndTurnButton".visible = true
+	end_turn_button.disabled = false
+	end_turn_button.visible = true
 
+# Esta função agora é focada apenas em preparar o turno do jogador humano
 func change_player_hand() -> void:
-	# Esconde todas as mãos
-	for hand in playerHands:
-		hand.visible = false
+	# 1. Garante que todas as UIs estejam escondidas por padrão
 	for ui in player_uis:
 		ui.visible = false
 	
-	# Mostra a mão do jogador atual
-	if index_player < len(playerHands):
+	# Esconde todas as mãos
+	for hand in playerHands:
+		hand.visible = false
+
+	# 2. Mostra a UI e a mão apenas do jogador humano ativo
+	if index_player < playerHands.size():
 		playerHands[index_player].visible = true
-		player_uis[index_player].visible = true
+	
+	if index_player < player_uis.size():
+		var current_ui = player_uis[index_player]
+		current_ui.visible = true
 		print("Iniciando turno do Jogador " + str(index_player + 1))
 		
-		# Garante que a lista de rotas esteja sempre atualizada no início do turno
-		var routes = map.player_claimed_routes[index_player]
-		player_uis[index_player].update_routes_display(routes)
-		
-		if player_objectives[index_player].is_empty():
-			# É o primeiro turno, então mostra a tela de objetivos
-			print("Primeira rodada do jogador. Iniciando seleção de objetivos.")
-			current_state = State.CHOOSING_OBJECTIVES
-			end_turn_button.disabled = true
-			if deck_collision_shape:
-				deck_collision_shape.disabled = true
-			manager_objetivos.iniciar_selecao_de_objetivos()
-		else:
-			# Não é o primeiro turno, então começa o turno normal
-			print("Jogador já possui objetivos. Iniciando turno normal.")
-			current_state = State.PLAYER_TURN
-			if deck_collision_shape:
-				deck_collision_shape.disabled = false
-				playerHands[index_player].ja_comprou = false
+		# 3. Garante que a UI esteja sempre atualizada no começo do turno dele
+		var routes = map.player_claimed_routes.get(index_player, [])
+		current_ui.update_routes_display(routes)
+		current_ui.update_objective_counts()
+
+	# 4. Lógica de início de turno (seleção de objetivos)
+	if player_objectives[index_player].is_empty():
+		print("Primeira rodada do jogador. Iniciando seleção de objetivos.")
+		current_state = State.CHOOSING_OBJECTIVES
+		end_turn_button.disabled = true
+		if deck_collision_shape: 
+			deck_collision_shape.disabled = true
+		manager_objetivos.iniciar_selecao_de_objetivos()
+	else:
+		print("Jogador já possui objetivos. Iniciando turno normal.")
+		current_state = State.PLAYER_TURN
+		end_turn_button.disabled = true
+		if deck_collision_shape: 
+			deck_collision_shape.disabled = false
 
 func _ai_can_afford_route(hand_node, route_data: Dictionary) -> bool:
 	var cost = route_data.cost
@@ -329,8 +427,8 @@ func _ai_can_afford_route(hand_node, route_data: Dictionary) -> bool:
 	var card_key = map.color_name_to_card_key(color_str)
 	var rainbow_count = hand_node.player_hand["rainbowTrain"]["count"]
 
-	if card_key == "grayTrain":
-		# Para rotas cinzas, a IA precisa de qualquer cor ou coringas
+	if card_key == "whiteTrain":
+		# Para rotas brancas, a IA precisa de qualquer cor ou coringas
 		var max_cards_of_one_color = 0
 		for key in hand_node.player_hand:
 			if key != "rainbowTrain":
@@ -347,7 +445,7 @@ func _ai_pay_for_route(hand_node, route_data: Dictionary):
 	var card_key = map.color_name_to_card_key(color_str)
 	var rainbow_count = hand_node.player_hand["rainbowTrain"]["count"]
 	
-	if card_key == "grayTrain":
+	if card_key == "whiteTrain":
 		var best_color = ""
 		var best_count = 0
 		for key in hand_node.player_hand.keys():
@@ -376,12 +474,18 @@ func opponents_ai_turn(ia_index: int, ia_hand_node) -> void:
 		var objetivos_da_ia = manager_objetivos.get_random_objectives(2)
 		player_objectives[ia_id] = objetivos_da_ia
 		print("IA " + str(ia_index) + " escolheu " + str(objetivos_da_ia.size()) + " objetivos.")
-
-	# 2. A IA sempre compra uma carta no início do turno
+		
+		var ui_instance_index = Global.num_players + ia_index
+		if ui_instance_index < player_uis.size():
+			player_uis[ui_instance_index].add_objetivos(objetivos_da_ia)
+		
+	# 2. A IA sempre compra duas cartas no início do turno
 	if deck.has_method("draw_card_for_ia"):
 		var drawn_card = deck.draw_card_for_ia()
+		var drawn_card2 = deck.draw_card_for_ia()
 		if drawn_card:
 			ia_hand_node.add_card_to_hand(drawn_card)
+			ia_hand_node.add_card_to_hand(drawn_card2)
 			print("IA " + str(ia_index) + " comprou a carta: {drawn_card}")
 
 	# 3. Despachante de Dificuldade
@@ -399,6 +503,7 @@ func _run_easy_ai_turn(ia_index: int, ia_hand_node):
 	var wishlist = _get_ai_objective_wishlist(ia_id)
 	print("IA(Fácil) " + str(ia_index) + " tem " + str(wishlist.size()) + " rotas na sua lista de desejos.")
 
+	var all_routes_claimed = false
 	for route_data in wishlist:
 		var route_node = map.get_route_node_by_data(route_data)
 		if route_node and not route_node.claimed:
@@ -407,11 +512,21 @@ func _run_easy_ai_turn(ia_index: int, ia_hand_node):
 				_ai_pay_for_route(ia_hand_node, route_data)
 				map.claim_route_for_player(route_node, ia_id)
 				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou uma rota) ---")
-				map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n"
+				map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n" + map.get_child(0).text
 				return
-
+	for route_data in wishlist:
+		var route_node = map.get_route_node_by_data(route_data)
+		if route_node.claimed:
+			all_routes_claimed = true
+		else:
+			all_routes_claimed = false
+			break
+	
+	if all_routes_claimed:
+		end_game()
+	player_uis[Global.num_players + ia_index].update_objectives_display()
 	print("--- FIM TURNO: IA " + str(ia_index+1) + " (não comprou nada) ---")
-	map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+	map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n" + map.get_child(0).text
 
 # LÓGICA DA IA DIFÍCIL
 func _run_hard_ai_turn(ia_index: int, ia_hand_node):
@@ -427,7 +542,7 @@ func _run_hard_ai_turn(ia_index: int, ia_hand_node):
 				_ai_pay_for_route(ia_hand_node, route_data)
 				map.claim_route_for_player(route_node, ia_id)
 				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou rota ofensiva) ---")
-				map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota ofensiva)\n"
+				map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota ofensiva)\n" + map.get_child(0).text
 				return
 
 	# Fase 2: Defensiva - Se não conseguiu jogar para si, tenta atrapalhar
@@ -446,11 +561,12 @@ func _run_hard_ai_turn(ia_index: int, ia_hand_node):
 					_ai_pay_for_route(ia_hand_node, route_data)
 					map.claim_route_for_player(route_node, ia_id)
 					print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou rota defensiva) ---")
-					map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota defensiva)\n"
+					map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou rota defensiva)\n" + map.get_child(0).text
 					return
 	
+	player_uis[Global.num_players + ia_index].update_objectives_display()
 	print("--- FIM TURNO: IA " + str(ia_index+1) + " (não comprou nada) ---")
-	map.get_child(2).text = map.get_child(2).text + "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n"
+	map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (não comprou uma rota)\n" + map.get_child(0).text
 
 # Função auxiliar para pegar a lista de desejos da IA
 func _get_ai_objective_wishlist(ia_id: String) -> Array:
@@ -461,8 +577,8 @@ func _get_ai_objective_wishlist(ia_id: String) -> Array:
 		var card_path = objective_texture.resource_path
 		if map.objective_card_data.has(card_path):
 			var info = map.objective_card_data[card_path]
-			if map.find_shortest_path_routes(info.from, info.to):
-				var routes_for_objective = map.find_shortest_path_routes(info.from, info.to)
+			var routes_for_objective = map.find_shortest_path_routes(info.from, info.to)
+			if routes_for_objective:
 				for r in routes_for_objective:
 					if not r in wishlist:
 						wishlist.append(r)

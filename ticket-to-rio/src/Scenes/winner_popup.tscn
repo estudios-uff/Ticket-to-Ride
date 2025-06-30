@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/Scripts/winner_popup.gd" id="1_j7krv"]
 
 [node name="WinnerPopup" type="PanelContainer"]
+modulate = Color(1, 1, 1, 0.784314)
 z_index = 10
 anchors_preset = 4
 anchor_top = 0.5
@@ -13,9 +14,19 @@ offset_bottom = 220.0
 grow_vertical = 2
 script = ExtResource("1_j7krv")
 
+[node name="ControlFundo" type="Control" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="ControlFundo"]
+layout_mode = 2
+offset_top = -128.0
+offset_right = 1280.0
+offset_bottom = 592.0
+mouse_filter = 0
+
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 2
-color = Color(1, 1, 1, 0.686275)
+color = Color(1, 1, 1, 0.607843)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 2
@@ -23,3 +34,20 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
 scroll_active = false
+
+[node name="ControlButton" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ControlButton"]
+layout_mode = 2
+offset_left = 566.0
+offset_top = 464.0
+offset_right = 663.0
+offset_bottom = 517.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
+text = "Menu"
+
+[connection signal="pressed" from="ControlButton/Button" to="." method="_on_button_pressed"]
