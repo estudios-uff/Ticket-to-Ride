@@ -317,7 +317,7 @@ func draw_map():
 
 		city_instance.position = Vector2(city_data.x, city_data.y)
 		cities[city_name] = city_instance # Armazena a referência para a cidade
-		city_instance.z_index = 1
+		city_instance.z_index = 2
 
 		# Conecta o sinal 'city_clicked' da cidade
 		city_instance.city_clicked.connect(_on_city_clicked)
