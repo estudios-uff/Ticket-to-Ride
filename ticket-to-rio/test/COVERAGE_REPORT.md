@@ -102,47 +102,6 @@ Este documento fornece uma análise abrangente da cobertura de testes para o pro
   - Validação de objetivos
   - Acompanhamento de progresso
 
-### ❌ Componentes Não Testados
-
-#### 1. **Multijogador em Rede**
-- **Cobertura**: Nenhuma
-- **O que Está Faltando**:
-  - Sincronização de rede
-  - Tratamento de conexão de jogadores
-  - Sincronização de estado do jogo
-  - Gerenciamento de turnos multijogador
-
-#### 2. **Sistema de Salvar/Carregar**
-- **Cobertura**: Nenhuma
-- **O que Está Faltando**:
-  - Serialização do estado do jogo
-  - Gerenciamento de arquivos de salvamento
-  - Funcionalidade de carregar jogo
-  - Persistência de progresso
-
-#### 3. **Sistema de Áudio**
-- **Cobertura**: Nenhuma
-- **O que Está Faltando**:
-  - Integração de efeitos sonoros
-  - Gerenciamento de música de fundo
-  - Configurações de áudio
-  - Controle de volume
-
-#### 4. **Sistemas de Animação**
-- **Cobertura**: Nenhuma
-- **O que Está Faltando**:
-  - Animações de cartas
-  - Transições de UI
-  - Feedback visual
-  - Interações suaves
-
-#### 5. **Tratamento de Entrada**
-- **Cobertura**: Baixa
-- **O que Está Faltando**:
-  - Tratamento de casos extremos de entrada
-  - Interação de toque/mouse
-  - Atalhos de teclado
-  - Validação de entrada
 
 ## Métricas de Cobertura
 
@@ -172,66 +131,8 @@ src/Scripts/
 └── ❌ credits.gd (Sem cobertura)
 ```
 
-## Recomendações para Melhorar a Cobertura
-
-### 1. **Alta Prioridade**
-- Adicionar testes de integração para o fluxo completo do jogo
-- Testar algoritmos de busca de caminho do mapa
-- Adicionar testes de tomada de decisão da IA
-- Testar lógica de conclusão de objetivos
-- Adicionar testes de cálculo de pontuação
-
-### 2. **Média Prioridade**
-- Adicionar testes de performance para estados grandes do jogo
-- Testar funcionalidade de salvar/carregar
-- Adicionar testes de estresse para casos extremos
-- Testar casos extremos de tratamento de entrada
-
-### 3. **Baixa Prioridade**
-- Adicionar testes do sistema de áudio
-- Testar sistemas de animação
-- Adicionar testes de multijogador em rede
-- Testar recursos de acessibilidade da UI
-
-## Como Gerar Relatórios de Cobertura
-
-### Método 1: Usando o Plugin GdUnit4
-1. Abra o projeto no Godot
-2. Vá para o Inspetor GdUnit4 (dock superior direito)
-3. Clique em "Executar Todos" para executar todos os testes
-4. Verifique os relatórios HTML gerados em `res://reports/`
-
-### Método 2: Usando Linha de Comando
-```bash
-# Se o Godot estiver disponível no PATH
-godot --headless --script addons/gdUnit4/bin/GdUnitCmdTool.gd --add test/ --report-directory reports/
-```
-
-### Método 3: Análise Manual
-Execute o script `generate_coverage_report.gd` no Editor do Godot:
-1. Abra o script no Godot
-2. Vá para Script -> Executar
-3. Verifique a saída para análise de cobertura
-
-## Objetivos de Cobertura
-
-### Curto Prazo (Próximo Sprint)
-- Alcançar 90% de cobertura da lógica principal
-- Adicionar testes de integração para o fluxo principal do jogo
-- Testar todos os casos extremos críticos
-
-### Médio Prazo (Próximo Mês)
-- Alcançar 80% de cobertura geral
-- Adicionar testes de performance
-- Testar funcionalidade da IA
-
-### Longo Prazo (Próximo Trimestre)
-- Alcançar 90% de cobertura geral
-- Adicionar testes de multijogador
-- Teste abrangente da UI
-
 ## Observações
-- Os testes atuais focam em testes unitários com dependências simuladas
-- Testes de integração são necessários para o fluxo completo do jogo
+- Os testes atuais focam em testes com dependências simuladas
+- Testes para o fluxo completo do jogo
 - Testes de performance devem ser adicionados para estados grandes do jogo
-- Testes de UI podem ser melhorados com testes automatizados de interação 
+- Testes de UI podem ser melhorados
