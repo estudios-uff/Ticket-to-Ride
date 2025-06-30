@@ -514,11 +514,13 @@ func _run_easy_ai_turn(ia_index: int, ia_hand_node):
 				print("--- FIM TURNO: IA " + str(ia_index+1) + " (comprou uma rota) ---")
 				map.get_child(0).text = "Round " + str(round_idx)  + ": IA " + str(ia_index+1) + " (comprou uma rota)\n" + map.get_child(0).text
 				return
+	for route_data in wishlist:
+		var route_node = map.get_route_node_by_data(route_data)
+		if route_node.claimed:
+			all_routes_claimed = true
 		else:
-			if route_node.claimed:
-				all_routes_claimed = true
-			else:
-				all_routes_claimed = false
+			all_routes_claimed = false
+			break
 	
 	if all_routes_claimed:
 		end_game()
